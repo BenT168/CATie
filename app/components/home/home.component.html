@@ -1,0 +1,13 @@
+<button smDirTooltip="Tooltip text" smDirPosition="bottom center" class="ui button positive" (click)="modal.show({transition: 'fly down'})">Show modal window</button>
+
+<sm-modal #modal title="Hello">
+    <div class="action">
+        <div class="ui black deny button">
+            Nope
+        </div>
+        <div class="ui positive right labeled icon button">
+            Yep, that's me
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</sm-modal>
