@@ -16,6 +16,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "angular-resource": "^1.6.4",
     "core-js": "^2.4.1",
     "reflect-metadata": "^0.1.8",
     "systemjs": "0.19.27",
