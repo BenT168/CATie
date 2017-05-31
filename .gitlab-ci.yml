@@ -1,20 +1,23 @@
+before-script:
+  - echo "Before script"
+
 stages:
   - build
   - test
   - deploy
  
 build:
-  stages: build
+  stage: build
   script:
     - echo "Building"
   
 test:
-  stages: test
+  stage: test
   script:
     - echo "Testing"
     
 deploy:
-  stages: deploy
+  stage: deploy
   only:
     - master
   script:
