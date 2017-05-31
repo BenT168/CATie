@@ -1,4 +1,4 @@
-before-script:
+before_script:
   - echo "Before script"
 
 stages:
