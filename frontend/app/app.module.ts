@@ -12,6 +12,8 @@ import { StatisticReviewComponent } from "./components/reviews/statistic/statist
 import { EventsComponent } from "./components/events/events.component";
 import { Auth } from "./services/auth";
 
+import { SmartPlannerComponent } from './components/smartPlanner/smartPlanner.component';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -28,7 +30,8 @@ import { Auth } from "./services/auth";
         ReviewComponent,
         AddReviewComponent,
         StatisticReviewComponent,
-        EventsComponent
+        EventsComponent,
+        SmartPlannerComponent
     ],
     bootstrap: [
         AppComponent

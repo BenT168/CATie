@@ -6,6 +6,7 @@ var add_component_1 = require("./components/reviews/add/add.component");
 var statistic_component_1 = require("./components/reviews/statistic/statistic.component");
 var authguard_1 = require("./services/authguard");
 var events_component_1 = require("./components/events/events.component");
+var smartPlanner_component_1 = require('./components/smartPlanner/smartPlanner.component');
 exports.routes = [
     { path: '', component: home_component_1.HomeComponent, pathMatch: 'full' },
     { path: 'reviews',
@@ -15,7 +16,8 @@ exports.routes = [
             { path: 'add', component: add_component_1.AddReviewComponent }
         ]
     },
-    { path: 'events', component: events_component_1.EventsComponent, canActivate: [authguard_1.AuthGuard] }
+    { path: 'events', component: events_component_1.EventsComponent, canActivate: [authguard_1.AuthGuard] },
+    { path: 'smartPlanner', component: smartPlanner_component_1.SmartPlannerComponent }
 ];
 exports.APP_ROUTER_PROVIDERS = [
     authguard_1.AuthGuard,

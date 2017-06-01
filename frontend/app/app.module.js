@@ -19,6 +19,7 @@ var add_component_1 = require("./components/reviews/add/add.component");
 var statistic_component_1 = require("./components/reviews/statistic/statistic.component");
 var events_component_1 = require("./components/events/events.component");
 var auth_1 = require("./services/auth");
+var smartPlanner_component_1 = require('./components/smartPlanner/smartPlanner.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -39,7 +40,8 @@ var AppModule = (function () {
                 reviews_component_1.ReviewComponent,
                 add_component_1.AddReviewComponent,
                 statistic_component_1.StatisticReviewComponent,
-                events_component_1.EventsComponent
+                events_component_1.EventsComponent,
+                smartPlanner_component_1.SmartPlannerComponent
             ],
             bootstrap: [
                 app_component_1.AppComponent
