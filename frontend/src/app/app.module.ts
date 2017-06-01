@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { ROUTING } from "./app.routing";
 import { HomeComponent } from "./home/home.component";
 import { AboutComponent } from "./about/about.component";
+import { CalendarModule } from 'angular-calendar';
+
 
 @NgModule({
     declarations: [
@@ -21,6 +23,7 @@ import { AboutComponent } from "./about/about.component";
         FormsModule,
         HttpModule,
         ClarityModule.forRoot(),
+        CalendarModule.forRoot(),
         ROUTING
     ],
     providers: [],
