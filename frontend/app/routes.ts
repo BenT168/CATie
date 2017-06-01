@@ -7,6 +7,8 @@ import { StatisticReviewComponent } from "./components/reviews/statistic/statist
 import { AuthGuard } from "./services/authguard";
 import { EventsComponent } from "./components/events/events.component";
 
+import { SmartPlannerComponent} from './components/smartPlanner/smartPlanner.component';
+
 export const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
     {   path: 'reviews',
@@ -16,7 +18,8 @@ export const routes: Routes = [
             { path: 'add', component: AddReviewComponent }
         ]
     },
-    { path: 'events', component: EventsComponent, canActivate: [AuthGuard] }
+    { path: 'events', component: EventsComponent, canActivate: [AuthGuard] },
+    { path: 'smartPlanner', component: SmartPlannerComponent }
 ];
 
 export const APP_ROUTER_PROVIDERS: Array<{}> = [
