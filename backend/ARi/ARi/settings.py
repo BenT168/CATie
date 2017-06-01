@@ -79,7 +79,11 @@ WSGI_APPLICATION = 'ARi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'g1627132_u',
+        'USER': 'g1627132_u',
+        'PASSWORD': 'JNZdJ3JuFB',
+        'HOST': 'db.doc.ic.ac.uk',
+        'PORT': '5432',
     }
 }
 
