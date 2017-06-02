@@ -1,6 +1,6 @@
 import {
     Component, ChangeDetectionStrategy, ViewChild, TemplateRef,
-    Input
+    Input, OnChanges, Inject, LOCALE_ID, OnInit
 } from '@angular/core';
 import {
     startOfDay,
@@ -42,11 +42,24 @@ const colors: any = {
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnChanges, OnInit {
 
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
-    @Input() locale: string = 'en';
+    /**
+     * The locale used to format dates
+     */
+    @Input() locale: string;
+
+    /**
+     * The start number of the week
+     */
+    @Input() weekStartsOn: number = 1;
+
+    /**
+     * An array of day indexes (0 = sunday, 1 = monday etc) that will be hidden on the view
+     */
+    @Input() excludeDays: number[] = [];
 
     view: string = 'month';
     today: Date = new Date();
@@ -74,32 +87,51 @@ export class CalendarComponent {
 
     refresh: Subject<any> = new Subject();
 
+    /**
+     * @hidden
+     */
     days: WeekDay[];
 
 
 
     events: CalendarEvent[] = [{
-        start: startOfDay(new Date()),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
+        start: startOfDay(this.weekStart),
+        end: endOfDay(this.weekStart),
+        title: 'MONDAY',
         color: colors.red,
         actions: this.actions
     }, {
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
+        start: addHours(startOfDay(new Date()), 10),
+        end: addHours(startOfDay(new Date()), 12),
+        title: 'CO Principles of Copyright in Software',
         color: colors.yellow,
         actions: this.actions,
-        resizable: {
-            beforeStart: true,
-            afterEnd: true
-        },
-        draggable: true
+    }, {
+        start: addHours(startOfDay(new Date()), 13),
+        end: addHours(startOfDay(new Date()), 15),
+        title: 'CO Principles of Copyright in Software',
+        color: colors.yellow,
+        actions: this.actions,
+    }, {
+        start: addHours(startOfDay(new Date()), 12),
+        end: addHours(startOfDay(new Date()), 13),
+        title: 'Lunch',
+        color: colors.blue,
+        actions: this.actions,
     }];
 
     activeDayIsOpen: boolean = true;
 
-    constructor(private utils: CalendarUtils) {}
+    constructor(private utils: CalendarUtils, @Inject(LOCALE_ID) locale: string) {
+        this.locale = locale;
+    }
+
+    /**
+     * @hidden
+     */
+    ngOnInit(): void {
+        this.refreshAll();
+    }
 
     ngOnChanges(changes: any): void {
 
@@ -137,7 +169,8 @@ export class CalendarComponent {
     private refreshHeader(): void {
         this.days = this.utils.getWeekViewHeader({
             viewDate: this.viewDate,
-            weekStartsOn: 0
+            weekStartsOn: this.weekStartsOn,
+            excluded: this.excludeDays
         });
     }
 
