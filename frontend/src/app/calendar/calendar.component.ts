@@ -89,12 +89,6 @@ export class CalendarComponent implements OnChanges, OnInit {
     days: WeekDay[];
 
     events: CalendarEvent[] = [{
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        actions: this.actions
-    }, {
         start: startOfDay(new Date()),
         title: 'An event with no end date',
         color: colors.yellow,
