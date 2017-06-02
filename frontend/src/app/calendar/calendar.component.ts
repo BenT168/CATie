@@ -61,6 +61,8 @@ export class CalendarComponent implements OnChanges, OnInit {
      */
     @Input() excludeDays: number[] = [];
 
+    public showAddEvent = false;
+
     view: string = 'month';
     today: Date = new Date();
     weekStart: Date = new Date(this.today.getDate() - this.today.getDay());
@@ -71,6 +73,14 @@ export class CalendarComponent implements OnChanges, OnInit {
 
     dayStart: number = 9;
     dayEnd: number = 18;
+
+    showEventModal() {
+        this.showAddEvent = true;
+    }
+
+    hideEventModal() {
+        this.showAddEvent = false;
+    }
 
     actions: CalendarEventAction[] = [{
         label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -107,16 +117,16 @@ export class CalendarComponent implements OnChanges, OnInit {
         color: colors.yellow,
         actions: this.actions,
     }, {
-        start: addHours(startOfDay(new Date()), 13),
-        end: addHours(startOfDay(new Date()), 15),
-        title: 'CO Principles of Copyright in Software',
-        color: colors.yellow,
-        actions: this.actions,
-    }, {
         start: addHours(startOfDay(new Date()), 12),
         end: addHours(startOfDay(new Date()), 13),
         title: 'Lunch',
         color: colors.blue,
+        actions: this.actions,
+    }, {
+        start: addHours(startOfDay(new Date()), 13),
+        end: addHours(startOfDay(new Date()), 15),
+        title: 'CO Principles of Copyright in Software',
+        color: colors.yellow,
         actions: this.actions,
     }];
 

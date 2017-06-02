@@ -11,6 +11,26 @@
         [dayEndHour]="dayEnd">
     </mwl-calendar-day-view>
 </div>
+
+
+<div *ngIf="showAddEvent" class="modal">
+    <div class="modal-dialog" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">New event added</h3>
+            </div>
+            <div class="modal-body">
+                <p>Click 'Ok' to return to the Smart Planner</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" (click)="hideEventModal()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-info-outline" style="float:right" (click)="showEventModal()">ADD EVENT</button>
+
 <!--
 <table style="width: 100%; border: 0; background-color: white;" cellpadding="0" cellspacing="0">
     <tr>
