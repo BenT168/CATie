@@ -37,7 +37,7 @@ deploy:
   only:
     - master
   script:
-    - dpl --provider=heroku --app=ari-server --api-key=$HEROKU_PRODUCTION_API_KEY
+    - sudo dpl --provider=heroku --app=ari-server --api-key=$HEROKU_PRODUCTION_API_KEY
 
 after_script:
     - deactivate
