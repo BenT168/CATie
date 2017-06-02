@@ -31,13 +31,15 @@ test:
   stage: test
   script:
     - echo "Testing"
+    - python backend/ARi/manage.py test
+  when: on_success
     
 deploy:
   stage: deploy
   only:
     - master
   script:
-    - dpl --provider=heroku --app=ari-server --api-key=$HEROKU_PRODUCTION_API_KEY
+    - sudo dpl --provider=heroku --app=ari-server --api-key=$HEROKU_PRODUCTION_API_KEY
 
 after_script:
     - deactivate
