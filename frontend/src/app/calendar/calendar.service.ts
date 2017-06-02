@@ -2,7 +2,7 @@
  * Created by ruhi on 02/06/17.
  */
 import { Injectable } from '@angular/core';
-import { Http, Response, RequestOptions } from '@angular/http';
+import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -29,7 +29,7 @@ export class CalendarService {
            isResizable: boolean): Observable<CalendarEvent> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(this.calendarUrl, { title, start, end,  }, options)
+        return this.http.post(this.calendarUrl, { username, title, start, end, isDraggable, isResizable  }, options)
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -37,7 +37,7 @@ export class CalendarService {
     // TODO: create a CalendarEvent object from this method?
     private extractData(res: Response) {
         let body = res.json();
-        return body.data || {};
+        return body.data || {}; // .data because JSON is wrapped by an object
     }
 
     private handleError(error: Response | any) {
