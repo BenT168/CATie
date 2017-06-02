@@ -22,14 +22,14 @@
       <li class="nav-item">
         <a class="nav-link" href="#" [routerLink]="['/about']" routerLinkActive="active">About</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" [routerLink]="['/cal']" routerLinkActive="active">Smart Planner</a>
+      </li>
     </ul>
   </nav>
   <div class="content-container">
     <div class="content-area">
       <router-outlet></router-outlet>
     </div>
-  </div>
-  <div>
-    <mwl-calendar-week-view></mwl-calendar-week-view>
   </div>
 </clr-main-container>
