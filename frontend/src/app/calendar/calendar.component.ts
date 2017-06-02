@@ -16,7 +16,8 @@ import { Subject } from 'rxjs/Subject';
 import {
     CalendarEvent,
     CalendarEventAction,
-    CalendarEventTimesChangedEvent
+    CalendarEventTimesChangedEvent,
+    CalendarUtils
 } from 'angular-calendar';
 import {WeekDay} from "calendar-utils/dist/calendarUtils";
 
@@ -50,6 +51,9 @@ export class CalendarComponent {
     view: string = 'month';
 
     viewDate: Date = new Date();
+
+    dayStart: number = 9;
+    dayEnd: number = 18;
 
     /*actions: CalendarEventAction[] = [{
         label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -273,7 +277,14 @@ export class CalendarComponent {
 
     activeDayIsOpen: boolean = true;
 
-    constructor() {}
+    constructor(private utils: CalendarUtils) {}
+
+    ngOnChanges(changes: any): void {
+
+        if (changes.viewDate) {
+            this.refreshHeader();
+        }
+    }
 
     dayClicked({date, events}: {date: Date, events: CalendarEvent[]}): void {
 
@@ -299,6 +310,17 @@ export class CalendarComponent {
 
     handleEvent(action: string, event: CalendarEvent): void {
 
+    }
+
+    private refreshHeader(): void {
+        this.days = this.utils.getWeekViewHeader({
+            viewDate: this.viewDate,
+            weekStartsOn: 0
+        });
+    }
+
+    private refreshAll(): void {
+        this.refreshHeader();
     }
 
     // addEvent(): void {
