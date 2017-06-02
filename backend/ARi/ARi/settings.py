@@ -25,7 +25,7 @@ SECRET_KEY = '*hwb&#(m8&$a8fyq*-=#u7h14tb!e)fkk#c3%17im@1*&+4w)0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['frozen-spire-73637.herokuapp.com',
+ALLOWED_HOSTS = ['ari-server.herokuapp.com',
                  'localhost',
                  '127.0.0.1']
 
