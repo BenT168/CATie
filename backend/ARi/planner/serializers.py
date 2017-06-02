@@ -4,4 +4,4 @@ from .models import CalendarEvent
 class CalendarEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalendarEvent
-        fields = ('title', 'date', 'startTime', 'endTime', 'isDraggable', 'isResizable')
+        fields = ('username', 'title', 'start', 'end', 'isDraggable', 'isResizable')
