@@ -11,7 +11,7 @@ import { CalendarEvent } from './calendar.event';
 
 @Injectable()
 export class CalendarService {
-    private calendarUrl = 'http://localhost:8000/events/';  // URL to web API
+    private calendarUrl = 'http://localhost:8000/calendar/';  // URL to web API
     constructor(private http: Http) {
     }
 
@@ -33,6 +33,7 @@ export class CalendarService {
             .catch(this.handleError);
     }
 
+    // TODO: create a CalendarEvent object from this method?
     private extractData(res: Response) {
         let body = res.json();
         return body.data || {};
@@ -40,6 +41,6 @@ export class CalendarService {
 
     private handleError(error: Response | any) {
         // TODO: do actual error handling
-        return Observable.throw("Database failed");
+        return Observable.throw("Database failed.");
     }
 }
