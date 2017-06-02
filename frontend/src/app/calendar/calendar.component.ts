@@ -49,6 +49,10 @@ export class CalendarComponent {
     @Input() locale: string = 'en';
 
     view: string = 'month';
+    today: Date = new Date();
+    weekStart: Date = new Date(this.today.getDate() - this.today.getDay());
+    weekEnd: Date = new Date(this.today.getDate() - this.today.getDay() + 6);
+
 
     viewDate: Date = new Date();
 
@@ -72,22 +76,14 @@ export class CalendarComponent {
 
     days: WeekDay[];
 
+
+
     events: CalendarEvent[] = [{
-        start: subDays(startOfDay(new Date()), 1),
+        start: startOfDay(new Date()),
         end: addDays(new Date(), 1),
         title: 'A 3 day event',
         color: colors.red,
         actions: this.actions
-    }, {
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        actions: this.actions
-    }, {
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue
     }, {
         start: addHours(startOfDay(new Date()), 2),
         end: new Date(),
