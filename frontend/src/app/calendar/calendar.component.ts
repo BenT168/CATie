@@ -1,6 +1,6 @@
 import {
     Component, ChangeDetectionStrategy, ViewChild, TemplateRef,
-    Input
+    Input, OnChanges, Inject, LOCALE_ID, OnInit
 } from '@angular/core';
 import {
     startOfDay,
@@ -42,11 +42,24 @@ const colors: any = {
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnChanges, OnInit {
 
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
-    @Input() locale: string = 'en';
+    /**
+     * The locale used to format dates
+     */
+    @Input() locale: string;
+
+    /**
+     * The start number of the week
+     */
+    @Input() weekStartsOn: number = 1;
+
+    /**
+     * An array of day indexes (0 = sunday, 1 = monday etc) that will be hidden on the view
+     */
+    @Input() excludeDays: number[] = [];
 
     view: string = 'month';
 
@@ -70,6 +83,9 @@ export class CalendarComponent {
 
     refresh: Subject<any> = new Subject();
 
+    /**
+     * @hidden
+     */
     days: WeekDay[];
 
     events: CalendarEvent[] = [{
@@ -103,7 +119,16 @@ export class CalendarComponent {
 
     activeDayIsOpen: boolean = true;
 
-    constructor(private utils: CalendarUtils) {}
+    constructor(private utils: CalendarUtils, @Inject(LOCALE_ID) locale: string) {
+        this.locale = locale;
+    }
+
+    /**
+     * @hidden
+     */
+    ngOnInit(): void {
+        this.refreshAll();
+    }
 
     ngOnChanges(changes: any): void {
 
@@ -141,7 +166,8 @@ export class CalendarComponent {
     private refreshHeader(): void {
         this.days = this.utils.getWeekViewHeader({
             viewDate: this.viewDate,
-            weekStartsOn: 0
+            weekStartsOn: this.weekStartsOn,
+            excluded: this.excludeDays
         });
     }
 
