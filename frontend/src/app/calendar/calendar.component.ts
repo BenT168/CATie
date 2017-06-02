@@ -15,9 +15,9 @@ import {
 import { Subject } from 'rxjs/Subject';
 import {
     CalendarEvent,
-    CalendarEventAction,
     CalendarEventTimesChangedEvent,
-    CalendarUtils
+    CalendarUtils,
+    CalendarEventAction,
 } from 'angular-calendar';
 import {WeekDay} from "calendar-utils/dist/calendarUtils";
 
@@ -55,7 +55,7 @@ export class CalendarComponent {
     dayStart: number = 9;
     dayEnd: number = 18;
 
-    /*actions: CalendarEventAction[] = [{
+    actions: CalendarEventAction[] = [{
         label: '<i class="fa fa-fw fa-pencil"></i>',
         onClick: ({event}: {event: CalendarEvent}): void => {
             this.handleEvent('Edited', event);
@@ -66,23 +66,23 @@ export class CalendarComponent {
             this.events = this.events.filter(iEvent => iEvent !== event);
             this.handleEvent('Deleted', event);
         }
-    }];*/
+    }];
 
     refresh: Subject<any> = new Subject();
 
     days: WeekDay[];
 
-    monEvents: CalendarEvent[] = [{
+    events: CalendarEvent[] = [{
         start: subDays(startOfDay(new Date()), 1),
         end: addDays(new Date(), 1),
         title: 'A 3 day event',
         color: colors.red,
-        //actions: this.actions
+        actions: this.actions
     }, {
         start: startOfDay(new Date()),
         title: 'An event with no end date',
         color: colors.yellow,
-        //actions: this.actions
+        actions: this.actions
     }, {
         start: subDays(endOfMonth(new Date()), 3),
         end: addDays(endOfMonth(new Date()), 3),
@@ -93,181 +93,7 @@ export class CalendarComponent {
         end: new Date(),
         title: 'A draggable and resizable event',
         color: colors.yellow,
-        //actions: this.actions,
-        resizable: {
-            beforeStart: true,
-            afterEnd: true
-        },
-        draggable: true
-    }];
-
-    tueEvents: CalendarEvent[] = [{
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        //actions: this.actions
-    }, {
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        //actions: this.actions
-    }, {
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue
-    }, {
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        //actions: this.actions,
-        resizable: {
-            beforeStart: true,
-            afterEnd: true
-        },
-        draggable: true
-    }];
-
-    wedEvents: CalendarEvent[] = [{
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        //actions: this.actions
-    }, {
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        //actions: this.actions
-    }, {
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue
-    }, {
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        //actions: this.actions,
-        resizable: {
-            beforeStart: true,
-            afterEnd: true
-        },
-        draggable: true
-    }];
-
-    thuEvents: CalendarEvent[] = [{
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        //actions: this.actions
-    }, {
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        //actions: this.actions
-    }, {
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue
-    }, {
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        //actions: this.actions,
-        resizable: {
-            beforeStart: true,
-            afterEnd: true
-        },
-        draggable: true
-    }];
-
-    friEvents: CalendarEvent[] = [{
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        //actions: this.actions
-    }, {
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        //actions: this.actions
-    }, {
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue
-    }, {
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        //actions: this.actions,
-        resizable: {
-            beforeStart: true,
-            afterEnd: true
-        },
-        draggable: true
-    }];
-
-    satEvents: CalendarEvent[] = [{
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        //actions: this.actions
-    }, {
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        // actions: this.actions
-    }, {
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue
-    }, {
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        //actions: this.actions,
-        resizable: {
-            beforeStart: true,
-            afterEnd: true
-        },
-        draggable: true
-    }];
-
-    sunEvents: CalendarEvent[] = [{
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        //actions: this.actions
-    }, {
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        //actions: this.actions
-    }, {
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue
-    }, {
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        // actions: this.actions,
+        actions: this.actions,
         resizable: {
             beforeStart: true,
             afterEnd: true
