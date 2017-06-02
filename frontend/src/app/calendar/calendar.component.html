@@ -2,39 +2,70 @@
     [days]="days"
     [locale]="locale">
 </mwl-calendar-week-view-header>
-<mwl-calendar-day-view
-    [viewDate]="viewDate"
-    [events]="monEvents"
-    [refresh]="refresh">
-</mwl-calendar-day-view>
-<mwl-calendar-day-view
-    [viewDate]="viewDate"
-    [events]="tueEvents"
-    [refresh]="refresh">
-</mwl-calendar-day-view>
-<mwl-calendar-day-view
-    [viewDate]="viewDate"
-    [events]="wedEvents"
-    [refresh]="refresh">
-</mwl-calendar-day-view>
-<mwl-calendar-day-view
-    [viewDate]="viewDate"
-    [events]="thuEvents"
-    [refresh]="refresh">
-</mwl-calendar-day-view>
-<mwl-calendar-day-view
-    [viewDate]="viewDate"
-    [events]="friEvents"
-    [refresh]="refresh">
-</mwl-calendar-day-view>
-<mwl-calendar-day-view
-    [viewDate]="viewDate"
-    [events]="satEvents"
-    [refresh]="refresh">
-</mwl-calendar-day-view>
-<mwl-calendar-day-view
-    [viewDate]="viewDate"
-    [events]="sunEvents"
-    [refresh]="refresh">
-</mwl-calendar-day-view>
-
+<table style="width: 100%; border: 0; background-color: white;" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="white-space: nowrap;">
+            <mwl-calendar-day-view
+                [viewDate]="viewDate"
+                [events]="monEvents"
+                [refresh]="refresh"
+                [dayStartHour]="dayStart"
+                [dayEndHour]="dayEnd">
+            </mwl-calendar-day-view>
+        </td>
+        <td style="white-space: nowrap;">
+            <mwl-calendar-day-view
+                [viewDate]="viewDate"
+                [events]="tueEvents"
+                [refresh]="refresh"
+                [dayStartHour]="dayStart"
+                [dayEndHour]="dayEnd">
+            </mwl-calendar-day-view>
+        </td>
+        <td style="white-space: nowrap;">
+            <mwl-calendar-day-view
+                [viewDate]="viewDate"
+                [events]="wedEvents"
+                [refresh]="refresh"
+                [dayStartHour]="dayStart"
+                [dayEndHour]="dayEnd">
+            </mwl-calendar-day-view>
+        </td>
+        <td style="white-space: nowrap;">
+            <mwl-calendar-day-view
+                [viewDate]="viewDate"
+                [events]="thuEvents"
+                [refresh]="refresh"
+                [dayStartHour]="dayStart"
+                [dayEndHour]="dayEnd">
+            </mwl-calendar-day-view>
+        </td>
+        <td style="white-space: nowrap;">
+            <mwl-calendar-day-view
+                [viewDate]="viewDate"
+                [events]="friEvents"
+                [refresh]="refresh"
+                [dayStartHour]="dayStart"
+                [dayEndHour]="dayEnd">
+            </mwl-calendar-day-view>
+        </td>
+        <td style="white-space: nowrap;">
+            <mwl-calendar-day-view
+                [viewDate]="viewDate"
+                [events]="satEvents"
+                [refresh]="refresh"
+                [dayStartHour]="dayStart"
+                [dayEndHour]="dayEnd">
+            </mwl-calendar-day-view>
+        </td>
+        <td style="white-space: nowrap;">
+            <mwl-calendar-day-view
+                [viewDate]="viewDate"
+                [events]="sunEvents"
+                [refresh]="refresh"
+                [dayStartHour]="dayStart"
+                [dayEndHour]="dayEnd">
+            </mwl-calendar-day-view>
+        </td>
+    </tr>
+</table>
