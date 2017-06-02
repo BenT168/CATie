@@ -1,5 +1,20 @@
 before_script:
-  - echo "Before script"
+  - sudo apt-get install -y -qq python3 python-pip python3-dev libpq-dev postgresql postgresql-contrib python-virtualenv ruby-dev
+  - sudo apt-get install -y nodejs
+  - sudo gem install dpl
+  - npm view @angular/cli >/dev/null || sudo npm install -g @angular/cli
+  - virtualenv -p python3 .
+  - source bin/activate
+  - pip install -r requirements.txt
+
+cache:
+  paths:
+    - "bin/"
+    - "include/"
+    - "share/"
+    - "lib/"
+    - "pip-selfcheck.json"
+  key: "$CI_COMMIT_REF_NAME"
 
 stages:
   - build
@@ -21,4 +36,7 @@ deploy:
   only:
     - master
   script:
-    - echo "Deploying"
+    - dpl --provider=heroku --app=ari-server --api-key=$HEROKU_PRODUCTION_API_KEY
+
+after_script:
+    - deactivate
