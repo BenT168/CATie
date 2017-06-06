@@ -17,3 +17,11 @@ class LoginTests(TestCase):
         self.assertEqual(resp.status_code, 403)
         self.assertEqual(b'Invalid login', resp.content)
 
+    # Not committing my password, obviously. To make this test pass, try your
+    #  own credentials :)  - Harry
+    def test_hu115_login(self):
+        c = Client()
+        resp = c.post('/login/', data={'username': 'hu115',
+                                       'password': ''})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(b'Logged in successfully', resp.content)

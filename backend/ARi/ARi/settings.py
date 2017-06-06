@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-import ldap3
+import ldap
 from django_auth_ldap.config import LDAPSearch
 import sys
 
@@ -28,7 +28,6 @@ SECRET_KEY = '*hwb&#(m8&$a8fyq*-=#u7h14tb!e)fkk#c3%17im@1*&+4w)0'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -76,7 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ARi.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -120,12 +118,40 @@ AUTHENTICATION_BACKENDS = (
 )
 
 AUTH_LDAP_SERVER_URI = 'ldaps://ldaps-vip.cc.ic.ac.uk:636'
-
+AUTH_LDAP_USER_DN_TEMPLATE = "CN=%(user)s,OU=doc,OU=Users,OU=Imperial " \
+                             "College (London),DC=ic,DC=ac,DC=uk"
 AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True
 
-AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,OU=doc,OU=Users,OU=Imperial " \
-                             "College\ (London),DC=ic,DC=ac,DC=uk"
+AUTH_LDAP_CONNECTION_OPTIONS = {
+        ldap.OPT_REFERRALS: 0,
+}
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'stream_to_console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler'
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django_auth_ldap': {
+            'handlers': ['stream_to_console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
