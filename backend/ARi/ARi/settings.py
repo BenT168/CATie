@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import ldap3
+from django_auth_ldap.config import LDAPSearch
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -109,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = 'django_auth_ldap.backend.LDAPBackend'
 
-AUTH_LDAP_SERVER_URI = "ldaps://ldaps-vip.cc.ic.ac.uk:636"
+AUTH_LDAP_SERVER_URI = 'ldaps://ldaps-vip.cc.ic.ac.uk:636'
 
 
 # Internationalization

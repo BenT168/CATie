@@ -1,3 +1,7 @@
 from django.test import TestCase
 
-# Create your tests here.
+
+class LoginTests(TestCase):
+
+    def simple_login_test(self):
+        return True
