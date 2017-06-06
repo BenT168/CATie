@@ -7,4 +7,4 @@ from django.contrib.auth.models import User
 
 class ARiUser(models.Model):
     """User profile.  Contains some basic configurable settings"""
-    user = models.ForeignKey(User, unique=True)
+    user = models.OneToOneField(User)
