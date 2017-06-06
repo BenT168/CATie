@@ -13,10 +13,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import ldap3
 from django_auth_ldap.config import LDAPSearch
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'planner',
-                  
+    'login',
+
     # Django Packages
     'rest_framework',
 ]
@@ -90,6 +91,11 @@ DATABASES = {
     }
 }
 
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -109,9 +115,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = 'django_auth_ldap.backend.LDAPBackend'
+AUTHENTICATION_BACKENDS = (
+    'django_auth_ldap.backend.LDAPBackend',
+)
 
 AUTH_LDAP_SERVER_URI = 'ldaps://ldaps-vip.cc.ic.ac.uk:636'
+
+AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True
+
+AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,OU=doc,OU=Users,OU=Imperial " \
+                             "College\ (London),DC=ic,DC=ac,DC=uk"
 
 
 # Internationalization

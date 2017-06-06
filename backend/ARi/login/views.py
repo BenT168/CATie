@@ -12,7 +12,7 @@ def login_user(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            profile, profile_is_new = ARiUser.objects.get_or_create(user=user)
+            ARiUser.objects.get_or_create(user=user)
             return HttpResponse("Logged in successfully")
         else:
             return HttpResponseForbidden("Disabled user")
