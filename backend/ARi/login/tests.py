@@ -19,7 +19,7 @@ class LoginTests(TestCase):
 
     # Not committing my password, obviously. To make this test pass, try your
     #  own credentials :)  - Harry
-    def test_hu115_login(self):
+    def test_student_login(self):
         c = Client()
         resp = c.post('/login/', data={'username': 'hu115',
                                        'password': ''})
