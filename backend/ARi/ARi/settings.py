@@ -107,6 +107,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = 'django_auth_ldap.backend.LDAPBackend'
+
+AUTH_LDAP_SERVER_URI = "ldaps://ldaps-vip.cc.ic.ac.uk:636"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -120,31 +124,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-STATIC_URL = '/static/'
-
-STATICFILES_FINDERS = [
-                       'django.contrib.staticfiles.finders.FileSystemFinder',
-                       'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-                       ]
-STATICFILES_DIRS = ['/frontend/']
-
-TEMPLATES = [
-             {
-             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-             'DIRS': '/frontend',
-             'APP_DIRS': True,
-             'OPTIONS': {
-             'context_processors': [
-                                    'django.template.context_processors.debug',
-                                    'django.template.context_processors.request',
-                                    'django.contrib.auth.context_processors.auth',
-                                    'django.contrib.messages.context_processors.messages',
-                                    ],
-             },
-             },
-             ]
