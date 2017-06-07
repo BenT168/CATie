@@ -5,6 +5,5 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class ARiUser(models.Model):
-    """User profile.  Contains some basic configurable settings"""
+class ARiProfile(models.Model):
     user = models.OneToOneField(User)
