@@ -1,7 +1,14 @@
+import json
+
 from django.test import TestCase, Client
+from rest_framework import status
+from rest_framework_jwt.utils import jwt_decode_handler
 
 
 class LoginTests(TestCase):
+
+    username = 'arc13'
+    password = 'shoutout2allthePears'
 
     def test_bad_login(self):
         c = Client()
@@ -21,7 +28,10 @@ class LoginTests(TestCase):
     #  own credentials :)  - Harry
     def test_student_login(self):
         c = Client()
-        resp = c.post('/login/', data={'username': 'hu115',
-                                       'password': ''})
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(b'Logged in successfully', resp.content)
+        resp = c.post('/login/', data={'username': self.username,
+                                       'password': self.password})
+        resp_content_str = resp.content.decode('utf-8')
+        resp_content_json = json.loads(resp_content_str)
+        decoded_payload = jwt_decode_handler(resp_content_json['token'])
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(decoded_payload['username'], self.username)
