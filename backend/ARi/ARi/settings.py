@@ -125,6 +125,10 @@ AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True
 AUTH_LDAP_CONNECTION_OPTIONS = {
         ldap.OPT_REFERRALS: 0,
 }
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "givenName",
+    "last_name": "sn",
+}
 
 LOGGING = {
     'version': 1,
