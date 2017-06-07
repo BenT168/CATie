@@ -12,8 +12,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import ldap
-from django_auth_ldap.config import LDAPSearch
+from django_auth_ldap.config import LDAPSearch, ActiveDirectoryGroupType
 import sys
+from .utils import ImperialDoCSpecifics
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -107,16 +108,20 @@ if 'test' in sys.argv:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+                'MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.NumericPasswordValidator',
     },
 ]
 
@@ -135,6 +140,15 @@ AUTH_LDAP_CONNECTION_OPTIONS = {
 AUTH_LDAP_USER_ATTR_MAP = {
     "first_name": "givenName",
     "last_name": "sn",
+}
+AUTH_PROFILE_MODULE = 'login.ARiProfile'
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch("OU=Distribution,OU=Groups,OU=Imperial "
+                                    "College (London),DC=ic,DC=ac,DC=uk",
+                                    ldap.SCOPE_SUBTREE, filterstr=None)
+AUTH_LDAP_GROUP_TYPE = ActiveDirectoryGroupType()
+AUTH_LDAP_PROFILE_FLAGS_BY_GROUP = {
+    "secondYear": "CN=doc-all-second-year,OU=Distribution,OU=Groups,"
+                  "OU=Imperial College (London),DC=ic,DC=ac,DC=uk",
 }
 
 # JWT (Token) authentication
@@ -200,14 +214,3 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
-}

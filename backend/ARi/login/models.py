@@ -7,3 +7,4 @@ from django.contrib.auth.models import User
 
 class ARiProfile(models.Model):
     user = models.OneToOneField(User)
+    secondYear = models.BooleanField(default=False)

@@ -18,7 +18,8 @@ def login_user(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            ARiProfile.objects.get_or_create(user=user)
+            profile, profile_is_new = ARiProfile.objects.get_or_create(
+                user=user)
 
             payload = jwt_payload_handler(user)
             return JsonResponse({'token': jwt_encode_handler(payload)})
