@@ -1,3 +1,11 @@
+variables:
+  PUBLISHED_PORT: "7081"   # These numbers are random
+  CI_REGISTRY: "localhost:5000"
+  CI_PROJECT_PATH: "ARi-backend"
+  CI_PROJECT_NAME: "ARi"
+
+image: $CI_REGISTRY/gdocker
+
 before_script:
   - sudo apt-get install -y -qq python3 python-pip python3-dev libpq-dev postgresql postgresql-contrib python-virtualenv ruby-dev
   #- sudo apt-get install -y nodejs
@@ -33,13 +41,22 @@ test:
     - echo "Testing"
   #  - python backend/ARi/manage.py test
   #when: on_success
-    
-deploy:
-  stage: deploy
-  only:
-    - master
-  script:
-    - sudo dpl --provider=heroku --app=ari-server --api-key=$HEROKU_PRODUCTION_API_KEY
 
 after_script:
     - deactivate
+
+deploy:
+  stage: deploy
+  variables:
+    IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH
+    SERVICE_NAME: $CI_PROJECT_NAME-$PUBLISHED_PORT
+  script:
+    - docker build --build-arg published_port=$PUBLISHED_PORT -t $IMAGE_NAME .
+    - docker push $IMAGE_NAME
+    - docker service rm $SERVICE_NAME || true
+    - docker service create --name $SERVICE_NAME -p $PUBLISHED_PORT:$PUBLISHED_PORT -p :9091 --mount type=bind,src=/proc/kagent,dst=/var/log/host/kagent --network=tracer_default $IMAGE_NAME
+  only:
+    - master
+  environment: staging
+
+
