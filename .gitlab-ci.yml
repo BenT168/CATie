@@ -48,10 +48,10 @@ deploy:
     IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH
     SERVICE_NAME: $CI_PROJECT_NAME-$PUBLISHED_PORT
   script:
-    - docker build --build-arg published_port=$PUBLISHED_PORT -t $IMAGE_NAME .
-    - docker push $IMAGE_NAME
-    - docker service rm $SERVICE_NAME || true
-    - docker service create --name $SERVICE_NAME -p $PUBLISHED_PORT:$PUBLISHED_PORT -p :9091 --mount type=bind,src=/proc/kagent,dst=/var/log/host/kagent --network=tracer_default $IMAGE_NAME
+    - sudo docker build --build-arg published_port=$PUBLISHED_PORT -t $IMAGE_NAME .
+    - sudo docker push $IMAGE_NAME
+    - sudo docker service rm $SERVICE_NAME || true
+    - sudo docker service create --name $SERVICE_NAME -p $PUBLISHED_PORT:$PUBLISHED_PORT -p :9091 --mount type=bind,src=/proc/kagent,dst=/var/log/host/kagent --network=tracer_default $IMAGE_NAME
   only:
     - master
   environment: staging
