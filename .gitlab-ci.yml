@@ -7,7 +7,7 @@ variables:
 image: $CI_REGISTRY/gdocker
 
 before_script:
-  - sudo apt-get install -y -qq python3 python-pip python3-dev libpq-dev postgresql postgresql-contrib python-virtualenv ruby-dev
+  - sudo apt-get install -y -qq python3 python-pip python3-dev libpq-dev postgresql postgresql-contrib python-virtualenv ruby-dev python-dev libldap2-dev libsasl2-dev libssl-dev
   #- sudo apt-get install -y nodejs
   - sudo gem install dpl
   #- curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash
@@ -42,9 +42,6 @@ test:
   #  - python backend/ARi/manage.py test
   #when: on_success
 
-after_script:
-    - deactivate
-
 deploy:
   stage: deploy
   variables:
@@ -59,4 +56,6 @@ deploy:
     - master
   environment: staging
 
+after_script:
+    - deactivate
 
