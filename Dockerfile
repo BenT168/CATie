@@ -14,7 +14,7 @@ COPY . .
 COPY start.sh /start.sh
 
 # EXPOSE port 8000 to allow communication to/from server
-EXPOSE 8000
+EXPOSE $published_port
 
 # CMD specifies the command to execute to start the server running
 CMD ["/start.sh"]
