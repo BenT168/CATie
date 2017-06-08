@@ -29,7 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['ari-server.herokuapp.com',
                  'localhost',
-                 '127.0.0.1']
+                 '127.0.0.1',
+                 '146.169.45.4']
 
 # Application definition
 
