@@ -6,15 +6,15 @@ variables:
 
 #image: $CI_REGISTRY/gdocker
 
-before_script:
-  - sudo apt-get install -y -qq python3 python-pip python3-dev libpq-dev postgresql postgresql-contrib python-virtualenv ruby-dev python-dev libldap2-dev libsasl2-dev libssl-dev
+#before_script:
+#  - sudo apt-get install -y -qq python3 python-pip python3-dev libpq-dev postgresql postgresql-contrib python-virtualenv ruby-dev python-dev libldap2-dev libsasl2-dev libssl-dev
   #- sudo apt-get install -y nodejs
-  - sudo gem install dpl
+#  - sudo gem install dpl
   #- curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash
   #- npm view @angular/cli >/dev/null || sudo npm install -g @angular/cli
-  - virtualenv -p python3 .
-  - source bin/activate
-  - pip install -r requirements.txt
+#  - virtualenv -p python3 .
+#  - source bin/activate
+#  - pip install -r requirements.txt
 
 #cache:
 #  paths:
@@ -26,21 +26,21 @@ before_script:
 #  key: "$CI_COMMIT_REF_NAME"
 
 stages:
-  - build
-  - test
+#  - build
+#  - test
   - deploy
  
-build:
-  stage: build
-  script:
-    - echo "Building"
+#build:
+#  stage: build
+#  script:
+#    - echo "Building"
   
-test:
-  stage: test
-  script:
-    - echo "Testing"
-  #  - python backend/ARi/manage.py test
-  #when: on_success
+#test:
+#  stage: test
+#  script:
+#    - echo "Testing"
+#  #  - python backend/ARi/manage.py test
+#  #when: on_success
 
 deploy:
   stage: deploy
