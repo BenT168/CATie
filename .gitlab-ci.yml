@@ -1,7 +1,7 @@
 variables:
   PUBLISHED_PORT: "8000"   # These numbers are random
   CI_REGISTRY: "localhost:5000"
-  CI_PROJECT_PATH: "ari-backend"
+  CI_PROJECT_PATH: "registry"
   CI_PROJECT_NAME: "ari"
 
 image: $CI_REGISTRY/gdocker
