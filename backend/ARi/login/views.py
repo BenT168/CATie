@@ -14,10 +14,14 @@ def login_user(request):
     username = request.POST.get('username', None)
     password = request.POST.get('password', None)
 
+    if not password:
+        return HttpResponseForbidden("Invalid login")
+
     user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active:
             login(request, user)
+            all_groups = user.groups.all()
             profile, profile_is_new = ARiProfile.objects.get_or_create(
                 user=user)
 
