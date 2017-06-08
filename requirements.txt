@@ -1,5 +1,17 @@
-Django==1.10.5
+django_auth_ldap3
+appdirs==1.4.3
+Django==1.11.2
+django-auth-ldap3==0.9.6
+django-cors-headers==2.1.0
+django-environ==0.4.3
 djangorestframework==3.6.3
+djangorestframework-jwt==1.10.0
 gunicorn
+ldap==1.0.2
+packaging==16.8
 psycopg2==2.7.1
+pyasn1==0.2.3
+pyparsing==2.2.0
+pytz==2017.2
+six==1.10.0
 

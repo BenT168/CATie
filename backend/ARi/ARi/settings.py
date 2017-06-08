@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-import ldap
-from django_auth_ldap.config import LDAPSearch, ActiveDirectoryGroupType
+import ldap3
 import sys
 from .utils import ImperialDoCSpecifics
 
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'planner',
     'login',
+    'courses',
 
     # Django Packages
     'rest_framework',
@@ -86,22 +86,19 @@ WSGI_APPLICATION = 'ARi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# NOTE: These settings are for development only. Move to CSG database for
+# deployment
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'g1627132_u',
-        'USER': 'g1627132_u',
-        'PASSWORD': 'JNZdJ3JuFB',
-        'HOST': 'db.doc.ic.ac.uk',
+        'USER': 'harry',
+        'PASSWORD': 'datapass',
+        'HOST': '',
         'PORT': '5432',
     }
 }
-
-if 'test' in sys.argv:
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
-    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -125,31 +122,32 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Django Auth Ldap
+main_dn = 'DC=ic,DC=ac,DC=uk'
+groups_dn = 'OU=Distribution,OU=Groups,'+main_dn
+users_dn = 'OU=doc,OU=Users,'+main_dn
+
 AUTHENTICATION_BACKENDS = (
-    'django_auth_ldap.backend.LDAPBackend',
+    'django_auth_ldap3.backends.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend'
 )
 
-AUTH_LDAP_SERVER_URI = 'ldaps://ldaps-vip.cc.ic.ac.uk:636'
-AUTH_LDAP_USER_DN_TEMPLATE = "CN=%(user)s,OU=doc,OU=Users,OU=Imperial " \
-                             "College (London),DC=ic,DC=ac,DC=uk"
+AUTH_LDAP_URI = 'ldaps://ldaps-vip.cc.ic.ac.uk:636'
+AUTH_LDAP_BASE_DN = main_dn
+AUTH_LDAP_BIND_TEMPLATE = 'CN={username},OU=doc,OU=Users,OU=Imperial College ' \
+                          '(London),{base_dn} '
+AUTH_LDAP_UID_ATTRIB = 'cn'
 AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True
-
-AUTH_LDAP_CONNECTION_OPTIONS = {
-        ldap.OPT_REFERRALS: 0,
-}
 AUTH_LDAP_USER_ATTR_MAP = {
     "first_name": "givenName",
     "last_name": "sn",
 }
 AUTH_PROFILE_MODULE = 'login.ARiProfile'
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch("OU=Distribution,OU=Groups,OU=Imperial "
-                                    "College (London),DC=ic,DC=ac,DC=uk",
-                                    ldap.SCOPE_SUBTREE, filterstr=None)
-AUTH_LDAP_GROUP_TYPE = ActiveDirectoryGroupType()
-AUTH_LDAP_PROFILE_FLAGS_BY_GROUP = {
-    "secondYear": "CN=doc-all-second-year,OU=Distribution,OU=Groups,"
-                  "OU=Imperial College (London),DC=ic,DC=ac,DC=uk",
+AUTH_LDAP_GROUP_MAP = {
+    'CN=doc-all-second-year,'+groups_dn: ('c2',),
+    'CN=doc-students-223,'+groups_dn: ('Concurrency',)
 }
+
 
 # JWT (Token) authentication
 # https://getblimp.github.io/django-rest-framework-jwt/
