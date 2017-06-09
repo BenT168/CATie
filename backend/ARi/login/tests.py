@@ -42,4 +42,3 @@ class LoginTests(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(decoded_payload['username'], self.username)
         pass
-

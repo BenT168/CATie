@@ -110,3 +110,5 @@ class CourseTests(TestCase):
 
         self.assertFalse(any(x != y for x, y in pairs))
 
+    def test_session(self):
+        self.setUpAndLogin()
