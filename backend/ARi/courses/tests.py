@@ -28,8 +28,6 @@ class CourseTests(TestCase):
     ruhi_course_list = [{'code': 210, 'name': 'Architecture'},
                         {'code': 223, 'name': 'Concurrency'}]
 
-    harry_course_list = [{'code': 223, 'name': 'Concurrency'}]
-
     def setUpGroups(self):
         self.c2 = Group.objects.create(name='c2')
         self.c1 = Group.objects.create(name='c1')
