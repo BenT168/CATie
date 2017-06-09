@@ -8,7 +8,7 @@ from courses.models import Year, Course
 
 class ARiProfile(models.Model):
     user = models.OneToOneField(User, unique=True)
-    year = models.OneToOneField(Year, unique=True)
+    year = models.ForeignKey(Year)
     courses = models.ManyToManyField(Course)
 
     def __str__(self):
