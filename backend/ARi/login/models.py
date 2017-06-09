@@ -10,3 +10,6 @@ class ARiProfile(models.Model):
     user = models.OneToOneField(User, unique=True)
     year = models.OneToOneField(Year, unique=True)
     courses = models.ManyToManyField(Course)
+
+    def __str__(self):
+        return "ARiProfile: " + self.user.username
