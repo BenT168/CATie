@@ -1,12 +1,20 @@
-before_script:
-  - sudo apt-get install -y -qq python3 python-pip python3-dev libpq-dev postgresql postgresql-contrib python-virtualenv ruby-dev
+variables:
+  PUBLISHED_PORT: "8000"   # These numbers are random
+  CI_REGISTRY: "localhost:5000"
+  CI_PROJECT_PATH: "ari-backend"
+  CI_PROJECT_NAME: "ari"
+
+#image: $CI_REGISTRY/gdocker
+
+#before_script:
+#  - sudo apt-get install -y -qq python3 python-pip python3-dev libpq-dev postgresql postgresql-contrib python-virtualenv ruby-dev python-dev libldap2-dev libsasl2-dev libssl-dev
   #- sudo apt-get install -y nodejs
-  - sudo gem install dpl
+#  - sudo gem install dpl
   #- curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash
   #- npm view @angular/cli >/dev/null || sudo npm install -g @angular/cli
-  - virtualenv -p python3 .
-  - source bin/activate
-  - pip install -r requirements.txt
+#  - virtualenv -p python3 .
+#  - source bin/activate
+#  - pip install -r requirements.txt
 
 #cache:
 #  paths:
@@ -18,28 +26,39 @@ before_script:
 #  key: "$CI_COMMIT_REF_NAME"
 
 stages:
-  - build
-  - test
+#  - build
+#  - test
   - deploy
  
-build:
-  stage: build
-  script:
-    - echo "Building"
+#build:
+#  stage: build
+#  script:
+#    - echo "Building"
   
-test:
-  stage: test
-  script:
-    - echo "Testing"
-  #  - python backend/ARi/manage.py test
-  #when: on_success
-    
+#test:
+#  stage: test
+#  script:
+#    - echo "Testing"
+#  #  - python backend/ARi/manage.py test
+#  #when: on_success
+
 deploy:
   stage: deploy
+  variables:
+    IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH
+    SERVICE_NAME: $CI_PROJECT_NAME-$PUBLISHED_PORT
+  script:
+    - ls
+#    - sudo docker build --build-arg published_port=$PUBLISHED_PORT -t $IMAGE_NAME .
+    - sudo docker build --build-arg published_port=8000 -t localhost:5000/ari-backend .
+#    - sudo docker push $IMAGE_NAME
+    - sudo docker push localhost:5000/ari-backend
+    - sudo docker service rm $SERVICE_NAME || true
+    - sudo docker service create --name $SERVICE_NAME -p 80:$PUBLISHED_PORT $IMAGE_NAME
   only:
     - master
-  script:
-    - sudo dpl --provider=heroku --app=ari-server --api-key=$HEROKU_PRODUCTION_API_KEY
+  environment: staging
 
 after_script:
     - deactivate
+
