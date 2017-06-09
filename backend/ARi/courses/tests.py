@@ -11,9 +11,11 @@ from login.models import ARiProfile
 
 
 class CourseTests(TestCase):
+    c = None
 
     username = 'arc13'
     password = 'shoutout2allthePears'
+    token = None
     c1 = None
     c2 = None
     conc_grp = None
@@ -22,6 +24,11 @@ class CourseTests(TestCase):
     conc_crse = None
     arch_crse = None
     sesh = None
+
+    ruhi_course_list = [{'code': 210, 'name': 'Architecture'},
+                        {'code': 223, 'name': 'Concurrency'}]
+
+    harry_course_list = [{'code': 223, 'name': 'Concurrency'}]
 
     def setUpGroups(self):
         self.c2 = Group.objects.create(name='c2')
@@ -41,12 +48,13 @@ class CourseTests(TestCase):
 
     def setUpAndLogin(self):
         self.setUpGroups()
-        c = Client()
-        resp = c.post('/login/', data={'username': self.username,
-                                       'password': self.password})
+        self.c = Client()
+        resp = self.c.post('/login/', data={'username': self.username,
+                                            'password': self.password})
         resp_content_str = resp.content.decode('utf-8')
         resp_content_json = json.loads(resp_content_str)
-        username = jwt_decode_handler(resp_content_json['token'])['username']
+        self.token = resp_content_json['token']
+        username = jwt_decode_handler(self.token)['username']
         user = User.objects.get(username=username)
         return ARiProfile.objects.get(user=user)
 
@@ -93,5 +101,14 @@ class CourseTests(TestCase):
     #     ari_profile = self.setUpAndLogin()
     #     self.assertFalse(ari_profile.courses.filter(code=210).count())
 
+    def test_get_courses_ruhi(self):
+        self.setUpAndLogin()
+        resp = self.c.get('/courses/',
+                          headers={'Authorization': 'Token ' + self.token})
+        resp_content_str = resp.content.decode('utf-8')
+        returned_courses = json.loads(resp_content_str)
+        sorted_courses = sorted(returned_courses, key=lambda k: k['code'])
+        pairs = zip(self.ruhi_course_list, sorted_courses)
 
+        self.assertFalse(any(x != y for x, y in pairs))
 
