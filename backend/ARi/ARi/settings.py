@@ -156,7 +156,10 @@ AUTH_LDAP_USER_ATTR_MAP = {
 }
 AUTH_PROFILE_MODULE = 'login.ARiProfile'
 AUTH_LDAP_GROUP_MAP = {
+    'CN=doc-all-first-year,'+groups_dn: ('c1',),
     'CN=doc-all-second-year,'+groups_dn: ('c2',),
+    'CN=doc-all-third-year,'+groups_dn: ('c3',),
+    'CN=doc-all-fourth-year,'+groups_dn: ('c4',),
     'CN=doc-students-223,'+groups_dn: ('Concurrency',),
     'CN=doc-students-210,'+groups_dn: ('Architecture',)
 }

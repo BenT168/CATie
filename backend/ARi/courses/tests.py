@@ -14,6 +14,7 @@ class CourseTests(TestCase):
 
     username = 'arc13'
     password = 'shoutout2allthePears'
+    c1 = None
     c2 = None
     conc_grp = None
     arch_grp = None
@@ -24,8 +25,10 @@ class CourseTests(TestCase):
 
     def setUpGroups(self):
         self.c2 = Group.objects.create(name='c2')
+        self.c1 = Group.objects.create(name='c1')
         self.conc_grp = Group.objects.create(name='Concurrency')
         self.arch_grp = Group.objects.create(name='Architecture')
+        self.year = Year.objects.create(number=1, group=self.c1)
         self.year = Year.objects.create(number=2, group=self.c2)
         self.conc_crse = Course.objects.create(name="Concurrency", code=223,
                                                ofYear=self.year,
@@ -47,8 +50,11 @@ class CourseTests(TestCase):
         user = User.objects.get(username=username)
         return ARiProfile.objects.get(user=user)
 
+    # Not really necessary, this was originally to test my understanding
+    # but I may as well leave it in
     def test_set_up_works(self):
         self.setUpGroups()
+        c1_retrieved = Group.objects.get(name='c1')
         c2_retrieved = Group.objects.get(name='c2')
         conc = Group.objects.get(name='Concurrency')
         arch = Group.objects.get(name='Architecture')
@@ -56,6 +62,7 @@ class CourseTests(TestCase):
         conc_crse = Course.objects.get(name="Concurrency")
         sesh = Session.objects.get(name="Concurrent Execution")
         arch_crse = Course.objects.get(code=210)
+        self.assertEqual(self.c1, c1_retrieved)
         self.assertEqual(self.c2, c2_retrieved)
         self.assertEqual(self.conc_grp, conc)
         self.assertEqual(self.arch_grp, arch)
@@ -71,7 +78,11 @@ class CourseTests(TestCase):
 
     def test_ruhi_is_in_second_year(self):
         ari_profile = self.setUpAndLogin()
-        self.assertTrue(ari_profile.year.number, 2)
+        self.assertEqual(ari_profile.year.number, 2)
+
+    def test_ruhi_is_not_in_first_year(self):
+        ari_profile = self.setUpAndLogin()
+        self.assertNotEqual(ari_profile.year.number, 1)
 
     def test_ruhi_does_concurrency(self):
         ari_profile = self.setUpAndLogin()
