@@ -18,12 +18,20 @@ def login_user(request):
         return HttpResponseForbidden("Invalid login")
 
     user = authenticate(username=username, password=password)
+    profile = None
     if user is not None:
         if user.is_active:
             login(request, user)
-            all_groups = user.groups.all()
-            profile, profile_is_new = ARiProfile.objects.get_or_create(
-                user=user)
+            for g in request.user.groups.all():
+                if hasattr(g, 'year'):
+                    profile = ARiProfile.objects.get_or_create(user=user,
+                                                          year=g.year)[0]
+                    break
+                else:
+                    return HttpResponseForbidden("Student does not have a year.")
+            for g in request.user.groups.all():
+                if hasattr(g, 'course'):
+                    profile.courses.add(g.course)
 
             payload = jwt_payload_handler(user)
             return JsonResponse({'token': jwt_encode_handler(payload)})

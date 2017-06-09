@@ -5,4 +5,4 @@ from courses.models import Course, Year, Session
 
 admin.site.register(Course)
 admin.site.register(Year)
-admin.site.register(Session)
+admin.site.register(Session)    

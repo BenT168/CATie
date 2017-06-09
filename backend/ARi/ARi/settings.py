@@ -14,6 +14,7 @@ import os
 import ldap3
 import sys
 from .utils import ImperialDoCSpecifics
+from ldap3.utils.conv import escape_filter_chars
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -93,12 +94,22 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'g1627132_u',
-        'USER': 'harry',
-        'PASSWORD': 'datapass',
-        'HOST': '',
+        'USER': 'g1627132_u',
+        'PASSWORD': 'JNZdJ3JuFB',
+        'HOST': 'db.doc.ic.ac.uk',
         'PORT': '5432',
     }
 }
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'g1627132_u',
+        'USER': 'harry',
+        'PASSWORD': 'iamonlyaman',
+        'HOST': '',
+        'PORT': '5432',
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -124,7 +135,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Django Auth Ldap
 main_dn = 'DC=ic,DC=ac,DC=uk'
-groups_dn = 'OU=Distribution,OU=Groups,'+main_dn
+groups_dn = 'OU=Distribution,OU=Groups,OU=Imperial College \\28London\\29,' \
+            ''+main_dn
 users_dn = 'OU=doc,OU=Users,'+main_dn
 
 AUTHENTICATION_BACKENDS = (
@@ -135,7 +147,7 @@ AUTHENTICATION_BACKENDS = (
 AUTH_LDAP_URI = 'ldaps://ldaps-vip.cc.ic.ac.uk:636'
 AUTH_LDAP_BASE_DN = main_dn
 AUTH_LDAP_BIND_TEMPLATE = 'CN={username},OU=doc,OU=Users,OU=Imperial College ' \
-                          '(London),{base_dn} '
+                          '(London),{base_dn}'
 AUTH_LDAP_UID_ATTRIB = 'cn'
 AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True
 AUTH_LDAP_USER_ATTR_MAP = {
@@ -145,7 +157,8 @@ AUTH_LDAP_USER_ATTR_MAP = {
 AUTH_PROFILE_MODULE = 'login.ARiProfile'
 AUTH_LDAP_GROUP_MAP = {
     'CN=doc-all-second-year,'+groups_dn: ('c2',),
-    'CN=doc-students-223,'+groups_dn: ('Concurrency',)
+    'CN=doc-students-223,'+groups_dn: ('Concurrency',),
+    'CN=doc-students-210,'+groups_dn: ('Architecture',)
 }
 
 
