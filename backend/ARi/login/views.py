@@ -1,5 +1,5 @@
-from django.http import HttpResponseForbidden, JsonResponse, HttpResponse
-from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseForbidden, JsonResponse
+from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework_jwt.settings import api_settings
 
@@ -34,14 +34,10 @@ def login_user(request):
                     profile.courses.add(g.course)
 
             payload = jwt_payload_handler(user)
-            return JsonResponse({'token': jwt_encode_handler(payload)})
+            token = jwt_encode_handler(payload)
+            return JsonResponse({'token': token})
         else:
             return HttpResponseForbidden("Disabled user")
     else:
         return HttpResponseForbidden("Invalid login")
 
-@csrf_exempt
-def logout_user(request):
-    logout(request)
-    return HttpResponse("Logged out")
-    # Anything else we need to do?
