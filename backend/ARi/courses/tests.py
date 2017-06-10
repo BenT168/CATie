@@ -20,7 +20,8 @@ class CourseTests(TestCase):
     c2 = None
     conc_grp = None
     arch_grp = None
-    year = None
+    year1 = None
+    year2 = None
     conc_crse = None
     arch_crse = None
     sesh = None
@@ -33,13 +34,13 @@ class CourseTests(TestCase):
         self.c1 = Group.objects.create(name='c1')
         self.conc_grp = Group.objects.create(name='Concurrency')
         self.arch_grp = Group.objects.create(name='Architecture')
-        self.year = Year.objects.create(number=1, group=self.c1)
-        self.year = Year.objects.create(number=2, group=self.c2)
+        self.year1 = Year.objects.create(number=1, group=self.c1)
+        self.year2 = Year.objects.create(number=2, group=self.c2)
         self.conc_crse = Course.objects.create(name="Concurrency", code=223,
-                                               ofYear=self.year,
+                                               ofYear=self.year2,
                                                group=self.conc_grp)
         self.arch_crse = Course.objects.create(name="Architecture", code=210,
-                                               ofYear=self.year,
+                                               ofYear=self.year2,
                                                group=self.arch_grp)
         self.sesh = Session.objects.create(name="Concurrent Execution",
                                            course=self.conc_crse)
@@ -72,7 +73,7 @@ class CourseTests(TestCase):
         self.assertEqual(self.c2, c2_retrieved)
         self.assertEqual(self.conc_grp, conc)
         self.assertEqual(self.arch_grp, arch)
-        self.assertEqual(self.year, year)
+        self.assertEqual(self.year2, year)
         self.assertEqual(self.conc_crse, conc_crse)
         self.assertEqual(self.arch_crse, arch_crse)
         self.assertEqual(self.sesh, sesh)
@@ -102,7 +103,7 @@ class CourseTests(TestCase):
     def test_get_courses_ruhi(self):
         self.setUpAndLogin()
         resp = self.c.get('/courses/',
-                          headers={'Authorization': 'Token ' + self.token})
+                          HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
         returned_courses = json.loads(resp_content_str)
         sorted_courses = sorted(returned_courses, key=lambda k: k['code'])

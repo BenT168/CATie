@@ -1,6 +1,6 @@
 import json
 
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.test import TestCase, Client
 from rest_framework import status
 from rest_framework_jwt.utils import jwt_decode_handler

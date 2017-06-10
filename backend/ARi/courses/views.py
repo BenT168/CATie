@@ -14,8 +14,7 @@ from login.models import ARiProfile
 @authentication_classes((TokenAuthentication,))
 def get_courses(request):
     token = request.environ['HTTP_AUTHORIZATION']
-    username = jwt_decode_handler(token)
-    print(username)
+    username = jwt_decode_handler(token)['username']
     user = User.objects.get(username=username)
     ari_profile = ARiProfile.objects.get(user=user)
     courses = ari_profile.courses.all()
