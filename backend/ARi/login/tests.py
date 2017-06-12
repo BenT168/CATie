@@ -12,6 +12,8 @@ class LoginTests(TestCase):
 
     username = 'arc13'
     password = 'shoutout2allthePears'
+    staffUsername = 'admin'
+    staffPassword = 'fakepassword'
 
     def test_bad_login(self):
         c = Client()
@@ -36,9 +38,24 @@ class LoginTests(TestCase):
         c = Client()
         resp = c.post('/login/', data={'username': self.username,
                                        'password': self.password})
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
         resp_content_str = resp.content.decode('utf-8')
         resp_content_json = json.loads(resp_content_str)
         decoded_payload = jwt_decode_handler(resp_content_json['token'])
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(decoded_payload['username'], self.username)
-        pass
+
+    def test_staff_login(self):
+        self.setUpGroups()
+        User.objects.create(username="admin", email="admin@admin.com",
+                            password="fakepassword")
+        c = Client()
+        resp = c.post('/login/', data={'username': self.staffUsername,
+                                       'password': self.staffPassword})
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        resp_content_str = resp.content.decode('utf-8')
+        resp_content_json = json.loads(resp_content_str)
+        decoded_payload = jwt_decode_handler(resp_content_json['token'])
+        username = decoded_payload['username']
+        self.assertEqual(decoded_payload['username'], self.staffUsername)
+        user = User.objects.get(username=username)
+        self.assertTrue(user.is_staff)

@@ -154,9 +154,6 @@ AUTH_LDAP_USER_ATTR_MAP = {
     "first_name": "givenName",
     "last_name": "sn",
 }
-AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    "is_staff": "CN=doc-staff"+groups_dn,
-}
 AUTH_PROFILE_MODULE = 'login.ARiProfile'
 AUTH_LDAP_GROUP_MAP = {
     'CN=doc-all-first-year,'+groups_dn: ('c1',),
