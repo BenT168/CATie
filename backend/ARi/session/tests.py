@@ -62,7 +62,7 @@ class LoginTests(TestCase):
         c = Client()
         resp = c.post('/sessions/create/',
                       data={'name': self.create_name,
-                            'code': 223,
+                            'code': self.conc_crse.code,
                             'video': self.video},
                       HTTP_AUTHORIZATION=self.token)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
@@ -71,5 +71,5 @@ class LoginTests(TestCase):
         resp = c.get(url, HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
         resp_content_json = json.loads(resp_content_str)
-        self.assertEqual(resp_content_json['name'], self.name)
+        self.assertEqual(resp_content_json['name'], self.create_name)
         self.assertEqual(resp_content_json['video'], self.video)

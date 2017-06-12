@@ -41,15 +41,17 @@ def create_session(request):
     name = request.POST.get('name', None)
     course_code = request.POST.get('code', None)
     video = request.POST.get('video', None)
+    if video is None:
+        video = ""
     slides = request.POST.get('slides', None)
-
-    name_as_url = reformat_for_url(name)
+    if slides is None:
+        slides = ""
     try:
         course = Course.objects.get(code=course_code)
     except Course.DoesNotExist:
         return HttpResponseNotFound("Creating session in invalid course.")
 
-    Session.objects.create(name=name_as_url, course=course, video=video,
+    Session.objects.create(name=name, course=course, video=video,
                            slides=slides)
 
     return HttpResponse("Session created successfully.")

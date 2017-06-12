@@ -10,8 +10,7 @@ class Session(models.Model):
                                                 'and \'-\' are allowed.')
 
     name = models.CharField(max_length=60)
-    urlName = models.CharField(max_length=60, validators=[urlSafe],
-                               primary_key=True, default="")
+    urlName = models.CharField(max_length=60, validators=[urlSafe], default="")
     course = models.ForeignKey(Course)
     video = models.URLField(default="")
     slides = models.URLField(default="")
