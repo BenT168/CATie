@@ -16,16 +16,16 @@ from session.utils import reformat_for_url
 
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def get_session(request, code, name):
+def get_session(request, code, nameURL):
     try:
         course = Course.objects.get(code=code)
-        session = course.session_set.get(name=name)
+        session = course.session_set.get(urlName=nameURL)
     except Course.DoesNotExist:
         return HttpResponseNotFound("Invalid course code.")
     except Session.DoesNotExist:
         return HttpResponseNotFound("Invalid session URL.")
 
-    serializer = SessionSerializer(session, many=True)
+    serializer = SessionSerializer(session, many=False)
     return JsonResponse(serializer.data, safe=False)
 
 

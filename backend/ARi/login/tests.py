@@ -47,7 +47,7 @@ class LoginTests(TestCase):
 
     def test_staff_login(self):
         self.setUpGroups()
-        User.objects.create(username="admin", email="admin@admin.com",
+        User.objects.create_superuser(username="admin", email="admin@admin.com",
                             password="fakepassword")
         c = Client()
         resp = c.post('/login/', data={'username': self.staffUsername,
