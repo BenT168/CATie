@@ -134,50 +134,52 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# # Django Auth Ldap
-# main_dn = 'DC=ic,DC=ac,DC=uk'
-# groups_dn = 'OU=Distribution,OU=Groups,OU=Imperial College \\28London\\29,' \
-#             ''+main_dn
-# users_dn = 'OU=doc,OU=Users,'+main_dn
-#
+# Django Auth Ldap
+main_dn = 'DC=ic,DC=ac,DC=uk'
+groups_dn = 'OU=Distribution,OU=Groups,OU=Imperial College \\28London\\29,' \
+            ''+main_dn
+users_dn = 'OU=doc,OU=Users,'+main_dn
+
 AUTHENTICATION_BACKENDS = (
      'django_auth_ldap3.backends.LDAPBackend',
      'django.contrib.auth.backends.ModelBackend'
 )
-#
-# AUTH_LDAP_URI = 'ldaps://ldaps-vip.cc.ic.ac.uk:636'
-# AUTH_LDAP_BASE_DN = main_dn
-# AUTH_LDAP_BIND_TEMPLATE = 'CN={username},OU=doc,OU=Users,OU=Imperial College ' \
-#                           '(London),{base_dn}'
-# AUTH_LDAP_UID_ATTRIB = 'cn'
-# AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True
-# AUTH_LDAP_USER_ATTR_MAP = {
-#     "first_name": "givenName",
-#     "last_name": "sn",
-# }
-# AUTH_PROFILE_MODULE = 'login.ARiProfile'
-# AUTH_LDAP_GROUP_MAP = {
-#     'CN=doc-all-first-year,'+groups_dn: ('c1',),
-#     'CN=doc-all-second-year,'+groups_dn: ('c2',),
-#     'CN=doc-all-third-year,'+groups_dn: ('c3',),
-#     'CN=doc-all-fourth-year,'+groups_dn: ('c4',),
-#     'CN=doc-students-223,'+groups_dn: ('Concurrency',),
-#     'CN=doc-students-210,'+groups_dn: ('Architecture',),
-#     'CN=doc-students-202,'+groups_dn: ('Algorithms',),
-#     'CN=doc-students-220,'+groups_dn: ('Design',),
-#     'CN=doc-students-221,'+groups_dn: ('Compilers',),
-#     'CN=doc-students-211,'+groups_dn: ('Operating Systems',),
-#     'CN=doc-students-212,'+groups_dn: ('Networks',),
-#     'CN=doc-students-231,'+groups_dn: ('Intro to AI',),
-#     'CN=doc-students-233,'+groups_dn: ('Computational Techniques',),
-#     'CN=doc-students-240,'+groups_dn: ('Models of Computation',),
-#     'CN=doc-students-245,'+groups_dn: ('Statistics',),
-#     'CN=doc-students-261,'+groups_dn: ('Laboratory 2',),
-#     'CN=doc-students-271,'+groups_dn: ('Web Apps',),
-#     'CN=doc-students-272,'+groups_dn: ('Team Skills',),
-#     'CN=doc-students-275,'+groups_dn: ('C++',),
-#     'CN=doc-students-276,'+groups_dn: ('Prolog',),
-# }
+AUTH_LDAP_URI = 'ldaps://ldaps-vip.cc.ic.ac.uk:636'
+AUTH_LDAP_BASE_DN = main_dn
+AUTH_LDAP_BIND_TEMPLATE = 'CN={username},OU=doc,OU=Users,OU=Imperial College ' \
+                          '(London),{base_dn}'
+AUTH_LDAP_UID_ATTRIB = 'cn'
+AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "givenName",
+    "last_name": "sn",
+}
+AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+    "is_staff": "CN=doc-staff"+groups_dn,
+}
+AUTH_PROFILE_MODULE = 'login.ARiProfile'
+AUTH_LDAP_GROUP_MAP = {
+    'CN=doc-all-first-year,'+groups_dn: ('c1',),
+    'CN=doc-all-second-year,'+groups_dn: ('c2',),
+    'CN=doc-all-third-year,'+groups_dn: ('c3',),
+    'CN=doc-all-fourth-year,'+groups_dn: ('c4',),
+    'CN=doc-students-223,'+groups_dn: ('Concurrency',),
+    'CN=doc-students-210,'+groups_dn: ('Architecture',),
+    'CN=doc-students-202,'+groups_dn: ('Algorithms',),
+    'CN=doc-students-220,'+groups_dn: ('Design',),
+    'CN=doc-students-221,'+groups_dn: ('Compilers',),
+    'CN=doc-students-211,'+groups_dn: ('Operating Systems',),
+    'CN=doc-students-212,'+groups_dn: ('Networks',),
+    'CN=doc-students-231,'+groups_dn: ('Intro to AI',),
+    'CN=doc-students-233,'+groups_dn: ('Computational Techniques',),
+    'CN=doc-students-240,'+groups_dn: ('Models of Computation',),
+    'CN=doc-students-245,'+groups_dn: ('Statistics',),
+    'CN=doc-students-261,'+groups_dn: ('Laboratory 2',),
+    'CN=doc-students-271,'+groups_dn: ('Web Apps',),
+    'CN=doc-students-272,'+groups_dn: ('Team Skills',),
+    'CN=doc-students-275,'+groups_dn: ('C++',),
+    'CN=doc-students-276,'+groups_dn: ('Prolog',),
+}
 
 
 # JWT (Token) authentication
