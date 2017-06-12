@@ -7,7 +7,7 @@ from rest_framework_jwt.utils import jwt_decode_handler
 
 from courses.models import Course
 from courses.serializers import CourseSerializer
-from session.serializers import SessionSerializer
+from lecture.serializers import LectureSerializer
 from login.models import ARiProfile
 
 
@@ -28,11 +28,11 @@ def get_courses(request):
 
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def get_sessions(request, code):
+def get_lectures(request, code):
     course = Course.objects.get(code=code)
-    sessions = course.session_set.all()
+    lectures = course.lecture_set.all()
 
-    serializer = SessionSerializer(sessions, many=True)
+    serializer = LectureSerializer(lectures, many=True)
 
     return JsonResponse(serializer.data, safe=False)
 

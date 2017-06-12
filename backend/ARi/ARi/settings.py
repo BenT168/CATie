@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'planner',
     'login',
     'courses',
-    'session',
+    'lecture',
 
     # Django Packages
     'rest_framework',

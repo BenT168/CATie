@@ -9,34 +9,34 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.utils import jwt_decode_handler
 
 from courses.models import Course
-from session.models import Session
-from session.serializers import SessionSerializer
-from session.utils import reformat_for_url
+from lecture.models import Lecture
+from lecture.serializers import LectureSerializer
+from lecture.utils import reformat_for_url
 
 
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def get_session(request, code, nameURL):
+def get_lecture(request, code, nameURL):
     try:
         course = Course.objects.get(code=code)
-        session = course.session_set.get(urlName=nameURL)
+        lecture = course.lecture_set.get(urlName=nameURL)
     except Course.DoesNotExist:
         return HttpResponseNotFound("Invalid course code.")
-    except Session.DoesNotExist:
-        return HttpResponseNotFound("Invalid session URL.")
+    except Lecture.DoesNotExist:
+        return HttpResponseNotFound("Invalid lecture URL.")
 
-    serializer = SessionSerializer(session, many=False)
+    serializer = LectureSerializer(lecture, many=False)
     return JsonResponse(serializer.data, safe=False)
 
 
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def create_session(request):
+def create_lecture(request):
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
     user = User.objects.get(username=username)
     if not user.is_staff:
-        return HttpResponseForbidden("Only staff may create sessions.")
+        return HttpResponseForbidden("Only staff may create lectures.")
 
     name = request.POST.get('name', None)
     course_code = request.POST.get('code', None)
@@ -49,22 +49,22 @@ def create_session(request):
     try:
         course = Course.objects.get(code=course_code)
     except Course.DoesNotExist:
-        return HttpResponseNotFound("Creating session in invalid course.")
+        return HttpResponseNotFound("Creating lecture in invalid course.")
 
-    Session.objects.create(name=name, course=course, video=video,
+    Lecture.objects.create(name=name, course=course, video=video,
                            slides=slides)
 
-    return HttpResponse("Session created successfully.")
+    return HttpResponse("Lecture created successfully.")
 
 
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def session_add_content(request):
+def lecture_add_content(request):
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
     user = User.objects.get(username=username)
     if not user.is_staff:
-        return HttpResponseForbidden("Only staff may create sessions.")
+        return HttpResponseForbidden("Only staff may create lectures.")
 
     return HttpResponse("Stub. Ignore for now.")
 

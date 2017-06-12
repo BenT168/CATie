@@ -7,12 +7,12 @@ from rest_framework import status
 from rest_framework_jwt.utils import jwt_decode_handler
 
 from courses.models import Year, Course
-from session.models import Session
-from session.utils import reformat_for_url
+from lecture.models import Lecture
+from lecture.utils import reformat_for_url
 
 
 class LoginTests(TestCase):
-    dummy_session = None
+    dummy_lecture = None
     username = "admin"
     password = "fakepassword"
     token = None
@@ -32,7 +32,7 @@ class LoginTests(TestCase):
         self.conc_crse = Course.objects.create(name='Concurrency', code=223,
                                                ofYear=year2,
                                                group=conc_grp)
-        self.dummy_session = Session.objects.create(name=self.name,
+        self.dummy_lecture = Lecture.objects.create(name=self.name,
                                                     course=self.conc_crse,
                                                     video=self.video)
 
@@ -44,7 +44,7 @@ class LoginTests(TestCase):
         resp_content_json = json.loads(resp_content_str)
         self.token = resp_content_json['token']
 
-    def test_get_session(self):
+    def test_get_lecture(self):
         self.setUpData()
         self.loginAdmin()
         c = Client()
@@ -56,11 +56,11 @@ class LoginTests(TestCase):
         self.assertEqual(resp_content_json['name'], self.name)
         self.assertEqual(resp_content_json['video'], self.video)
 
-    def test_create_session(self):
+    def test_create_lecture(self):
         self.setUpData()
         self.loginAdmin()
         c = Client()
-        resp = c.post('/sessions/create/',
+        resp = c.post('/lectures/create/',
                       data={'name': self.create_name,
                             'code': self.conc_crse.code,
                             'video': self.video},

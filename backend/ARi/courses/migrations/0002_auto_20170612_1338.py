@@ -13,10 +13,10 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name='session',
+            model_name='lecture',
             name='course',
         ),
         migrations.DeleteModel(
-            name='Session',
+            name='Lecture',
         ),
     ]
