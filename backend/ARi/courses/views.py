@@ -32,3 +32,4 @@ def get_sessions(request, code):
     serializer = SessionSerializer(sessions, many=True)
 
     return JsonResponse(serializer.data, safe=False)
+
