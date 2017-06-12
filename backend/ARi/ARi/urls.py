@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^', include('planner.urls')),
     url(r'^', include('login.urls')),
     url(r'^', include('courses.urls')),
-    url(r'^', include('session.urls')),
+    url(r'^', include('lecture.urls')),
 ]

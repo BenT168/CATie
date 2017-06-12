@@ -2,10 +2,10 @@ from django.core.validators import RegexValidator
 from django.db import models
 
 from courses.models import Course
-from session.utils import reformat_for_url
+from lecture.utils import reformat_for_url
 
 
-class Session(models.Model):
+class Lecture(models.Model):
     urlSafe = RegexValidator(r'^[a-zA-Z0-9]*$', 'Only alphanumeric characters '
                                                 'and \'-\' are allowed.')
 
@@ -21,4 +21,4 @@ class Session(models.Model):
     def save(self, *args, **kwargs):
         if not self.urlName:
             self.urlName = reformat_for_url(self.name)
-        super(Session, self).save(*args, **kwargs)
+        super(Lecture, self).save(*args, **kwargs)

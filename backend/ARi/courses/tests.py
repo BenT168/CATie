@@ -7,7 +7,7 @@ from django.test import TestCase, Client
 from rest_framework_jwt.utils import jwt_decode_handler
 
 from courses.models import Year, Course
-from session.models import Session
+from lecture.models import Lecture
 from login.models import ARiProfile
 
 
@@ -43,7 +43,7 @@ class CourseTests(TestCase):
         self.arch_crse = Course.objects.create(name="Architecture", code=210,
                                                ofYear=self.year2,
                                                group=self.arch_grp)
-        self.sesh = Session.objects.create(name="Concurrent Execution",
+        self.sesh = Lecture.objects.create(name="Concurrent Execution",
                                            course=self.conc_crse)
 
     def setUpAndLogin(self):
@@ -68,7 +68,7 @@ class CourseTests(TestCase):
         arch = Group.objects.get(name='Architecture')
         year = Year.objects.get(number=2)
         conc_crse = Course.objects.get(name="Concurrency")
-        sesh = Session.objects.get(name="Concurrent Execution")
+        sesh = Lecture.objects.get(name="Concurrent Execution")
         arch_crse = Course.objects.get(code=210)
         self.assertEqual(self.c1, c1_retrieved)
         self.assertEqual(self.c2, c2_retrieved)
@@ -111,6 +111,3 @@ class CourseTests(TestCase):
         pairs = zip(self.ruhi_course_list, sorted_courses)
 
         self.assertFalse(any(x != y for x, y in pairs))
-
-    def test_session(self):
-        self.setUpAndLogin()
