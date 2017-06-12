@@ -5,7 +5,8 @@ from django.test import TestCase, Client
 from rest_framework import status
 from rest_framework_jwt.utils import jwt_decode_handler
 
-from courses.models import Year, Course, Session
+from courses.models import Year, Course
+from session.models import Session
 
 
 class LoginTests(TestCase):

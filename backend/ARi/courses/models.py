@@ -24,12 +24,3 @@ class Course(models.Model):
         return 'Course: ' + self.name
 
 
-class Session(models.Model):
-    name = models.CharField(max_length=60)
-    course = models.ForeignKey(Course)
-    video = models.URLField(default="")
-    slides = models.URLField(default="")
-
-    def __str__(self):
-        return 'Session: ' + self.name
-
