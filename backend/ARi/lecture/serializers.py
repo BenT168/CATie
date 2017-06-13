@@ -7,3 +7,9 @@ class LectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lecture
         fields = ('name', 'video', 'slides')
+
+
+class LectureManySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lecture
+        fields = ('name', 'urlName')

@@ -8,7 +8,7 @@ from rest_framework_jwt.utils import jwt_decode_handler
 
 from courses.models import Course
 from courses.serializers import CourseSerializer
-from lecture.serializers import LectureSerializer
+from lecture.serializers import LectureManySerializer
 from login.models import ARiProfile
 
 
@@ -33,7 +33,7 @@ def get_lectures(request, code):
     course = Course.objects.get(code=code)
     lectures = course.lecture_set.filter(~Q(urlName='general'))
 
-    serializer = LectureSerializer(lectures, many=True)
+    serializer = LectureManySerializer(lectures, many=True)
 
     return JsonResponse(serializer.data, safe=False)
 
