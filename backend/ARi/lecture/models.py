@@ -10,7 +10,8 @@ class Lecture(models.Model):
                                                 'and \'-\' are allowed.')
 
     name = models.CharField(max_length=60)
-    urlName = models.CharField(max_length=60, validators=[urlSafe], default="")
+    urlName = models.CharField(max_length=60, validators=[urlSafe],
+                               default="", primary_key=True, editable=False)
     course = models.ForeignKey(Course)
     video = models.URLField(default="")
     slides = models.URLField(default="")
