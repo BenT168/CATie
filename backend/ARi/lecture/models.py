@@ -11,15 +11,18 @@ class Lecture(models.Model):
 
     name = models.CharField(max_length=60)
     urlName = models.CharField(max_length=60, validators=[urlSafe],
-                               default="", primary_key=True, editable=False)
+                               default="", editable=False)
     course = models.ForeignKey(Course)
-    video = models.URLField(default="")
-    slides = models.URLField(default="")
+    video = models.URLField(blank=True)
+    slides = models.URLField(blank=True)
 
     def __str__(self):
-        return 'Session: ' + self.name
+        return str(self.course.code) + ' Lecture: ' + self.name
 
     def save(self, *args, **kwargs):
         if not self.urlName:
             self.urlName = reformat_for_url(self.name)
         super(Lecture, self).save(*args, **kwargs)
+
+    class Meta:
+        unique_together = (("urlName", "course"),)

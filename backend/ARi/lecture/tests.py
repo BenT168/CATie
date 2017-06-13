@@ -73,3 +73,18 @@ class LoginTests(TestCase):
         resp_content_json = json.loads(resp_content_str)
         self.assertEqual(resp_content_json['name'], self.create_name)
         self.assertEqual(resp_content_json['video'], self.video)
+
+    def test_general_exists_but_cannot_be_directly_accessed(self):
+        self.setUpData()
+        self.loginAdmin()
+        url = '/courses/' + str(self.conc_crse.code) + '/general/'
+        c = Client()
+        resp = c.get(url, HTTP_AUTHORIZATION=self.token)
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+        raised = False
+        try:
+            general = self.conc_crse.lecture_set.get(name="General")
+            self.assertTrue(general)
+        except:
+            raised = True
+        self.assertFalse(raised)

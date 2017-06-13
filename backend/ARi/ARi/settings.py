@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+import datetime
 import os
 import ldap3
 import sys
@@ -194,6 +194,8 @@ REST_FRAMEWORK = {
 }
 
 JWT_ALLOW_REFRESH = True
+
+JWT_EXPIRATION_DELTA = datetime.timedelta(seconds=600)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
