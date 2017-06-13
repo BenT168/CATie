@@ -23,13 +23,15 @@ def login_user(request):
         if user.is_active:
             login(request, user)
             if not user.is_staff:
+                hasYear = False
                 for g in request.user.groups.all():
                     if hasattr(g, 'year'):
                         profile = ARiProfile.objects.get_or_create(user=user,
                                                                year=g.year)[0]
+                        hasYear = True
                         break
-                    else:
-                        return HttpResponseForbidden("Student does not have a "
+                if not hasYear:
+                    return HttpResponseForbidden("Student does not have a "
                                                      "year.")
             for g in request.user.groups.all():
                 if hasattr(g, 'course'):

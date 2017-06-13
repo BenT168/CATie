@@ -19,7 +19,7 @@ class LoginTests(TestCase):
     name = "Concurrent Execution"
     conc_crse = None
     video = "https://imperial.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id" \
-            "=5154e0fc-84a3-4747-92fa-38c6db73d920 "
+            "=5154e0fc-84a3-4747-92fa-38c6db73d920"
     create_name = "Shared Objects & Mutual Exclusion"
 
     def setUpData(self):
