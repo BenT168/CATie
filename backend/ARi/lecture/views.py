@@ -3,6 +3,7 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponse, \
     HttpResponseForbidden
 
 # Create your views here.
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
@@ -29,6 +30,7 @@ def get_lecture(request, code, nameURL):
     return JsonResponse(serializer.data, safe=False)
 
 
+@csrf_exempt
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
 def create_lecture(request):
