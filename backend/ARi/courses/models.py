@@ -23,4 +23,13 @@ class Course(models.Model):
     def __str__(self):
         return 'Course: ' + self.name
 
+    def save(self, *args, **kwargs):
+        creating = False
+        if not self.pk:
+            creating = True
+        super(Course, self).save(*args, **kwargs)
+        if creating:
+            # Code only executed when first created
+            from lecture.models import Lecture
+            Lecture.objects.create(name="General", course=self)
 
