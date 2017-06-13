@@ -19,12 +19,11 @@ def get_courses(request):
     username = jwt_decode_handler(token)['username']
     user = User.objects.get(username=username)
     if user.is_staff:
-        courses = Course.objects.all()
+        courses = Course.objects.all().order_by('code')
     else:
         ari_profile = ARiProfile.objects.get(user=user)
-        courses = ari_profile.courses.all()
-    sorted_courses = sorted(courses, key=lambda k: k['code'])
-    serializer = CourseSerializer(sorted_courses, many=True)
+        courses = ari_profile.courses.all().order_by('code')
+    serializer = CourseSerializer(courses, many=True)
 
     return JsonResponse(serializer.data, safe=False)
 
