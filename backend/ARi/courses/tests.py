@@ -96,18 +96,13 @@ class CourseTests(TestCase):
         ari_profile = self.setUpAndLogin()
         self.assertTrue(ari_profile.courses.get(code=223))
 
-    # Turns out ruhi does do architecture, ignore this test
-    # def test_ruhi_does_not_do_architecture(self):
-    #     ari_profile = self.setUpAndLogin()
-    #     self.assertFalse(ari_profile.courses.filter(code=210).count())
-
     def test_get_courses_ruhi(self):
         self.setUpAndLogin()
         resp = self.c.get('/courses/',
                           HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
-        returned_courses = json.loads(resp_content_str)
-        sorted_courses = sorted(returned_courses, key=lambda k: k['code'])
-        pairs = zip(self.ruhi_course_list, sorted_courses)
+        courses = json.loads(resp_content_str)
+        pairs = zip(self.ruhi_course_list, courses)
 
         self.assertFalse(any(x != y for x, y in pairs))
+
