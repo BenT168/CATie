@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import JsonResponse
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes, permission_classes
@@ -22,7 +23,8 @@ def get_courses(request):
     else:
         ari_profile = ARiProfile.objects.get(user=user)
         courses = ari_profile.courses.all()
-    serializer = CourseSerializer(courses, many=True)
+    sorted_courses = sorted(courses, key=lambda k: k['code'])
+    serializer = CourseSerializer(sorted_courses, many=True)
 
     return JsonResponse(serializer.data, safe=False)
 
@@ -30,7 +32,7 @@ def get_courses(request):
 @authentication_classes((TokenAuthentication,))
 def get_lectures(request, code):
     course = Course.objects.get(code=code)
-    lectures = course.lecture_set.all()
+    lectures = course.lecture_set.filter(~Q(urlName='general'))
 
     serializer = LectureSerializer(lectures, many=True)
 
