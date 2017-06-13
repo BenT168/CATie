@@ -88,3 +88,4 @@ class LoginTests(TestCase):
         except:
             raised = True
         self.assertFalse(raised)
+

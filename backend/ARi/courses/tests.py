@@ -106,3 +106,14 @@ class CourseTests(TestCase):
 
         self.assertFalse(any(x != y for x, y in pairs))
 
+    def test_get_lectures_does_not_return_general(self):
+        self.setUpAndLogin()
+        resp = self.c.get('/courses/223/', HTTP_AUTHORIZATION=self.token)
+        resp_content_str = resp.content.decode('utf-8')
+        lectures = json.loads(resp_content_str)
+        no_general = False
+        try:
+            lectures.get(urlName='general')
+        except:
+            no_general = True
+        self.assertTrue(no_general)
