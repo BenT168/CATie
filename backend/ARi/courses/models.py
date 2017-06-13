@@ -16,7 +16,7 @@ class Year(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=60)
-    code = models.IntegerField()
+    code = models.IntegerField(unique=True)
     ofYear = models.ForeignKey(Year)
     group = models.OneToOneField(Group, unique=True)
 
