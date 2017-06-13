@@ -12,4 +12,8 @@ class ARiProfile(models.Model):
     courses = models.ManyToManyField(Course)
 
     def __str__(self):
-        return "ARiProfile: " + self.user.username
+        return "ARi Profile: " + self.user.username
+
+    class Meta:
+        verbose_name = 'ARi Profile'
+        verbose_name_plural = 'ARi Profiles'
