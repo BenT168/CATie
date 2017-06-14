@@ -5,8 +5,10 @@ from AskARi.models import Question, Reply, Comment
 
 class QuestionSerializer(serializers.ModelSerializer):
     lecture = serializers.SlugRelatedField(source='onLecture',
+                                           read_only=True,
                                            slug_field='urlName')
     poster = serializers.SlugRelatedField(source='poster.user',
+                                          read_only=True,
                                           slug_field='username')
 
     class Meta:
@@ -16,6 +18,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class ReplySerializer(serializers.ModelSerializer):
     poster = serializers.SlugRelatedField(source='poster.user',
+                                          read_only=True,
                                           slug_field='username')
 
     class Meta:
@@ -26,6 +29,7 @@ class ReplySerializer(serializers.ModelSerializer):
 
 class CommentSerializer(ReplySerializer):
     question = serializers.SlugRelatedField(source='onQuestion',
+                                            read_only=True,
                                             slug_field='id_per_lecture')
 
     class Meta:
@@ -35,6 +39,7 @@ class CommentSerializer(ReplySerializer):
 
 class FollowUpSerializer(ReplySerializer):
     comment = serializers.SlugRelatedField(source='follow_up_to',
+                                           read_only=True,
                                            slug_field='id_per_parent')
 
     class Meta:
