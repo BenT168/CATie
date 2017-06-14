@@ -59,6 +59,7 @@ def create_lecture(request):
     return HttpResponse("Lecture created successfully.")
 
 
+# THIS IS A STUB. IGNORE.
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
 def lecture_add_content(request):
