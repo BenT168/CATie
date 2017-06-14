@@ -17,10 +17,10 @@ from lecture.utils import reformat_for_url
 
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def get_lecture(request, code, nameURL):
+def get_lecture(request, code, lectureURL):
     try:
         course = Course.objects.get(code=code)
-        lecture = course.lecture_set.get(urlName=nameURL)
+        lecture = course.lecture_set.get(urlName=lectureURL)
     except Course.DoesNotExist:
         return HttpResponseNotFound("Invalid course code.")
     except Lecture.DoesNotExist:
