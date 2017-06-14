@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponseNotFound, JsonResponse
+from django.http import HttpResponseNotFound, JsonResponse, HttpResponse
 from django.shortcuts import render
 
 
@@ -67,9 +67,11 @@ def create_question(request):
     try:
         lecture = Lecture.objects.get(course=course, urlName=lectureURL)
     except Lecture.DoesNotExist:
-        return HttpResponseNotFound("Course " + course_code +
-                                    " does not have a lecture at " + lectureURL)
+        return HttpResponseNotFound("Course " + course_code + " does not have a"
+                                    " lecture at " + str(lectureURL))
     title = request.POST.get('title', None)
     body = request.POST.get('body', None)
     Question.objects.create(title=title, body=body, onLecture=lecture,
                             poster=profile)
+
+    return HttpResponse("Question created successfully")

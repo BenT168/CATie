@@ -2,6 +2,7 @@ import json
 
 from django.contrib.auth.models import User, Group
 from django.test import TestCase, Client
+from rest_framework import status
 
 from AskARi.models import Question
 from courses.models import Year, Course
@@ -11,6 +12,7 @@ from login.models import ARiProfile
 
 
 class AskARiTests(TestCase):
+    year2 = None
     dummy_lecture = None
     username = "arc13"
     password = "shoutout2allthePears"
@@ -29,26 +31,21 @@ class AskARiTests(TestCase):
              "relabelling but surely in both cases, we are finding a way to " \
              "rename release to a.release and b.release to lead to the " \
              "resource and users sharing those two actions?"
-    q_poster_name = 'hu115'
+    q_poster_name_dummy = 'hu115'
     q_url = '/AskARi/question/223/concurrent-execution/1/'
 
 
     def setUpAndLogin(self):
         c2 = Group.objects.create(name='c2')
-        year2 = Year.objects.create(number=2, group=c2)
+        self.year2 = Year.objects.create(number=2, group=c2)
         conc_grp = Group.objects.create(name='Concurrency')
         self.conc_crse = Course.objects.create(name='Concurrency', code=223,
-                                               ofYear=year2,
+                                               ofYear=self.year2,
                                                group=conc_grp)
         self.dummy_lecture = Lecture.objects.create(name=self.name,
                                                     course=self.conc_crse,
                                                     video=self.video)
-        user = User.objects.create(username='hu115')
-        q_poster = ARiProfile.objects.create(user=user, year=year2)
-        self.dummy_question = \
-            Question.objects.create(title=self.q_title, body=self.q_body,
-                                    onLecture=self.dummy_lecture,
-                                    poster=q_poster)
+
         c = Client()
         resp = c.post('/login/', data={'username': self.username,
                                        'password': self.password})
@@ -56,8 +53,17 @@ class AskARiTests(TestCase):
         resp_content_json = json.loads(resp_content_str)
         self.token = resp_content_json['token']
 
+    def create_dummy_question(self):
+        user = User.objects.create(username='hu115')
+        q_poster = ARiProfile.objects.create(user=user, year=self.year2)
+        self.dummy_question = \
+            Question.objects.create(title=self.q_title, body=self.q_body,
+                                    onLecture=self.dummy_lecture,
+                                    poster=q_poster)
+
     def test_get_question(self):
         self.setUpAndLogin()
+        self.create_dummy_question()
         c = Client()
         resp = c.get(self.q_url, HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
@@ -65,4 +71,22 @@ class AskARiTests(TestCase):
         self.assertEqual(question['title'], self.q_title)
         self.assertEqual(question['body'], self.q_body)
         self.assertEqual(question['lecture'], reformat_for_url(self.name))
-        self.assertEqual(question['poster'], self.q_poster_name)
+        self.assertEqual(question['poster'], self.q_poster_name_dummy)
+
+    def test_create_question(self):
+        self.setUpAndLogin()
+        c = Client()
+        resp = c.post('/AskARi/question/create/',
+                      data={'title': self.q_title,
+                            'body': self.q_body,
+                            'code': 223,
+                            'lecture': reformat_for_url(self.name)},
+                      HTTP_AUTHORIZATION=self.token)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        resp = c.get(self.q_url, HTTP_AUTHORIZATION=self.token)
+        resp_content_str = resp.content.decode('utf-8')
+        question = json.loads(resp_content_str)
+        self.assertEqual(question['title'], self.q_title)
+        self.assertEqual(question['body'], self.q_body)
+        self.assertEqual(question['lecture'], reformat_for_url(self.name))
+        self.assertEqual(question['poster'], self.username)
