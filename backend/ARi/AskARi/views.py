@@ -7,7 +7,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.utils import jwt_decode_handler
 
 from AskARi.models import Question
-from AskARi.models import Question
 from AskARi.serializers import QuestionSerializer
 from courses.models import Course
 from lecture.models import Lecture
@@ -15,14 +14,15 @@ from login.utils import can_access_course
 
 pg_size = 25
 
-
+@permission_classes((IsAuthenticated,))
+@authentication_classes((TokenAuthentication,))
 def get_question(request, code, lectureURL, q_id):
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
     access, resp = can_access_course(User.objects.get(username=username), code)
     if not access:
         return resp
-    course = Course.objects.get(code)
+    course = Course.objects.get(code=code)
     try:
         lecture = Lecture.objects.get(urlName=lectureURL, course=course)
     except Lecture.DoesNotExist:
