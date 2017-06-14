@@ -9,5 +9,5 @@ def can_access_course(user, code):
     except:
         return False, HttpResponseNotFound("Invalid course code.")
 
-    return course.group in user.groups, \
+    return course.group in user.groups.all(), \
         HttpResponseForbidden(user.username + ' does not take course ' + code)
