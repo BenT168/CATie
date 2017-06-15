@@ -40,7 +40,7 @@ def get_question(request, code, lectureURL, q_id):
 
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def get_questions(request, code=None, lectureURL='general', pg_no=0):
+def get_questions(request, code=None, lectureURL=None, pg_no=0):
     # Get username from token
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
@@ -54,16 +54,20 @@ def get_questions(request, code=None, lectureURL='general', pg_no=0):
 
         # Get appropriate course object
         course = Course.objects.get(code=code)
-        # Try to get appropriate lecture object
-        # TODO: get all questions for course when lectureURL not sent
-        try:
-            lecture = Lecture.objects.get(urlName=lectureURL, course=course)
-        except Lecture.DoesNotExist:
-            return HttpResponseNotFound('Lecture ' + lectureURL +
-                                        'not found for course ' + code)
-
-        # Get all questions for specified lecture
-        questions = Question.objects.filter(onLecture=lecture)
+        if lectureURL:
+            # Try to get appropriate lecture object
+            try:
+                lecture = Lecture.objects.get(urlName=lectureURL, course=course)
+            except Lecture.DoesNotExist:
+                return HttpResponseNotFound('Lecture ' + lectureURL +
+                                            'not found for course ' + code)
+            # Get all questions for specified lecture
+            questions = Question.objects.filter(onLecture=lecture)
+        else:
+            questions = Question.objects.none()
+            lectures = Lecture.objects.filter(course=course)
+            for lecture in lectures:
+                questions = questions | Question.objects.filter(onLecture=lecture)
     else:
         # Get all questions when course not specified
         questions = Question.objects.none()
