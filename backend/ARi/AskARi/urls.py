@@ -8,7 +8,6 @@ urlpatterns = [
     url(r'^AskARi/all/?(#(?P<pg_no>[0-9]+))$', views.get_questions_all),
     url(r'^AskARi/(?P<code>[0-9]{3})/?(#(?P<pg_no>[0-9]+))$',
         views.get_questions_course),
-    url(r'^AskARi/(?P<code>[0-9]{3})/(?P<lectureURL>[a-zA-Z0-9-]{1,60})/'
-        r'?(#(?P<pg_no>[0-9]+))$',
+    url(r'^AskARi/(?P<code>[0-9]{3})/(?P<lectureURL>[a-zA-Z0-9-]{1,60})/$',
         views.get_questions),
 ]

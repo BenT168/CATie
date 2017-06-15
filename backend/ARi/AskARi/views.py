@@ -34,13 +34,15 @@ def get_question(request, code, lectureURL, q_id):
     return JsonResponse(serializer.data, safe=False)
 
 
-# PRE: No arguments are None (for now). TODO: Add if-checks for Nones
+# PRE: No arguments are None (for now).
+# TODO: Add if-checks for Nones
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def get_questions(request, code, lectureURL, pg_no):
+def get_questions(request, code, lectureURL):
     # Get username from token
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
+    print("username: " + username)
 
     # Check if user can access provided course, access is true if so
     access, resp = can_access_course(User.objects.get(username=username), code)
@@ -48,7 +50,8 @@ def get_questions(request, code, lectureURL, pg_no):
         return resp
 
     # Get appropriate course object
-    course = Course.objects.get(code)
+    course = Course.objects.get(code=code)
+    print("course: " + str(course))
     # Try to get appropriate lecture object
     try:
         lecture = Lecture.objects.get(urlName=lectureURL, course=course)
@@ -57,13 +60,13 @@ def get_questions(request, code, lectureURL, pg_no):
                                     'not found for course ' + code)
 
     # Get all questions for specified lecture
-    questions = Question.objects.get(onLecture=lecture)
+    questions = Question.objects.filter(onLecture=lecture)
 
     # Order questions by id
     questions = questions.order_by('id')
 
-    # Retrieve only questions "on page pg_no"
-    questions = questions[pg_size * pg_no: pg_size * (pg_no + 1)]
+    # Retrieve only questions on page "pg_no"
+    # questions = questions[pg_size * pg_no: pg_size * (pg_no + 1)]
 
     serializer = QuestionSerializer(questions, many=True)
 
@@ -74,6 +77,7 @@ def get_questions(request, code, lectureURL, pg_no):
 @authentication_classes((TokenAuthentication,))
 def get_questions_all(request, pg_no):
     # return get_questions(request, None, None, pg_no)
+    # TODO: Get all questions and then restrict to only those that user can access
     return None
 
 
@@ -81,4 +85,6 @@ def get_questions_all(request, pg_no):
 @authentication_classes((TokenAuthentication,))
 def get_questions_course(request, code, pg_no):
     # return get_questions(request, code, None, pg_no)
+    # TODO: Check that user can access specified course
+    # TODO: If so get all questions from specified course
     return None

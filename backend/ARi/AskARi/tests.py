@@ -66,3 +66,14 @@ class AskARiTests(TestCase):
         self.assertEqual(question['body'], self.q_body)
         self.assertEqual(question['lecture'], reformat_for_url(self.name))
         self.assertEqual(question['poster'], self.q_poster_name)
+
+    def test_get_questions(self):
+        self.setUpAndLogin()
+        c = Client()
+        url = '/AskARi/223/concurrent-execution/'
+        resp = c.get(url, HTTP_AUTHORIZATION=self.token)
+        resp_content_str = resp.content.decode('utf-8')
+        print("resp_content_str: " + resp_content_str)
+        questions = json.loads(resp_content_str)
+
+        # TODO: Assert that questions contains the correct question(s)
