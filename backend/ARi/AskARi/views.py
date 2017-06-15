@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseNotFound, JsonResponse, HttpResponse
 from django.shortcuts import render
 
@@ -55,7 +56,10 @@ def get_questions(request, code=None, lectureURL=None, pg_no=0):
             return resp
 
         # Get appropriate course object
-        course = Course.objects.get(code=code)
+        try:
+            course = Course.objects.get(code=code)
+        except ObjectDoesNotExist:
+            return HttpResponseNotFound('Course ' + code + 'not found.')
         if lectureURL:
             # Try to get appropriate lecture object
             try:
