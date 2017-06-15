@@ -38,31 +38,44 @@ def get_question(request, code, lectureURL, q_id):
     return JsonResponse(serializer.data, safe=False)
 
 
-# PRE: No arguments are None (for now).
-# TODO: Add if-checks for Nones
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
 def get_questions(request, code=None, lectureURL='general', pg_no=0):
     # Get username from token
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
+    user = User.objects.get(username=username)
 
-    # Check if user can access provided course, access is true if so
-    access, resp = can_access_course(User.objects.get(username=username), code)
-    if not access:
-        return resp
+    if code:
+        # Check if user can access provided course, access is true if so
+        access, resp = can_access_course(user, code)
+        if not access:
+            return resp
 
-    # Get appropriate course object
-    course = Course.objects.get(code=code)
-    # Try to get appropriate lecture object
-    try:
-        lecture = Lecture.objects.get(urlName=lectureURL, course=course)
-    except Lecture.DoesNotExist:
-        return HttpResponseNotFound('Lecture ' + lectureURL +
-                                    'not found for course ' + code)
+        # Get appropriate course object
+        course = Course.objects.get(code=code)
+        # Try to get appropriate lecture object
+        # TODO: get all questions for course when lectureURL not sent
+        try:
+            lecture = Lecture.objects.get(urlName=lectureURL, course=course)
+        except Lecture.DoesNotExist:
+            return HttpResponseNotFound('Lecture ' + lectureURL +
+                                        'not found for course ' + code)
 
-    # Get all questions for specified lecture
-    questions = Question.objects.filter(onLecture=lecture)
+        # Get all questions for specified lecture
+        questions = Question.objects.filter(onLecture=lecture)
+    else:
+        # Get all questions when course not specified
+        questions = Question.objects.none()
+
+        # Get courses that user has access to
+        ari_profile = ARiProfile.objects.get(user=user)
+        courses = ari_profile.courses.all()
+
+        for course in courses:
+            lectures = Lecture.objects.filter(course=course)
+            for lecture in lectures:
+                questions = questions | Question.objects.filter(onLecture=lecture)
 
     # Order questions by id
     questions = questions.order_by('id')
