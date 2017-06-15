@@ -16,6 +16,6 @@ urlpatterns = [
     url(base + '(?P<code>[0-9]{3})/#(?P<pg_no>[0-9]+)$', views.get_questions),
     url(base + '(?P<code>[0-9]{3})/(?P<lectureURL>[a-zA-Z0-9-]{1,60})/$',
         views.get_questions),
-    url(r'^AskARi/(?P<code>[0-9]{3})/(?P<lectureURL>[a-zA-Z0-9-]{1,60})/#('
+    url(base + '(?P<code>[0-9]{3})/(?P<lectureURL>[a-zA-Z0-9-]{1,60})/#('
         r'?P<pg_no>[0-9]+)$', views.get_questions),
 ]
