@@ -14,6 +14,8 @@ from login.models import ARiProfile
 class AskARiTests(TestCase):
     year2 = None
     dummy_lecture = None
+    conc_dummy_lecture2 = None
+    arch_dummy_lecture = None
     username = "arc13"
     password = "shoutout2allthePears"
     token = None
@@ -46,8 +48,19 @@ class AskARiTests(TestCase):
                                                ofYear=self.year2,
                                                group=conc_grp)
         self.dummy_lecture = Lecture.objects.create(name=self.name,
-                                                    course=self.conc_crse,
-                                                    video=self.video)
+                                                          course=self.conc_crse,
+                                                          video=self.video)
+        self.conc_dummy_lecture2 = Lecture.objects.create(name="LTSA",
+                                                          course=self.conc_crse,
+                                                          video=self.video)
+
+        arch_grp = Group.objects.create(name='Architecture')
+        self.arch_crse = Course.objects.create(name='Architecture', code=210,
+                                               ofYear=self.year2,
+                                               group=arch_grp)
+        self.arch_dummy_lecture = Lecture.objects.create(name="Hardware Compilation",
+                                                         course=self.arch_crse,
+                                                         video=self.video)
         c = Client()
         resp = c.post('/login/', data={'username': self.username,
                                        'password': self.password})
@@ -62,6 +75,23 @@ class AskARiTests(TestCase):
             Question.objects.create(title=self.q_title, body=self.q_body,
                                     parent=self.dummy_lecture,
                                     poster=q_poster)
+
+    def create_dummy_questions(self):
+        self.create_dummy_question()
+
+        ruhi_user = User.objects.get(username='arc13')
+        ruhi_poster = ARiProfile.objects.get(user=ruhi_user)
+
+        Question.objects.create(title="+ Set notation",
+                                body="Guys, what is '+ All' doing here? What i "
+                                     "tried in LTSA does not seem to clarify to "
+                                     "me how a set is used.",
+                                parent=self.conc_dummy_lecture2,
+                                poster=ruhi_poster)
+        Question.objects.create(title="Datapath diagram",
+                                body="data path diagrams are",
+                                parent=self.arch_dummy_lecture,
+                                poster=ruhi_poster)
 
     def create_dummy_comment(self):
         self.dummy_comment = \
@@ -152,38 +182,177 @@ class AskARiTests(TestCase):
 
     # TODO: Ruhi - edit this so it adds the second question in a
     # create_dummy_questions method and ignores the id value
-    def test_get_questions(self):
-        expected_questions = [{"title": "Sharing vs Relabelling in Chapter 3",
-                               "body": "What is the difference between sharing " 
-                                       "and relabelling in this example? Isn't the " 
-                                       "purpose of relabelling to match action names " 
-                                       "to lead to sharing? Referring to the purple " 
-                                       "arrow above, in this case, we have an a.release " 
-                                       "and b.release for the resource process. In "
-                                       "the lectures, the following examples were "
-                                       "used to show the difference between sharing "
-                                       "and explicit relabelling but surely in both cases, "
-                                       "we are finding a way to rename release to "
-                                       "a.release and b.release to lead to the resource "
-                                       "and users sharing those two actions?",
-                               "lecture": "concurrent-execution",
-                               "poster": "hu115"},
-                              {"title": "+ Set notation",
-                               "body": "Guys, what is '+ All' doing here? What i "
-                                       "tried in LTSA does not seem to clarify to "
-                                       "me how a set is used.",
-                               "lecture": "concurrent-execution",
-                               "poster": "hu115"}]
+    def test_get_questions_conc_with_lec(self):
+        # expected_questions
+        q1_title = "Sharing vs Relabelling in Chapter 3"
+        q1_body = ("What is the difference between sharing "
+                   "and relabelling in this example? Isn't the "
+                   "purpose of relabelling to match action names "
+                   "to lead to sharing? Referring to the purple "
+                   "arrow above, in this case, we have an a.release "
+                   "and b.release for the resource process. In "
+                   "the lectures, the following examples were "
+                   "used to show the difference between sharing "
+                   "and explicit relabelling but surely in both cases, "
+                   "we are finding a way to rename release to "
+                   "a.release and b.release to lead to the resource "
+                   "and users sharing those two actions?")
+        q1_lecture = "concurrent-execution"
+        q1_poster = "hu115"
 
         self.setUpAndLogin()
-        self.create_dummy_question()
+        self.create_dummy_questions()
         c = Client()
         url = '/AskARi/223/concurrent-execution/'
         resp = c.get(url, HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
-        print("resp_content_str: " + resp_content_str)
         questions = json.loads(resp_content_str)
 
-        pairs = zip(expected_questions, questions)
+        self.assertTrue(questions[0]['title'] == q1_title)
+        self.assertTrue(questions[0]['body'] == q1_body)
+        self.assertTrue(questions[0]['lecture'] == q1_lecture)
+        self.assertTrue(questions[0]['poster'] == q1_poster)
 
-        self.assertFalse(any(x != y for x, y in pairs))
+    def test_get_questions_conc_without_lec(self):
+        # expected_questions
+        q1_title = "Sharing vs Relabelling in Chapter 3"
+        q1_body = ("What is the difference between sharing "
+                   "and relabelling in this example? Isn't the "
+                   "purpose of relabelling to match action names "
+                   "to lead to sharing? Referring to the purple "
+                   "arrow above, in this case, we have an a.release "
+                   "and b.release for the resource process. In "
+                   "the lectures, the following examples were "
+                   "used to show the difference between sharing "
+                   "and explicit relabelling but surely in both cases, "
+                   "we are finding a way to rename release to "
+                   "a.release and b.release to lead to the resource "
+                   "and users sharing those two actions?")
+        q1_lecture = "concurrent-execution"
+        q1_poster = "hu115"
+        q2_title = "+ Set notation"
+        q2_body = ("Guys, what is '+ All' doing here? What i "
+                   "tried in LTSA does not seem to clarify to "
+                   "me how a set is used.")
+        q2_lecture = "ltsa"
+        q2_poster = "arc13"
+
+        self.setUpAndLogin()
+        self.create_dummy_questions()
+        c = Client()
+        url = '/AskARi/223/'
+        resp = c.get(url, HTTP_AUTHORIZATION=self.token)
+        resp_content_str = resp.content.decode('utf-8')
+        questions = json.loads(resp_content_str)
+
+        self.assertTrue(questions[0]['title'] == q1_title)
+        self.assertTrue(questions[0]['body'] == q1_body)
+        self.assertTrue(questions[0]['lecture'] == q1_lecture)
+        self.assertTrue(questions[0]['poster'] == q1_poster)
+
+        self.assertTrue(questions[1]['title'] == q2_title)
+        self.assertTrue(questions[1]['body'] == q2_body)
+        self.assertTrue(questions[1]['lecture'] == q2_lecture)
+        self.assertTrue(questions[1]['poster'] == q2_poster)
+
+    def test_get_questions_all_courses(self):
+        # expected_questions
+        q1_title = "Sharing vs Relabelling in Chapter 3"
+        q1_body = ("What is the difference between sharing "
+                   "and relabelling in this example? Isn't the "
+                   "purpose of relabelling to match action names "
+                   "to lead to sharing? Referring to the purple "
+                   "arrow above, in this case, we have an a.release "
+                   "and b.release for the resource process. In "
+                   "the lectures, the following examples were "
+                   "used to show the difference between sharing "
+                   "and explicit relabelling but surely in both cases, "
+                   "we are finding a way to rename release to "
+                   "a.release and b.release to lead to the resource "
+                   "and users sharing those two actions?")
+        q1_lecture = "concurrent-execution"
+        q1_poster = "hu115"
+        q2_title = "+ Set notation"
+        q2_body = ("Guys, what is '+ All' doing here? What i "
+                   "tried in LTSA does not seem to clarify to "
+                   "me how a set is used.")
+        q2_lecture = "ltsa"
+        q2_poster = "arc13"
+        q3_title = "Datapath diagram"
+        q3_body = "data path diagrams are"
+        q3_lecture = "hardware-compilation"
+        q3_poster = "arc13"
+
+        self.setUpAndLogin()
+        self.create_dummy_questions()
+        c = Client()
+        url = '/AskARi/'
+        resp = c.get(url, HTTP_AUTHORIZATION=self.token)
+        resp_content_str = resp.content.decode('utf-8')
+        questions = json.loads(resp_content_str)
+
+        self.assertTrue(questions[0]['title'] == q1_title)
+        self.assertTrue(questions[0]['body'] == q1_body)
+        self.assertTrue(questions[0]['lecture'] == q1_lecture)
+        self.assertTrue(questions[0]['poster'] == q1_poster)
+
+        self.assertTrue(questions[1]['title'] == q2_title)
+        self.assertTrue(questions[1]['body'] == q2_body)
+        self.assertTrue(questions[1]['lecture'] == q2_lecture)
+        self.assertTrue(questions[1]['poster'] == q2_poster)
+
+        self.assertTrue(questions[2]['title'] == q3_title)
+        self.assertTrue(questions[2]['body'] == q3_body)
+        self.assertTrue(questions[2]['lecture'] == q3_lecture)
+        self.assertTrue(questions[2]['poster'] == q3_poster)
+
+    def test_get_questions_all_courses_specific_page(self):
+        # expected_questions
+        q1_title = "Sharing vs Relabelling in Chapter 3"
+        q1_body = ("What is the difference between sharing "
+                   "and relabelling in this example? Isn't the "
+                   "purpose of relabelling to match action names "
+                   "to lead to sharing? Referring to the purple "
+                   "arrow above, in this case, we have an a.release "
+                   "and b.release for the resource process. In "
+                   "the lectures, the following examples were "
+                   "used to show the difference between sharing "
+                   "and explicit relabelling but surely in both cases, "
+                   "we are finding a way to rename release to "
+                   "a.release and b.release to lead to the resource "
+                   "and users sharing those two actions?")
+        q1_lecture = "concurrent-execution"
+        q1_poster = "hu115"
+        q2_title = "+ Set notation"
+        q2_body = ("Guys, what is '+ All' doing here? What i "
+                   "tried in LTSA does not seem to clarify to "
+                   "me how a set is used.")
+        q2_lecture = "ltsa"
+        q2_poster = "arc13"
+        q3_title = "Datapath diagram"
+        q3_body = "data path diagrams are"
+        q3_lecture = "hardware-compilation"
+        q3_poster = "arc13"
+
+        self.setUpAndLogin()
+        self.create_dummy_questions()
+        c = Client()
+        url = '/AskARi/#0'
+        resp = c.get(url, HTTP_AUTHORIZATION=self.token)
+        resp_content_str = resp.content.decode('utf-8')
+        questions = json.loads(resp_content_str)
+
+        self.assertTrue(questions[0]['title'] == q1_title)
+        self.assertTrue(questions[0]['body'] == q1_body)
+        self.assertTrue(questions[0]['lecture'] == q1_lecture)
+        self.assertTrue(questions[0]['poster'] == q1_poster)
+
+        self.assertTrue(questions[1]['title'] == q2_title)
+        self.assertTrue(questions[1]['body'] == q2_body)
+        self.assertTrue(questions[1]['lecture'] == q2_lecture)
+        self.assertTrue(questions[1]['poster'] == q2_poster)
+
+        self.assertTrue(questions[2]['title'] == q3_title)
+        self.assertTrue(questions[2]['body'] == q3_body)
+        self.assertTrue(questions[2]['lecture'] == q3_lecture)
+        self.assertTrue(questions[2]['poster'] == q3_poster)
