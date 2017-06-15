@@ -11,9 +11,9 @@ from login.models import ARiProfile
 class Question(models.Model):
     title = models.CharField(max_length=100)
     body = models.TextField(max_length=4000)
-    onLecture = models.ForeignKey(Lecture)
+    parent = models.ForeignKey(Lecture)
     poster = models.ForeignKey(ARiProfile)
-    id_per_lecture = models.IntegerField()
+    id_per_lecture = models.PositiveIntegerField()
 
     def __str__(self):
         return 'Question ' + str(self.id_per_lecture) + ' by ' + \
@@ -21,57 +21,55 @@ class Question(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.id_per_lecture = next_id(self.__class__, self.onLecture,
+            self.id_per_lecture = next_id(self.__class__, self.parent,
                                           'id_per_lecture')
         super(Question, self).save(*args, **kwargs)
 
     class Meta:
-        unique_together = (('onLecture', 'id_per_lecture'),)
+        unique_together = (('parent', 'id_per_lecture'),)
 
 
-class Reply(models.Model):
+class Comment(models.Model):
     content = models.TextField(max_length=4000)
     poster = models.ForeignKey(ARiProfile)
-    score = models.IntegerField()
-    id_per_parent = models.PositiveIntegerField()
+    score = models.IntegerField(default=0)
+    id_per_question = models.PositiveIntegerField()
+    parent = models.ForeignKey(Question)
 
-    class Meta:
-        abstract = True
-
-
-class Comment(Reply):
-    onQuestion = models.ForeignKey(Question)
+    # Direct parent, null if top-level comment
+    parent_comment = models.ForeignKey("Comment", blank=True,
+                                       null=True, default=None)
 
     def __str__(self):
-        return 'Comment ' + str(self.id_per_parent) + ' by ' + \
+        return 'Comment ' + str(self.id_per_question) + ' by ' + \
                self.poster.user.username + ' on question: ' + \
-               str(self.onQuestion_id)
+               str(self.parent_id)
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.id_per_lecture = next_id(self.__class__, self.onQuestion,
-                                          'id_per_parent')
+            self.id_per_question = next_id(self.__class__, self.parent,
+                                           'id_per_question')
         super(Comment, self).save(*args, **kwargs)
 
     class Meta:
-        unique_together = (('onQuestion', 'id_per_parent'),)
+        unique_together = (('parent', 'id_per_question'),)
 
 
-class FollowUp(Reply):
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    parent_id = models.PositiveIntegerField()
-    follow_up_to = GenericForeignKey('content_type', 'parent_id')
-
-    def __str__(self):
-        return 'Reply ' + str(self.id_per_parent) + ' by ' + \
-               self.poster.user.username + ' to: ' + \
-               str(self.id_per_parent)
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.id_per_lecture = next_id(self.__class__, self.follow_up_to,
-                                          'id_per_parent')
-        super(FollowUp, self).save(*args, **kwargs)
-
-    class Meta:
-        unique_together = (('content_type', 'parent_id', 'id_per_parent'),)
+# class FollowUp(Reply):
+#     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+#     parent_id = models.PositiveIntegerField()
+#     parent = GenericForeignKey('content_type', 'parent_id')
+#
+#     def __str__(self):
+#         return 'Reply ' + str(self.id_per_parent) + ' by ' + \
+#                self.poster.user.username + ' to: ' + \
+#                str(self.id_per_parent)
+#
+#     def save(self, *args, **kwargs):
+#         if not self.pk:
+#             self.id_per_parent = next_id(self.__class__, self.parent,
+#                                          'id_per_parent')
+#         super(FollowUp, self).save(*args, **kwargs)
+#
+#     class Meta:
+#         unique_together = (('content_type', 'parent_id', 'id_per_parent'),)
