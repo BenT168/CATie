@@ -49,6 +49,12 @@ class AskARiTests(TestCase):
             Question.objects.create(title=self.q_title, body=self.q_body,
                                     onLecture=self.dummy_lecture,
                                     poster=q_poster)
+        Question.objects.create(title="+ Set notation",
+                                body="Guys, what is '+ All' doing here? What i "
+                                     "tried in LTSA does not seem to clarify to "
+                                     "me how a set is used.",
+                                onLecture=self.dummy_lecture,
+                                poster=q_poster)
         c = Client()
         resp = c.post('/login/', data={'username': self.username,
                                        'password': self.password})
@@ -68,6 +74,30 @@ class AskARiTests(TestCase):
         self.assertEqual(question['poster'], self.q_poster_name)
 
     def test_get_questions(self):
+        expected_questions = [{"title": "Sharing vs Relabelling in Chapter 3",
+                               "body": "What is the difference between sharing " 
+                                       "and relabelling in this example? Isn't the " 
+                                       "purpose of relabelling to match action names " 
+                                       "to lead to sharing? Referring to the purple " 
+                                       "arrow above, in this case, we have an a.release " 
+                                       "and b.release for the resource process. In "
+                                       "the lectures, the following examples were "
+                                       "used to show the difference between sharing "
+                                       "and explicit relabelling but surely in both cases, "
+                                       "we are finding a way to rename release to "
+                                       "a.release and b.release to lead to the resource "
+                                       "and users sharing those two actions?",
+                               "lecture": "concurrent-execution",
+                               "poster": "hu115"},
+                              {"title": "+ Set notation",
+                               "body": "Guys, what is '+ All' doing here? What i "
+                                       "tried in LTSA does not seem to clarify to "
+                                       "me how a set is used.",
+                               "lecture": "concurrent-execution",
+                               "poster": "hu115"}
+                             ]
+
+
         self.setUpAndLogin()
         c = Client()
         url = '/AskARi/223/concurrent-execution/'
@@ -76,4 +106,6 @@ class AskARiTests(TestCase):
         print("resp_content_str: " + resp_content_str)
         questions = json.loads(resp_content_str)
 
-        # TODO: Assert that questions contains the correct question(s)
+        pairs = zip(expected_questions, questions)
+
+        self.assertFalse(any(x != y for x, y in pairs))
