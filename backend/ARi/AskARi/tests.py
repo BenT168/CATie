@@ -36,6 +36,7 @@ class AskARiTests(TestCase):
     c_content = 'Great question! I was wondering this too. Does anyone know ' \
                 'the answer?'
     dummy_comment = None
+    dummy_comment_id = None
 
     def setUpAndLogin(self):
         c2 = Group.objects.create(name='c2')
@@ -69,6 +70,7 @@ class AskARiTests(TestCase):
                                        user=User.objects.get(
                                            username=self.username)),
                                    parent=self.dummy_question)
+        self.dummy_comment_id = self.dummy_comment.id_per_question
 
     def test_get_question(self):
         self.setUpAndLogin()
@@ -121,6 +123,32 @@ class AskARiTests(TestCase):
         self.assertEqual(my_comment['score'], 0)
         self.assertEqual(my_comment['question'], question['id'])
         self.assertEqual(my_comment['parent'], None)
+
+    def test_reply_to_comment(self):
+        self.setUpAndLogin()
+        self.create_dummy_question()
+        self.create_dummy_comment()
+        follow_up_content = "Hi there, I answered this question. Hope it helps."
+        c = Client()
+        resp = c.post(self.q_url + 'reply/',
+                      data={'content': follow_up_content,
+                            'parent': self.dummy_comment_id},
+                      HTTP_AUTHORIZATION=self.token)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        resp = c.get(self.q_url, HTTP_AUTHORIZATION=self.token)
+        resp_content_str = resp.content.decode('utf-8')
+        question = json.loads(resp_content_str)
+        comments = question['comment_set']
+        matching_comments = [d for d in comments if d['content'] ==
+                             follow_up_content]
+        self.assertEqual(len(matching_comments), 1)
+        my_comment = matching_comments[0]
+        self.assertEqual(my_comment['poster'], self.username)
+        self.assertEqual(my_comment['score'], 0)
+        self.assertEqual(my_comment['question'], question['id'])
+        self.assertEqual(my_comment['parent'], self.dummy_comment_id)
+
+
 
     # TODO: Ruhi - edit this so it adds the second question in a
     # create_dummy_questions method and ignores the id value

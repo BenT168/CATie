@@ -130,7 +130,17 @@ def post_comment(request, code, lectureURL, q_id):
                                     code + ' does not have a question with id: '
                                     + q_id)
     content = request.POST.get('content', None)
-    Comment.objects.create(content=content, poster=profile, parent=question)
+    parent_id = request.POST.get('parent', None)
+    parent_comment = None
+    if parent_id:
+        try:
+            parent_comment = Comment.objects.get(parent=question,
+                                                 id_per_question=parent_id)
+        except Comment.DoesNotExist:
+            return HttpResponseNotFound('Question ' + question + ' does not '
+                                        'have a comment with id ' + parent_id)
+    Comment.objects.create(content=content, poster=profile, parent=question,
+                           parent_comment=parent_comment)
 
     return HttpResponse("Comment created successfully.")
 
