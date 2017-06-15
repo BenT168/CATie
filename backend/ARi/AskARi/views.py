@@ -1,13 +1,9 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponseNotFound, JsonResponse, HttpResponse
 from django.shortcuts import render
-<<<<<<< HEAD
-
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
-=======
->>>>>>> ab7249424844f5869852bf79091941493e4833fd
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
@@ -73,9 +69,11 @@ def get_questions(request, code=None, lectureURL='general', pg_no=1):
     # Order questions by id
     questions = questions.order_by('id')
 
-<<<<<<< HEAD
-def get_questions_course(request, code, pg_no):
-    return get_questions(request, code, None, pg_no)
+    # Retrieve only questions on page "pg_no"
+    # questions = questions[pg_size * pg_no: pg_size * (pg_no + 1)]
+    serializer = QuestionSerializer(questions, many=True)
+
+    return JsonResponse(serializer.data, safe=False)
 
 
 @csrf_exempt
@@ -103,10 +101,4 @@ def create_question(request):
                             poster=profile)
 
     return HttpResponse("Question created successfully")
-=======
-    # Retrieve only questions on page "pg_no"
-    # questions = questions[pg_size * pg_no: pg_size * (pg_no + 1)]
-    serializer = QuestionSerializer(questions, many=True)
 
-    return JsonResponse(serializer.data, safe=False)
->>>>>>> ab7249424844f5869852bf79091941493e4833fd

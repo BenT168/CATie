@@ -45,22 +45,6 @@ class AskARiTests(TestCase):
         self.dummy_lecture = Lecture.objects.create(name=self.name,
                                                     course=self.conc_crse,
                                                     video=self.video)
-<<<<<<< HEAD
-
-=======
-        user = User.objects.create(username='hu115')
-        q_poster = ARiProfile.objects.create(user=user, year=year2)
-        self.dummy_question = \
-            Question.objects.create(title=self.q_title, body=self.q_body,
-                                    onLecture=self.dummy_lecture,
-                                    poster=q_poster)
-        Question.objects.create(title="+ Set notation",
-                                body="Guys, what is '+ All' doing here? What i "
-                                     "tried in LTSA does not seem to clarify to "
-                                     "me how a set is used.",
-                                onLecture=self.dummy_lecture,
-                                poster=q_poster)
->>>>>>> ab7249424844f5869852bf79091941493e4833fd
         c = Client()
         resp = c.post('/login/', data={'username': self.username,
                                        'password': self.password})
@@ -104,10 +88,7 @@ class AskARiTests(TestCase):
         self.assertEqual(question['title'], self.q_title)
         self.assertEqual(question['body'], self.q_body)
         self.assertEqual(question['lecture'], reformat_for_url(self.name))
-<<<<<<< HEAD
         self.assertEqual(question['poster'], self.username)
-=======
-        self.assertEqual(question['poster'], self.q_poster_name)
 
     def test_get_questions(self):
         expected_questions = [{"title": "Sharing vs Relabelling in Chapter 3",
@@ -135,6 +116,7 @@ class AskARiTests(TestCase):
 
 
         self.setUpAndLogin()
+        self.create_dummy_question()
         c = Client()
         url = '/AskARi/223/concurrent-execution/'
         resp = c.get(url, HTTP_AUTHORIZATION=self.token)
@@ -145,4 +127,3 @@ class AskARiTests(TestCase):
         pairs = zip(expected_questions, questions)
 
         self.assertFalse(any(x != y for x, y in pairs))
->>>>>>> ab7249424844f5869852bf79091941493e4833fd
