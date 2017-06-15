@@ -38,7 +38,7 @@ def get_question(request, code, lectureURL, q_id):
 # TODO: Add if-checks for Nones
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def get_questions(request, code, lectureURL):
+def get_questions(request, code=None, lectureURL='general', pg_no=1):
     # Get username from token
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
@@ -67,24 +67,6 @@ def get_questions(request, code, lectureURL):
 
     # Retrieve only questions on page "pg_no"
     # questions = questions[pg_size * pg_no: pg_size * (pg_no + 1)]
-
     serializer = QuestionSerializer(questions, many=True)
 
     return JsonResponse(serializer.data, safe=False)
-
-
-@permission_classes((IsAuthenticated,))
-@authentication_classes((TokenAuthentication,))
-def get_questions_all(request, pg_no):
-    # return get_questions(request, None, None, pg_no)
-    # TODO: Get all questions and then restrict to only those that user can access
-    return None
-
-
-@permission_classes((IsAuthenticated,))
-@authentication_classes((TokenAuthentication,))
-def get_questions_course(request, code, pg_no):
-    # return get_questions(request, code, None, pg_no)
-    # TODO: Check that user can access specified course
-    # TODO: If so get all questions from specified course
-    return None
