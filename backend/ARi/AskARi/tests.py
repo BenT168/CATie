@@ -121,7 +121,6 @@ class AskARiTests(TestCase):
         url = '/AskARi/223/concurrent-execution/'
         resp = c.get(url, HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
-        print("resp_content_str: " + resp_content_str)
         questions = json.loads(resp_content_str)
 
         pairs = zip(expected_questions, questions)

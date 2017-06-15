@@ -46,7 +46,6 @@ def get_questions(request, code=None, lectureURL='general', pg_no=1):
     # Get username from token
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
-    print("username: " + username)
 
     # Check if user can access provided course, access is true if so
     access, resp = can_access_course(User.objects.get(username=username), code)
@@ -55,7 +54,6 @@ def get_questions(request, code=None, lectureURL='general', pg_no=1):
 
     # Get appropriate course object
     course = Course.objects.get(code=code)
-    print("course: " + str(course))
     # Try to get appropriate lecture object
     try:
         lecture = Lecture.objects.get(urlName=lectureURL, course=course)
