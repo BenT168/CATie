@@ -42,7 +42,7 @@ def get_question(request, code, lectureURL, q_id):
 # TODO: Add if-checks for Nones
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def get_questions(request, code=None, lectureURL='general', pg_no=1):
+def get_questions(request, code=None, lectureURL='general', pg_no=0):
     # Get username from token
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
@@ -68,7 +68,7 @@ def get_questions(request, code=None, lectureURL='general', pg_no=1):
     questions = questions.order_by('id')
 
     # Retrieve only questions on page "pg_no"
-    # questions = questions[pg_size * pg_no: pg_size * (pg_no + 1)]
+    questions = questions[pg_size * pg_no: pg_size * (pg_no + 1)]
     serializer = QuestionSerializer(questions, many=True)
 
     return JsonResponse(serializer.data, safe=False)
