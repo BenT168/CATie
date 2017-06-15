@@ -38,6 +38,8 @@ def get_question(request, code, lectureURL, q_id):
     return JsonResponse(serializer.data, safe=False)
 
 
+# PRE: lectureURL cannot be provided unless a corresponding (course) code is
+#      also provided.
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
 def get_questions(request, code=None, lectureURL=None, pg_no=0):
