@@ -4,7 +4,7 @@ from django.contrib.auth.models import User, Group
 from django.test import TestCase, Client
 from rest_framework import status
 
-from AskARi.models import Question
+from AskARi.models import Question, Comment
 from courses.models import Year, Course
 from lecture.models import Lecture
 from lecture.utils import reformat_for_url
@@ -33,7 +33,9 @@ class AskARiTests(TestCase):
              "resource and users sharing those two actions?"
     q_poster_name_dummy = 'hu115'
     q_url = '/AskARi/question/223/concurrent-execution/1/'
-
+    c_content = 'Great question! I was wondering this too. Does anyone know ' \
+                'the answer?'
+    dummy_comment = None
 
     def setUpAndLogin(self):
         c2 = Group.objects.create(name='c2')
@@ -57,12 +59,21 @@ class AskARiTests(TestCase):
         q_poster = ARiProfile.objects.create(user=user, year=self.year2)
         self.dummy_question = \
             Question.objects.create(title=self.q_title, body=self.q_body,
-                                    onLecture=self.dummy_lecture,
+                                    parent=self.dummy_lecture,
                                     poster=q_poster)
+
+    def create_dummy_comment(self):
+        self.dummy_comment = \
+            Comment.objects.create(content=self.c_content,
+                                   poster=ARiProfile.objects.get(
+                                       user=User.objects.get(
+                                           username=self.username)),
+                                   parent=self.dummy_question)
 
     def test_get_question(self):
         self.setUpAndLogin()
         self.create_dummy_question()
+        self.create_dummy_comment()
         c = Client()
         resp = c.get(self.q_url, HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
@@ -90,6 +101,29 @@ class AskARiTests(TestCase):
         self.assertEqual(question['lecture'], reformat_for_url(self.name))
         self.assertEqual(question['poster'], self.username)
 
+    def test_post_comment(self):
+        self.setUpAndLogin()
+        self.create_dummy_question()
+        c = Client()
+        resp = c.post(self.q_url + 'reply/',
+                      data={'content': self.c_content},
+                      HTTP_AUTHORIZATION=self.token)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        resp = c.get(self.q_url, HTTP_AUTHORIZATION=self.token)
+        resp_content_str = resp.content.decode('utf-8')
+        question = json.loads(resp_content_str)
+        comments = question['comment_set']
+        matching_comments = [d for d in comments if d['content'] ==
+                             self.c_content]
+        self.assertEqual(len(matching_comments), 1)
+        my_comment = matching_comments[0]
+        self.assertEqual(my_comment['poster'], self.username)
+        self.assertEqual(my_comment['score'], 0)
+        self.assertEqual(my_comment['question'], question['id'])
+        self.assertEqual(my_comment['parent'], None)
+
+    # TODO: Ruhi - edit this so it adds the second question in a
+    # create_dummy_questions method and ignores the id value
     def test_get_questions(self):
         expected_questions = [{"title": "Sharing vs Relabelling in Chapter 3",
                                "body": "What is the difference between sharing " 
@@ -111,9 +145,7 @@ class AskARiTests(TestCase):
                                        "tried in LTSA does not seem to clarify to "
                                        "me how a set is used.",
                                "lecture": "concurrent-execution",
-                               "poster": "hu115"}
-                             ]
-
+                               "poster": "hu115"}]
 
         self.setUpAndLogin()
         self.create_dummy_question()

@@ -9,14 +9,15 @@ from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.utils import jwt_decode_handler
 
-from AskARi.models import Question
-from AskARi.serializers import QuestionSerializer
+from AskARi.models import Question, Comment
+from AskARi.serializers import QuestionSerializer, QuestionFullSerializer
 from courses.models import Course
 from lecture.models import Lecture
 from login.models import ARiProfile
 from login.utils import can_access_course
 
 pg_size = 25
+
 
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
@@ -29,11 +30,15 @@ def get_question(request, code, lectureURL, q_id):
     course = Course.objects.get(code=code)
     try:
         lecture = Lecture.objects.get(urlName=lectureURL, course=course)
+        question = Question.objects.get(parent=lecture, id_per_lecture=q_id)
     except Lecture.DoesNotExist:
         return HttpResponseNotFound('Lecture ' + lectureURL +
                                     'not found for course ' + code)
-    question = Question.objects.get(onLecture=lecture, id_per_lecture=q_id)
-    serializer = QuestionSerializer(question, many=False)
+    except Question.DoesNotExist:
+        return HttpResponseNotFound('Lecture ' + lectureURL + ' in course ' +
+                                    code + ' does not have a question with id: '
+                                    + q_id)
+    serializer = QuestionFullSerializer(question, many=False)
     
     return JsonResponse(serializer.data, safe=False)
 
@@ -64,7 +69,7 @@ def get_questions(request, code=None, lectureURL='general', pg_no=1):
                                     'not found for course ' + code)
 
     # Get all questions for specified lecture
-    questions = Question.objects.filter(onLecture=lecture)
+    questions = Question.objects.filter(parent=lecture)
 
     # Order questions by id
     questions = questions.order_by('id')
@@ -97,8 +102,35 @@ def create_question(request):
                                     " lecture at " + str(lectureURL))
     title = request.POST.get('title', None)
     body = request.POST.get('body', None)
-    Question.objects.create(title=title, body=body, onLecture=lecture,
+    Question.objects.create(title=title, body=body, parent=lecture,
                             poster=profile)
 
     return HttpResponse("Question created successfully")
+
+@csrf_exempt
+@permission_classes((IsAuthenticated,))
+@authentication_classes((TokenAuthentication,))
+def post_comment(request, code, lectureURL, q_id):
+    token = request.environ['HTTP_AUTHORIZATION']
+    username = jwt_decode_handler(token)['username']
+    user = User.objects.get(username=username)
+    profile = ARiProfile.objects.get(user=user)
+    access, resp = can_access_course(user, code)
+    if not access:
+        return resp
+    course = Course.objects.get(code=code)
+    try:
+        lecture = Lecture.objects.get(urlName=lectureURL, course=course)
+        question = Question.objects.get(parent=lecture, id_per_lecture=q_id)
+    except Lecture.DoesNotExist:
+        return HttpResponseNotFound('Lecture ' + lectureURL +
+                                    'not found for course ' + code)
+    except Question.DoesNotExist:
+        return HttpResponseNotFound('Lecture ' + lectureURL + ' in course ' +
+                                    code + ' does not have a question with id: '
+                                    + q_id)
+    content = request.POST.get('content', None)
+    Comment.objects.create(content=content, poster=profile, parent=question)
+
+    return HttpResponse("Comment created successfully.")
 

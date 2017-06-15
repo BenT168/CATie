@@ -45,13 +45,13 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=100)),
                 ('body', models.TextField(max_length=4000)),
                 ('id_per_lecture', models.IntegerField()),
-                ('onLecture', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lecture.Lecture')),
+                ('parent', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lecture.Lecture')),
                 ('poster', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.ARiProfile')),
             ],
         ),
         migrations.AddField(
             model_name='comment',
-            name='onQuestion',
+            name='parent',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='AskARi.Question'),
         ),
         migrations.AddField(
@@ -61,7 +61,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='question',
-            unique_together=set([('onLecture', 'id_per_lecture')]),
+            unique_together=set([('parent', 'id_per_lecture')]),
         ),
         migrations.AlterUniqueTogether(
             name='followup',
@@ -69,6 +69,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='comment',
-            unique_together=set([('onQuestion', 'id_per_parent')]),
+            unique_together=set([('parent', 'id_per_parent')]),
         ),
     ]
