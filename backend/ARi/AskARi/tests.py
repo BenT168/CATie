@@ -115,6 +115,13 @@ class AskARiTests(TestCase):
         self.assertEqual(question['body'], self.q_body)
         self.assertEqual(question['lecture'], reformat_for_url(self.name))
         self.assertEqual(question['poster'], self.q_poster_name_dummy)
+        comments = question['comment_set']
+        self.assertEqual(len(comments), 1)
+        comment = comments[0]
+        self.assertEqual(comment['poster'], self.c_poster_name_dummy)
+        self.assertEqual(comment['score'], 0)
+        self.assertEqual(comment['question'], question['id'])
+        self.assertEqual(comment['parent'], None)
 
     def test_create_question(self):
         self.setUpAndLogin()
@@ -150,7 +157,7 @@ class AskARiTests(TestCase):
                              self.c_content]
         self.assertEqual(len(matching_comments), 1)
         my_comment = matching_comments[0]
-        self.assertEqual(my_comment['poster'], self.c_poster_name_dummy)
+        self.assertEqual(my_comment['poster'], self.username)
         self.assertEqual(my_comment['score'], 0)
         self.assertEqual(my_comment['question'], question['id'])
         self.assertEqual(my_comment['parent'], None)

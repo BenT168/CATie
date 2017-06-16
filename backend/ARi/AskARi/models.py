@@ -33,17 +33,17 @@ class Question(models.Model):
 
 class Comment(models.Model):
     content = models.TextField(max_length=4000)
-    poster = models.ForeignKey(ARiProfile)
+    poster = models.ForeignKey(ARiProfile, related_name='poster_set')
     score = models.IntegerField(default=0)
     id_per_question = models.PositiveIntegerField()
     parent = models.ForeignKey(Question)
+    upvoted = models.ManyToManyField(ARiProfile, related_name='upvoted_set')
+    downvoted = models.ManyToManyField(ARiProfile, related_name='downvoted_set')
 
     # Direct parent, null if top-level comment
     parent_comment = models.ForeignKey("Comment", blank=True,
                                        null=True, default=None)
 
-    upvoted = models.ManyToManyField(ARiProfile, related_name='upvoted')
-    downvoted = models.ManyToManyField(ARiProfile, related_name='downvoted')
 
     def __str__(self):
         return 'Comment ' + str(self.id_per_question) + ' by ' + \
@@ -59,45 +59,41 @@ class Comment(models.Model):
     def rate(self, profile, rating):
         if rating < -1 or rating > 1:
             raise ValueError('Attempting to apply a score > |1|.')
+        previous_vote = 0
         with atomic():
-            try:
-                ARiProfile.objects.get(user=profile.user,
-                                       upvoted__parent=self.parent,
-                                       upvoted__id_per_question=
-                                       self.id_per_question)
+            if profile.upvoted_set.filter(
+                    parent=self.parent,
+                    id_per_question=self.id_per_question).exists():
                 previous_vote = 1
-            except ARiProfile.DoesNotExist:
-                try:
-                    ARiProfile.objects.get(user=profile.user,
-                                           downvoted__parent=self.parent,
-                                           downvoted__id_per_question=
-                                           self.id_per_question)
-                    previous_vote = -1
-                except ARiProfile.DoesNotExist:
-                    previous_vote = 0
+                # ARiProfile.objects.get(user=profile.user,
+                #                        upvoted__parent=self.parent,
+                #                        upvoted__id_per_question=
+                #                        self.id_per_question)
+                # previous_vote = 1
+            elif profile.downvoted_set.filter(
+                    parent=self.parent,
+                    id_per_question=self.id_per_question).exists():
+                previous_vote = -1
+                    # ARiProfile.objects.get(user=profile.user,
+                    #                        downvoted__parent=self.parent,
+                    #                        downvoted__id_per_question=
+                    #                        self.id_per_question)
+                    # previous_vote = -1
             if previous_vote == rating:
                 raise AssertionError('User has already voted this way.')
-
+            else:
+                if previous_vote == 1:
+                    self.upvoted.remove(profile)
+                    self.score -= 1
+                elif previous_vote == -1:
+                    self.downvoted.remove(profile)
+                    self.score += 1
+                if rating == 1:
+                    self.upvoted.add(profile)
+                elif rating == -1:
+                    self.downvoted.add(profile)
+                self.score += rating
+                self.save()
 
     class Meta:
         unique_together = (('parent', 'id_per_question'),)
-
-
-# class FollowUp(Reply):
-#     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-#     parent_id = models.PositiveIntegerField()
-#     parent = GenericForeignKey('content_type', 'parent_id')
-#
-#     def __str__(self):
-#         return 'Reply ' + str(self.id_per_parent) + ' by ' + \
-#                self.poster.user.username + ' to: ' + \
-#                str(self.id_per_parent)
-#
-#     def save(self, *args, **kwargs):
-#         if not self.pk:
-#             self.id_per_parent = next_id(self.__class__, self.parent,
-#                                          'id_per_parent')
-#         super(FollowUp, self).save(*args, **kwargs)
-#
-#     class Meta:
-#         unique_together = (('content_type', 'parent_id', 'id_per_parent'),)
