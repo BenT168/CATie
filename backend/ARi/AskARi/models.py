@@ -44,7 +44,6 @@ class Comment(models.Model):
     parent_comment = models.ForeignKey("Comment", blank=True,
                                        null=True, default=None)
 
-
     def __str__(self):
         return 'Comment ' + str(self.id_per_question) + ' by ' + \
                self.poster.user.username + ' on question: ' + \
