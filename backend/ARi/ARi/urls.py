@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^', include('login.urls')),
     url(r'^', include('courses.urls')),
     url(r'^', include('lecture.urls')),
+    url(r'^', include('AskARi.urls')),
 ]

@@ -11,7 +11,7 @@ from lecture.models import Lecture
 from lecture.utils import reformat_for_url
 
 
-class LoginTests(TestCase):
+class LectureTests(TestCase):
     dummy_lecture = None
     username = "admin"
     password = "fakepassword"
