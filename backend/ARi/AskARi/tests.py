@@ -34,6 +34,7 @@ class AskARiTests(TestCase):
              "rename release to a.release and b.release to lead to the " \
              "resource and users sharing those two actions?"
     q_poster_name_dummy = 'hu115'
+    c_poster_name_dummy = 'sib115'
     q_url = '/AskARi/question/223/concurrent-execution/1/'
     c_content = 'Great question! I was wondering this too. Does anyone know ' \
                 'the answer?'
@@ -94,11 +95,11 @@ class AskARiTests(TestCase):
                                 poster=ruhi_poster)
 
     def create_dummy_comment(self):
+        user = User.objects.create(username=self.c_poster_name_dummy)
+        c_poster = ARiProfile.objects.create(user=user, year=self.year2)
         self.dummy_comment = \
             Comment.objects.create(content=self.c_content,
-                                   poster=ARiProfile.objects.get(
-                                       user=User.objects.get(
-                                           username=self.username)),
+                                   poster=c_poster,
                                    parent=self.dummy_question)
         self.dummy_comment_id = self.dummy_comment.id_per_question
 
@@ -149,7 +150,7 @@ class AskARiTests(TestCase):
                              self.c_content]
         self.assertEqual(len(matching_comments), 1)
         my_comment = matching_comments[0]
-        self.assertEqual(my_comment['poster'], self.username)
+        self.assertEqual(my_comment['poster'], self.c_poster_name_dummy)
         self.assertEqual(my_comment['score'], 0)
         self.assertEqual(my_comment['question'], question['id'])
         self.assertEqual(my_comment['parent'], None)
@@ -356,3 +357,23 @@ class AskARiTests(TestCase):
         self.assertTrue(questions[2]['body'] == q3_body)
         self.assertTrue(questions[2]['lecture'] == q3_lecture)
         self.assertTrue(questions[2]['poster'] == q3_poster)
+
+    def test_upvote(self):
+        self.setUpAndLogin()
+        self.create_dummy_question()
+        self.create_dummy_comment()
+        c = Client()
+        resp = c.post(self.q_url + '1/rate/',
+                      data={'rating': 1},
+                      HTTP_AUTHORIZATION=self.token)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        resp = c.get(self.q_url, HTTP_AUTHORIZATION=self.token)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        resp_content_str = resp.content.decode('utf-8')
+        question = json.loads(resp_content_str)
+        comments = question['comment_set']
+        matching_comments = [d for d in comments if d['content'] ==
+                             self.c_content]
+        self.assertEqual(len(matching_comments), 1)
+        voted_comment = matching_comments[0]
+        self.assertEqual(voted_comment['score'], 1)

@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseNotFound, JsonResponse, HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponseNotFound, JsonResponse, HttpResponse, \
+    HttpResponseForbidden, HttpResponseBadRequest
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
@@ -63,7 +62,7 @@ def get_questions(request, code=None, lectureURL=None, pg_no=0):
         # Get appropriate course object
         try:
             course = Course.objects.get(code=code)
-        except ObjectDoesNotExist:
+        except Course.DoesNotExist:
             return HttpResponseNotFound('Course ' + code + 'not found.')
         if lectureURL:
             # Try to get appropriate lecture object
@@ -128,6 +127,7 @@ def create_question(request):
 
     return HttpResponse("Question created successfully")
 
+
 @csrf_exempt
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
@@ -164,4 +164,38 @@ def post_comment(request, code, lectureURL, q_id):
                            parent_comment=parent_comment)
 
     return HttpResponse("Comment created successfully.")
+
+
+def rate_comment(request, code, lectureURL, q_id, c_id):
+    token = request.environ['HTTP_AUTHORIZATION']
+    username = jwt_decode_handler(token)['username']
+    user = User.objects.get(username=username)
+    profile = ARiProfile.objects.get(user=user)
+    access, resp = can_access_course(user, code)
+    if not access:
+        return resp
+    course = Course.objects.get(code=code)
+    try:
+        lecture = Lecture.objects.get(urlName=lectureURL, course=course)
+        question = Question.objects.get(parent=lecture, id_per_lecture=q_id)
+        comment = Comment.objects.get(parent=question, id_per_question=c_id)
+    except Lecture.DoesNotExist:
+        return HttpResponseNotFound('Lecture ' + lectureURL +
+                                    'not found for course ' + code)
+    except Question.DoesNotExist:
+        return HttpResponseNotFound('Lecture ' + lectureURL + ' in course ' +
+                                    code + ' has no question with id: ' + q_id)
+    except Comment.DoesNotExist:
+        return HttpResponseNotFound('Question ' + q_id + ' on lecture ' +
+                                    lectureURL + ' has no comment with id ' +
+                                    c_id)
+    try:
+        rating = int(request.POST.get('rating', None))
+    except ValueError:
+        return HttpResponseBadRequest('rating is not an int')
+    try:
+        comment.rate(profile, rating)
+        return HttpResponse('Voted')
+    except (ValueError, AssertionError) as e:
+        return HttpResponseForbidden(str(e))
 
