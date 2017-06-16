@@ -256,15 +256,15 @@ class AskARiTests(TestCase):
         resp_content_str = resp.content.decode('utf-8')
         questions = json.loads(resp_content_str)
 
-        self.assertTrue(questions[0]['title'] == q1_title)
-        self.assertTrue(questions[0]['body'] == q1_body)
-        self.assertTrue(questions[0]['lecture'] == q1_lecture)
-        self.assertTrue(questions[0]['poster'] == q1_poster)
+        self.assertTrue(questions[0]['title'] == q2_title)
+        self.assertTrue(questions[0]['body'] == q2_body)
+        self.assertTrue(questions[0]['lecture'] == q2_lecture)
+        self.assertTrue(questions[0]['poster'] == q2_poster)
 
-        self.assertTrue(questions[1]['title'] == q2_title)
-        self.assertTrue(questions[1]['body'] == q2_body)
-        self.assertTrue(questions[1]['lecture'] == q2_lecture)
-        self.assertTrue(questions[1]['poster'] == q2_poster)
+        self.assertTrue(questions[1]['title'] == q1_title)
+        self.assertTrue(questions[1]['body'] == q1_body)
+        self.assertTrue(questions[1]['lecture'] == q1_lecture)
+        self.assertTrue(questions[1]['poster'] == q1_poster)
 
     def test_get_questions_all_courses(self):
         # expected_questions
@@ -302,20 +302,20 @@ class AskARiTests(TestCase):
         resp_content_str = resp.content.decode('utf-8')
         questions = json.loads(resp_content_str)
 
-        self.assertTrue(questions[0]['title'] == q1_title)
-        self.assertTrue(questions[0]['body'] == q1_body)
-        self.assertTrue(questions[0]['lecture'] == q1_lecture)
-        self.assertTrue(questions[0]['poster'] == q1_poster)
+        self.assertTrue(questions[0]['title'] == q3_title)
+        self.assertTrue(questions[0]['body'] == q3_body)
+        self.assertTrue(questions[0]['lecture'] == q3_lecture)
+        self.assertTrue(questions[0]['poster'] == q3_poster)
 
         self.assertTrue(questions[1]['title'] == q2_title)
         self.assertTrue(questions[1]['body'] == q2_body)
         self.assertTrue(questions[1]['lecture'] == q2_lecture)
         self.assertTrue(questions[1]['poster'] == q2_poster)
 
-        self.assertTrue(questions[2]['title'] == q3_title)
-        self.assertTrue(questions[2]['body'] == q3_body)
-        self.assertTrue(questions[2]['lecture'] == q3_lecture)
-        self.assertTrue(questions[2]['poster'] == q3_poster)
+        self.assertTrue(questions[2]['title'] == q1_title)
+        self.assertTrue(questions[2]['body'] == q1_body)
+        self.assertTrue(questions[2]['lecture'] == q1_lecture)
+        self.assertTrue(questions[2]['poster'] == q1_poster)
 
     def test_get_questions_all_courses_specific_page(self):
         # expected_questions
@@ -353,20 +353,20 @@ class AskARiTests(TestCase):
         resp_content_str = resp.content.decode('utf-8')
         questions = json.loads(resp_content_str)
 
-        self.assertTrue(questions[0]['title'] == q1_title)
-        self.assertTrue(questions[0]['body'] == q1_body)
-        self.assertTrue(questions[0]['lecture'] == q1_lecture)
-        self.assertTrue(questions[0]['poster'] == q1_poster)
+        self.assertTrue(questions[0]['title'] == q3_title)
+        self.assertTrue(questions[0]['body'] == q3_body)
+        self.assertTrue(questions[0]['poster'] == q3_poster)
+        self.assertTrue(questions[0]['lecture'] == q3_lecture)
 
         self.assertTrue(questions[1]['title'] == q2_title)
         self.assertTrue(questions[1]['body'] == q2_body)
         self.assertTrue(questions[1]['lecture'] == q2_lecture)
         self.assertTrue(questions[1]['poster'] == q2_poster)
 
-        self.assertTrue(questions[2]['title'] == q3_title)
-        self.assertTrue(questions[2]['body'] == q3_body)
-        self.assertTrue(questions[2]['lecture'] == q3_lecture)
-        self.assertTrue(questions[2]['poster'] == q3_poster)
+        self.assertTrue(questions[2]['lecture'] == q1_lecture)
+        self.assertTrue(questions[2]['title'] == q1_title)
+        self.assertTrue(questions[2]['body'] == q1_body)
+        self.assertTrue(questions[2]['poster'] == q1_poster)
 
     def test_upvote(self):
         self.setUpAndLogin()

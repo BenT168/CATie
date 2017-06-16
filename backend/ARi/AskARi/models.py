@@ -1,4 +1,5 @@
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.utils import timezone
+
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
@@ -16,6 +17,8 @@ class Question(models.Model):
     parent = models.ForeignKey(Lecture)
     poster = models.ForeignKey(ARiProfile)
     id_per_lecture = models.PositiveIntegerField(editable=False)
+    last_interaction = models.DateTimeField(default=timezone.now,
+                                            editable=False)
 
     def __str__(self):
         return 'Question ' + str(self.id_per_lecture) + ' by ' + \
@@ -25,6 +28,7 @@ class Question(models.Model):
         if not self.pk:
             self.id_per_lecture = next_id(self.__class__, self.parent,
                                           'id_per_lecture')
+        self.last_interaction = timezone.now()
         super(Question, self).save(*args, **kwargs)
 
     class Meta:

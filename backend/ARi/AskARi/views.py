@@ -92,7 +92,7 @@ def get_questions(request, code=None, lectureURL=None, pg_no=0):
                 questions = questions | Question.objects.filter(parent=lecture)
 
     # Order questions by id
-    questions = questions.order_by('id')
+    questions = questions.order_by('-last_interaction')
 
     # Retrieve only questions on page "pg_no"
     questions = questions[pg_size * pg_no: pg_size * (pg_no + 1)]
