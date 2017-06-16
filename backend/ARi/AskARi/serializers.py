@@ -24,6 +24,9 @@ class QuestionSerializer(serializers.ModelSerializer):
     lecture = serializers.SlugRelatedField(source='parent',
                                            read_only=True,
                                            slug_field='urlName')
+    course = serializers.SlugRelatedField(source='parent.course',
+                                          read_only=True,
+                                          slug_field='code')
     poster = serializers.SlugRelatedField(source='poster.user',
                                           read_only=True,
                                           slug_field='username')
@@ -31,7 +34,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ('title', 'body', 'lecture', 'poster', 'id')
+        fields = ('title', 'body', 'lecture', 'course', 'poster', 'id')
 
 
 class QuestionFullSerializer(QuestionSerializer):
