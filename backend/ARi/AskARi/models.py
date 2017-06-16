@@ -15,7 +15,7 @@ class Question(models.Model):
     body = models.TextField(max_length=4000)
     parent = models.ForeignKey(Lecture)
     poster = models.ForeignKey(ARiProfile)
-    id_per_lecture = models.PositiveIntegerField()
+    id_per_lecture = models.PositiveIntegerField(editable=False)
 
     def __str__(self):
         return 'Question ' + str(self.id_per_lecture) + ' by ' + \
@@ -35,7 +35,7 @@ class Comment(models.Model):
     content = models.TextField(max_length=4000)
     poster = models.ForeignKey(ARiProfile, related_name='poster_set')
     score = models.IntegerField(default=0)
-    id_per_question = models.PositiveIntegerField()
+    id_per_question = models.PositiveIntegerField(editable=False)
     parent = models.ForeignKey(Question)
     upvoted = models.ManyToManyField(ARiProfile, related_name='upvoted_set')
     downvoted = models.ManyToManyField(ARiProfile, related_name='downvoted_set')
