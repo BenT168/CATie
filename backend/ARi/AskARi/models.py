@@ -36,9 +36,11 @@ class Comment(models.Model):
     poster = models.ForeignKey(ARiProfile, related_name='poster_set')
     score = models.IntegerField(default=0)
     id_per_question = models.PositiveIntegerField(editable=False)
-    parent = models.ForeignKey(Question)
-    upvoted = models.ManyToManyField(ARiProfile, related_name='upvoted_set')
-    downvoted = models.ManyToManyField(ARiProfile, related_name='downvoted_set')
+    parent = models.ForeignKey(Question, verbose_name='Question')
+    upvoted = models.ManyToManyField(ARiProfile, related_name='upvoted_set',
+                                     editable=False)
+    downvoted = models.ManyToManyField(ARiProfile, related_name='downvoted_set',
+                                       editable=False)
 
     # Direct parent, null if top-level comment
     parent_comment = models.ForeignKey("Comment", blank=True,
