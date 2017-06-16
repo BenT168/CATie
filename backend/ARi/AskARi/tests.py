@@ -34,7 +34,7 @@ class AskARiTests(TestCase):
              "rename release to a.release and b.release to lead to the " \
              "resource and users sharing those two actions?"
     q_poster_name_dummy = 'hu115'
-    c_poster_name_dummy = 'sib115'
+    commenter_name_dummy = 'sib115'
     q_url = '/AskARi/question/223/concurrent-execution/1/'
     c_content = 'Great question! I was wondering this too. Does anyone know ' \
                 'the answer?'
@@ -94,19 +94,22 @@ class AskARiTests(TestCase):
                                 parent=self.arch_dummy_lecture,
                                 poster=ruhi_poster)
 
-    def create_dummy_comment(self):
-        user = User.objects.create(username=self.c_poster_name_dummy)
-        c_poster = ARiProfile.objects.create(user=user, year=self.year2)
+    def create_commenter(self):
+        user = User.objects.create(username=self.commenter_name_dummy)
+        return ARiProfile.objects.create(user=user, year=self.year2)
+
+    def create_dummy_comment(self, commenter):
         self.dummy_comment = \
             Comment.objects.create(content=self.c_content,
-                                   poster=c_poster,
+                                   poster=commenter,
                                    parent=self.dummy_question)
         self.dummy_comment_id = self.dummy_comment.id_per_question
 
     def test_get_question(self):
         self.setUpAndLogin()
         self.create_dummy_question()
-        self.create_dummy_comment()
+        commenter = self.create_commenter()
+        self.create_dummy_comment(commenter)
         c = Client()
         resp = c.get(self.q_url, HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
@@ -118,7 +121,7 @@ class AskARiTests(TestCase):
         comments = question['comment_set']
         self.assertEqual(len(comments), 1)
         comment = comments[0]
-        self.assertEqual(comment['poster'], self.c_poster_name_dummy)
+        self.assertEqual(comment['poster'], self.commenter_name_dummy)
         self.assertEqual(comment['score'], 0)
         self.assertEqual(comment['question'], question['id'])
         self.assertEqual(comment['parent'], None)
