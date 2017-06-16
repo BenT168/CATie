@@ -168,7 +168,7 @@ class AskARiTests(TestCase):
     def test_reply_to_comment(self):
         self.setUpAndLogin()
         self.create_dummy_question()
-        self.create_dummy_comment()
+        self.create_dummy_comment(self.create_commenter())
         follow_up_content = "Hi there, I answered this question. Hope it helps."
         c = Client()
         resp = c.post(self.q_url + 'reply/',
@@ -371,7 +371,7 @@ class AskARiTests(TestCase):
     def test_upvote(self):
         self.setUpAndLogin()
         self.create_dummy_question()
-        self.create_dummy_comment()
+        self.create_dummy_comment(self.create_commenter())
         c = Client()
         resp = c.post(self.q_url + '1/rate/',
                       data={'rating': 1},
