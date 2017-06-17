@@ -8,6 +8,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.utils import jwt_decode_handler
+from django.utils import timezone
 
 from AskARi.models import Question, Comment
 from AskARi.serializers import QuestionSerializer, QuestionFullSerializer
@@ -163,8 +164,11 @@ def post_comment(request, code, lectureURL, q_id):
     Comment.objects.create(content=content, poster=profile, parent=question,
                            parent_comment=parent_comment)
 
-    return HttpResponse("Comment created successfully.")
+    # Update last_interaction field of question
+    question.last_interaction = timezone.now()
+    question.save()
 
+    return HttpResponse("Comment created successfully.")
 
 @csrf_exempt
 @permission_classes((IsAuthenticated,))
