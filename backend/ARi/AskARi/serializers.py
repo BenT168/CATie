@@ -7,17 +7,17 @@ class CommentSerializer(serializers.ModelSerializer):
     poster = serializers.SlugRelatedField(source='poster.user',
                                           read_only=True,
                                           slug_field='username')
-    question = serializers.SlugRelatedField(source='parent',
+    questionId = serializers.SlugRelatedField(source='parent',
                                             read_only=True,
                                             slug_field='id_per_lecture')
-    parent = serializers.SlugRelatedField(source='parent_comment',
+    parentId = serializers.SlugRelatedField(source='parent_comment',
                                           read_only=True,
                                           slug_field='id_per_question')
-    id = serializers.IntegerField(source='id_per_question', min_value=1)
+    commentId = serializers.IntegerField(source='id_per_question', min_value=1)
 
     class Meta:
         model = Comment
-        fields = ('content', 'poster', 'score', 'question', 'id', 'parent')
+        fields = ('content', 'poster', 'score', 'questionId', 'commentId', 'parentId')
 
 
 class QuestionSerializer(serializers.ModelSerializer):
