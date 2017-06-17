@@ -166,6 +166,9 @@ def post_comment(request, code, lectureURL, q_id):
     return HttpResponse("Comment created successfully.")
 
 
+@csrf_exempt
+@permission_classes((IsAuthenticated,))
+@authentication_classes((TokenAuthentication,))
 def rate_comment(request, code, lectureURL, q_id, c_id):
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
