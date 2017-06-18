@@ -8,5 +8,8 @@ urlpatterns = [
         views.get_lecture),
     url(r'^courses/(?P<code>[0-9]{3})/(?P<lectureURL>[a-zA-Z0-9-]{1,60})/$',
         views.get_lecture),
+    url(r'^courses/(?P<code>[0-9]{3})/(?P<lectureURL>[a-zA-Z0-9-]{1,'
+        r'60})/save/$',
+        views.save_notes),
     url(r'^lectures/create/$', views.create_lecture),
 ]

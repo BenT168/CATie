@@ -67,16 +67,32 @@ def create_lecture(request):
     return HttpResponse("Lecture created successfully.")
 
 
-# THIS IS A STUB. IGNORE.
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
-def lecture_add_content(request):
+def save_notes(request, code, lectureURL):
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
     user = User.objects.get(username=username)
-    if not user.is_staff:
-        return HttpResponseForbidden("Only staff may create lectures.")
+    access, resp = can_access_course(user, code)
+    if not access:
+        return resp
+    course = Course.objects.get(code=code)
+    try:
+        lecture = course.lecture_set.get(urlName=lectureURL)
+        profile = ARiProfile.objects.get(user=user)
+        notes = UserNotes.objects.get(lecture=lecture, profile=profile)
+    except Lecture.DoesNotExist:
+        return HttpResponseNotFound("Invalid lecture URL.")
+    except ARiProfile.DoesNotExist:
+        return HttpResponseNotFound("User does not have an ARiProfile.")
+    except UserNotes.DoesNotExist:
+        return HttpResponseNotFound("The user has no notes file to save to for "
+                                    "this lecture.")
 
-    return HttpResponse("Stub. Ignore for now.")
+    text = request.POST.get('content', None)
+    notes.notes = text
+    notes.save()
+
+    return HttpResponse("New notes saved.")
 
 
