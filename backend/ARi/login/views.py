@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.http import HttpResponseForbidden, JsonResponse
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
@@ -33,6 +34,14 @@ def login_user(request):
                 if not hasYear:
                     return HttpResponseForbidden("Student does not have a "
                                                      "year.")
+            # NOTE: The contents of elif is for the WebApps version of ARi ONLY
+            # and is due to a lack of access to information about DoC staff.
+            elif username is 'admin':
+                year2 = Group.objects.get(name='c2')
+                p = ARiProfile.objects.get_or_create(user=user, year=year2.year)
+                for g in Group.objects.all():
+                    if hasattr(g, 'course'):
+                        p.courses.add(g.course)
             for g in request.user.groups.all():
                 if hasattr(g, 'course'):
                     profile.courses.add(g.course)
