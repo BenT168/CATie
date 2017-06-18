@@ -67,6 +67,7 @@ def create_lecture(request):
     return HttpResponse("Lecture created successfully.")
 
 
+@csrf_exempt
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
 def save_notes(request, code, lectureURL):
