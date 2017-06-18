@@ -49,6 +49,7 @@ class Comment(models.Model):
 
     # Direct parent, null if top-level comment
     parent_comment = models.ForeignKey("Comment", blank=True,
+                                       related_name='children',
                                        null=True, default=None)
 
     def __str__(self):

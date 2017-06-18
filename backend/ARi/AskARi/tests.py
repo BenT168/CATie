@@ -123,8 +123,8 @@ class AskARiTests(TestCase):
         comment = comments[0]
         self.assertEqual(comment['poster'], self.commenter_name_dummy)
         self.assertEqual(comment['score'], 0)
-        self.assertEqual(comment['question'], question['id'])
-        self.assertEqual(comment['parent'], None)
+        self.assertEqual(comment['questionId'], question['id'])
+        self.assertEqual(comment['parentId'], None)
 
     def test_create_question(self):
         self.setUpAndLogin()
@@ -162,8 +162,8 @@ class AskARiTests(TestCase):
         my_comment = matching_comments[0]
         self.assertEqual(my_comment['poster'], self.username)
         self.assertEqual(my_comment['score'], 0)
-        self.assertEqual(my_comment['question'], question['id'])
-        self.assertEqual(my_comment['parent'], None)
+        self.assertEqual(my_comment['questionId'], question['id'])
+        self.assertEqual(my_comment['parentId'], None)
 
     def test_reply_to_comment(self):
         self.setUpAndLogin()
@@ -186,8 +186,8 @@ class AskARiTests(TestCase):
         my_comment = matching_comments[0]
         self.assertEqual(my_comment['poster'], self.username)
         self.assertEqual(my_comment['score'], 0)
-        self.assertEqual(my_comment['question'], question['id'])
-        self.assertEqual(my_comment['parent'], self.dummy_comment_id)
+        self.assertEqual(my_comment['questionId'], question['id'])
+        self.assertEqual(my_comment['parentId'], self.dummy_comment_id)
 
 
 
