@@ -39,7 +39,9 @@ def login_user(request):
 
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
-            return JsonResponse({'token': token, 'is_staff': user.is_staff})
+            return JsonResponse({'token': token, 'is_staff': user.is_staff,
+                                 'first_name': user.first_name,
+                                 'last_name': user.last_name })
         else:
             return HttpResponseForbidden("Disabled user")
     else:
