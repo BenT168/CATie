@@ -10,23 +10,31 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.utils import jwt_decode_handler
 
 from courses.models import Course
-from lecture.models import Lecture
-from lecture.serializers import LectureSerializer
-from lecture.utils import reformat_for_url
+from lecture.models import Lecture, UserNotes
+from lecture.serializers import LectureAndNotesSerializer
+from login.models import ARiProfile
+from login.utils import can_access_course
 
 
 @permission_classes((IsAuthenticated,))
 @authentication_classes((TokenAuthentication,))
 def get_lecture(request, code, lectureURL):
+    token = request.environ['HTTP_AUTHORIZATION']
+    username = jwt_decode_handler(token)['username']
+    user = User.objects.get(username=username)
+    access, resp = can_access_course(user, code)
+    if not access:
+        return resp
+    course = Course.objects.get(code=code)
     try:
-        course = Course.objects.get(code=code)
         lecture = course.lecture_set.get(urlName=lectureURL)
-    except Course.DoesNotExist:
-        return HttpResponseNotFound("Invalid course code.")
     except Lecture.DoesNotExist:
         return HttpResponseNotFound("Invalid lecture URL.")
 
-    serializer = LectureSerializer(lecture, many=False)
+    profile = ARiProfile.objects.get(user=user)
+    notes = UserNotes.objects.get_or_create(lecture=lecture, profile=profile)[0]
+
+    serializer = LectureAndNotesSerializer(notes, many=False)
     return JsonResponse(serializer.data, safe=False)
 
 

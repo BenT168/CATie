@@ -3,6 +3,7 @@ from django.db import models
 
 from courses.models import Course
 from lecture.utils import reformat_for_url
+from login.models import ARiProfile
 
 
 class Lecture(models.Model):
@@ -26,3 +27,11 @@ class Lecture(models.Model):
 
     class Meta:
         unique_together = (("urlName", "course"),)
+
+
+class UserNotes(models.Model):
+    profile = models.ForeignKey(ARiProfile)
+    lecture = models.ForeignKey(Lecture)
+    notes = models.TextField()
+
+    unique_together = (("profile", "lecture"),)

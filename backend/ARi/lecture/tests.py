@@ -9,6 +9,7 @@ from rest_framework_jwt.utils import jwt_decode_handler
 from courses.models import Year, Course
 from lecture.models import Lecture
 from lecture.utils import reformat_for_url
+from login.models import ARiProfile
 
 
 class LectureTests(TestCase):
