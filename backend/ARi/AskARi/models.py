@@ -1,3 +1,4 @@
+from django.core.validators import validate_comma_separated_integer_list
 from django.utils import timezone
 
 from django.contrib.contenttypes.models import ContentType
@@ -104,3 +105,22 @@ class Comment(models.Model):
 
     class Meta:
         unique_together = (('parent', 'id_per_question'),)
+
+
+class QuestionAndCurrentUser(models.Model):
+    question = models.ForeignKey(Question)
+    profile = models.ForeignKey(ARiProfile)
+    relevant_comment_ids = models.TextField(
+            validators=[validate_comma_separated_integer_list])
+
+    def __init__(self, *args, **kwargs):
+        super(QuestionAndCurrentUser, self).__init__(*args, **kwargs)
+        relevant_comments = self.profile.upvoted_set.filter(
+            parent=self.question)
+        id_string = ''
+        for comment in relevant_comments:
+            id_string += str(comment.id_per_question) + ','
+        self.relevant_comment_ids = id_string[:-1]
+
+    class Meta:
+        managed = False

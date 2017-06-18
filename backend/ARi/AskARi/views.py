@@ -10,8 +10,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.utils import jwt_decode_handler
 from django.utils import timezone
 
-from AskARi.models import Question, Comment
-from AskARi.serializers import QuestionSerializer, QuestionFullSerializer
+from AskARi.models import Question, Comment, QuestionAndCurrentUser
+from AskARi.serializers import QuestionSerializer, QuestionFullSerializer, \
+    QuestionAndCurrentUserSerializer
 from courses.models import Course
 from lecture.models import Lecture
 from login.models import ARiProfile
@@ -25,7 +26,8 @@ pg_size = 25
 def get_question(request, code, lectureURL, q_id):
     token = request.environ['HTTP_AUTHORIZATION']
     username = jwt_decode_handler(token)['username']
-    access, resp = can_access_course(User.objects.get(username=username), code)
+    user = User.objects.get(username=username)
+    access, resp = can_access_course(user, code)
     if not access:
         return resp
     course = Course.objects.get(code=code)
@@ -39,9 +41,12 @@ def get_question(request, code, lectureURL, q_id):
         return HttpResponseNotFound('Lecture ' + lectureURL + ' in course ' +
                                     code + ' does not have a question with id: '
                                     + q_id)
-    serializer = QuestionFullSerializer(question, many=False)
-    
-    return JsonResponse(serializer.data, safe=False)
+    profile = ARiProfile.objects.get(user=user)
+    qAndCurrUser = QuestionAndCurrentUser(question=question, profile=profile)
+    serializer = QuestionAndCurrentUserSerializer(qAndCurrUser, many=False)
+    data = serializer.data
+
+    return JsonResponse(data, safe=False)
 
 
 # PRE: lectureURL cannot be provided unless a corresponding (course) code is

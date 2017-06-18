@@ -387,3 +387,4 @@ class AskARiTests(TestCase):
         self.assertEqual(len(matching_comments), 1)
         voted_comment = matching_comments[0]
         self.assertEqual(voted_comment['score'], 1)
+        self.assertEqual(question['upvotes'], '1')

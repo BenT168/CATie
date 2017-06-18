@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from AskARi.models import Question, Comment
+from AskARi.models import Question, Comment, QuestionAndCurrentUser
+from login.models import ARiProfile
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -44,6 +45,26 @@ class QuestionFullSerializer(QuestionSerializer):
     class Meta:
         model = Question
         fields = QuestionSerializer.Meta.fields + ('comment_set',)
+
+
+class QuestionAndCurrentUserSerializer(serializers.ModelSerializer):
+    upvotes = serializers.CharField(source='relevant_comment_ids')
+
+    def to_representation(self, instance):
+        ret = super(QuestionAndCurrentUserSerializer,
+                    self).to_representation(instance)
+        q_serializer = QuestionFullSerializer(instance.question,
+                                              context=self.context)
+        q_ret = q_serializer.to_representation(instance.question)
+
+        for key in q_ret:
+            ret[key] = q_ret[key]
+
+        return ret
+
+    class Meta:
+        model = QuestionAndCurrentUser
+        fields = ('upvotes',)
 
 # class ReplySerializer(serializers.ModelSerializer):
 #     poster = serializers.SlugRelatedField(source='poster.user',
