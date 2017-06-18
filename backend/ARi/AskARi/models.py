@@ -42,10 +42,10 @@ class Comment(models.Model):
     score = models.IntegerField(default=0)
     id_per_question = models.PositiveIntegerField(editable=False)
     parent = models.ForeignKey(Question, verbose_name='Question')
-    upvoted = models.ManyToManyField(ARiProfile, related_name='upvoted_set',
-                                     editable=False)
-    downvoted = models.ManyToManyField(ARiProfile, related_name='downvoted_set',
-                                       editable=False)
+    upvoters = models.ManyToManyField(ARiProfile, related_name='upvoted_set',
+                                      editable=False)
+    downvoters = models.ManyToManyField(ARiProfile, related_name='downvoted_set',
+                                        editable=False)
 
     # Direct parent, null if top-level comment
     parent_comment = models.ForeignKey("Comment", blank=True,
@@ -90,15 +90,15 @@ class Comment(models.Model):
                 raise AssertionError('User has already voted this way.')
             else:
                 if previous_vote == 1:
-                    self.upvoted.remove(profile)
+                    self.upvoters.remove(profile)
                     self.score -= 1
                 elif previous_vote == -1:
-                    self.downvoted.remove(profile)
+                    self.downvoters.remove(profile)
                     self.score += 1
                 if rating == 1:
-                    self.upvoted.add(profile)
+                    self.upvoters.add(profile)
                 elif rating == -1:
-                    self.downvoted.add(profile)
+                    self.downvoters.add(profile)
                 self.score += rating
                 self.save()
 
