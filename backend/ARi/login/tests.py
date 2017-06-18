@@ -32,7 +32,10 @@ class LoginTests(TestCase):
 
     def setUpGroups(self):
         c2 = Group.objects.create(name='c2')
-        Year.objects.create(number=2, group=c2)
+        year2 = Year.objects.create(number=2, group=c2)
+        conc_grp = Group.objects.create(name='Concurrency')
+        Course.objects.create(name='Concurrency', code=223,
+                              ofYear=year2, group=conc_grp)
 
     def test_student_login(self):
         self.setUpGroups()

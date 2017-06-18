@@ -27,8 +27,8 @@ def login_user(request):
                 hasYear = False
                 for g in request.user.groups.all():
                     if hasattr(g, 'year'):
-                        profile = ARiProfile.objects.get_or_create(user=user,
-                                                               year=g.year)[0]
+                        profile = ARiProfile.objects.get_or_create(
+                                user=user, year=g.year)[0]
                         hasYear = True
                         break
                 if not hasYear:
@@ -36,12 +36,15 @@ def login_user(request):
                                                      "year.")
             # NOTE: The contents of elif is for the WebApps version of ARi ONLY
             # and is due to a lack of access to information about DoC staff.
-            elif username is 'admin':
+            elif username == 'admin':
                 year2 = Group.objects.get(name='c2')
-                p = ARiProfile.objects.get_or_create(user=user, year=year2.year)
+                p = ARiProfile.objects.get_or_create(
+                        user=user, year=year2.year)[0]
                 for g in Group.objects.all():
                     if hasattr(g, 'course'):
                         p.courses.add(g.course)
+                all = p.courses.all()
+                all = None
             for g in request.user.groups.all():
                 if hasattr(g, 'course'):
                     profile.courses.add(g.course)
