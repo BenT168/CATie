@@ -4,7 +4,6 @@ from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-import datetime
 # Create your models here.
 from django.db.transaction import atomic
 
@@ -42,7 +41,8 @@ class Comment(models.Model):
     poster = models.ForeignKey(ARiProfile, related_name='poster_set')
     score = models.IntegerField(default=0)
     id_per_question = models.PositiveIntegerField(editable=False)
-    parent = models.ForeignKey(Question, verbose_name='Question')
+    parent = models.ForeignKey(Question, verbose_name='Question',
+                               on_delete=models.CASCADE)
     upvoters = models.ManyToManyField(ARiProfile, related_name='upvoted_set',
                                       editable=False)
     downvoters = models.ManyToManyField(ARiProfile, related_name='downvoted_set',
@@ -51,7 +51,8 @@ class Comment(models.Model):
     # Direct parent, null if top-level comment
     parent_comment = models.ForeignKey("Comment", blank=True,
                                        related_name='children',
-                                       null=True, default=None)
+                                       null=True, default=None,
+                                       on_delete=models.CASCADE)
 
     def __str__(self):
         return 'Comment ' + str(self.id_per_question) + ' by ' + \

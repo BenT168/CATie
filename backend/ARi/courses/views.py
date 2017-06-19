@@ -31,7 +31,7 @@ def get_courses(request):
 @authentication_classes((TokenAuthentication,))
 def get_lectures(request, code):
     course = Course.objects.get(code=code)
-    lectures = course.lecture_set.filter(~Q(urlName='general'))
+    lectures = course.lecture_set.filter(~Q(urlName='general')).order_by('-id')
 
     serializer = LectureManySerializer(lectures, many=True)
 
