@@ -19,7 +19,9 @@ import {
     CalendarUtils,
     CalendarEventAction,
 } from 'angular-calendar';
-import {WeekDay} from "calendar-utils/dist/calendarUtils";
+import { WeekDay } from "calendar-utils/dist/calendarUtils";
+import {Router} from '@angular/router';
+import {AuthenticationService} from "../_services/auth.service";
 
 const colors: any = {
     red: {
@@ -42,6 +44,7 @@ const colors: any = {
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
+
 export class CalendarComponent implements OnChanges, OnInit {
 
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
@@ -63,11 +66,11 @@ export class CalendarComponent implements OnChanges, OnInit {
 
     public showAddEvent = false;
 
+    isStaff: boolean;
     view: string = 'month';
     today: Date = new Date();
     weekStart: Date = new Date(this.today.getDate() - this.today.getDay());
     weekEnd: Date = new Date(this.today.getDate() - this.today.getDay() + 6);
-
 
     viewDate: Date = new Date();
 
@@ -102,8 +105,6 @@ export class CalendarComponent implements OnChanges, OnInit {
      */
     days: WeekDay[];
 
-
-
     events: CalendarEvent[] = [{
         start: startOfDay(this.weekStart),
         end: endOfDay(this.weekStart),
@@ -132,8 +133,13 @@ export class CalendarComponent implements OnChanges, OnInit {
 
     activeDayIsOpen: boolean = true;
 
-    constructor(private utils: CalendarUtils, @Inject(LOCALE_ID) locale: string) {
+    constructor(private utils: CalendarUtils, @Inject(LOCALE_ID) locale: string, private router: Router, private authenticationService: AuthenticationService) {
         this.locale = locale;
+        this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
+    }
+
+    logout(): void {
+        this.authenticationService.logout();
     }
 
     /**

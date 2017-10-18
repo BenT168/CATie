@@ -1,3 +1,6 @@
+table.fixed { table-layout:fixed; }
+table.fixed td { overflow:hidden; }
+
 .clr-icon {
     &.clr-clarity-logo {
         background-image: url(../../images/ARi_logo.png);

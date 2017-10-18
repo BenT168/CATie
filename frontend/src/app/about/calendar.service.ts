@@ -1,15 +1,17 @@
+/**
+ * Created by ruhi on 02/06/17.
+ */
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { CalendarEvent } from './calendar.event';
-import * as Globals from '../globals';
 
 
 @Injectable()
 export class CalendarService {
-    private calendarUrl = Globals.hostURL + 'calendar/';  // URL to web API
+    private calendarUrl = 'http://ari-server.herokuapp.com/calendar/';  // URL to web API
     constructor(private http: Http) {
     }
 
@@ -35,6 +37,7 @@ export class CalendarService {
     // TODO: create a CalendarEvent object from this method?
     private extractData(res: Response) {
         let body = res.json();
+        console.log(body.data);
         return body.data || {}; // .data because JSON is wrapped by an object
     }
 
