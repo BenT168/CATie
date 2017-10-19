@@ -15,6 +15,8 @@ import {Subscription} from "rxjs/Subscription";
 export class AskAriComponent implements OnInit, OnDestroy {
     viewQuestionModal: boolean = false;
     isStaff: boolean;
+    firstName: string;
+    lastName: string;
     model: any = {};
     localStorage;
     askingQuestion: boolean;
@@ -54,6 +56,8 @@ export class AskAriComponent implements OnInit, OnDestroy {
         this.askingQuestion = false;
         this.questionRetrieved = false;
         this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
+        this.firstName = JSON.parse(localStorage['currentUser']).first_name;
+        this.lastName = JSON.parse(localStorage['currentUser']).last_name;
     }
 
     logout(): void {

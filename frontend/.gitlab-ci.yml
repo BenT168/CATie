@@ -1,0 +1,31 @@
+before_script:
+  - sudo apt-get install -y -qq python3 python-pip python3-dev libpq-dev postgresql postgresql-contrib python-virtualenv ruby-dev
+  - sudo apt-get install -y nodejs
+  - sudo gem install dpl
+  - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash
+  - npm view @angular/cli >/dev/null || sudo npm install -g @angular/cli
+
+stages:
+  - build
+  - test
+  - deploy
+ 
+build:
+  stage: build
+  script:
+    - echo "Building"
+  
+test:
+  stage: test
+  script:
+    - echo "Testing"
+    
+deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - sudo dpl --provider=heroku --app=ari-server --api-key=$HEROKU_PRODUCTION_API_KEY
+
+after_script:
+    - deactivate
