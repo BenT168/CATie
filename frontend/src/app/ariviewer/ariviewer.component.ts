@@ -21,6 +21,8 @@ export class AriViewerComponent implements OnInit, OnDestroy {
     slidesHidden: boolean;
     slidesUrl: string;
     isStaff: boolean;
+    firstName: string;
+    lastName: string;
     questions: Question[];
     model: any = {};
 
@@ -48,6 +50,8 @@ export class AriViewerComponent implements OnInit, OnDestroy {
         this.getParams();
         this.getUrls();
         this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
+        this.firstName = JSON.parse(localStorage['currentUser']).first_name;
+        this.lastName = JSON.parse(localStorage['currentUser']).last_name;
         this.loadQuestions();
         this.loadedTitle = true;
     }

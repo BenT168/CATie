@@ -67,6 +67,8 @@ export class CalendarComponent implements OnChanges, OnInit {
     public showAddEvent = false;
 
     isStaff: boolean;
+    firstName: string;
+    lastName: string;
     view: string = 'month';
     today: Date = new Date();
     weekStart: Date = new Date(this.today.getDate() - this.today.getDay());
@@ -136,6 +138,8 @@ export class CalendarComponent implements OnChanges, OnInit {
     constructor(private utils: CalendarUtils, @Inject(LOCALE_ID) locale: string, private router: Router, private authenticationService: AuthenticationService) {
         this.locale = locale;
         this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
+        this.firstName = JSON.parse(localStorage['currentUser']).first_name;
+        this.lastName = JSON.parse(localStorage['currentUser']).last_name;
     }
 
     logout(): void {

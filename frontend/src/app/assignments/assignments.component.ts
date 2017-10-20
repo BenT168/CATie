@@ -9,6 +9,8 @@ import {AuthenticationService} from "../_services/auth.service";
 
 export class AssignmentsComponent {
     isStaff: boolean;
+    firstName: string;
+    lastName: string;
     showSubmission: boolean;
     showMoreInfo: boolean;
     submissionValue: number;
@@ -20,6 +22,8 @@ export class AssignmentsComponent {
         this.submissionValue = 0;
         this.submitLoading = false;
         this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
+        this.firstName = JSON.parse(localStorage['currentUser']).first_name;
+        this.lastName = JSON.parse(localStorage['currentUser']).last_name;
     }
 
     logout(): void {

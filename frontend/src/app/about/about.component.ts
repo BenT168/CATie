@@ -19,9 +19,13 @@ export class AboutComponent implements OnInit {
     events: CalendarEvent[];
     mode = 'Observable';
     isStaff: boolean;
+    firstName: string;
+    lastName: string;
 
     constructor (private calendarService: CalendarService, private router: Router, private authenticationService: AuthenticationService) {
         this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
+        this.firstName = JSON.parse(localStorage['currentUser']).first_name;
+        this.lastName = JSON.parse(localStorage['currentUser']).last_name;
     }
 
     logout(): void {

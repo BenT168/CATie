@@ -18,6 +18,8 @@ export class CoursesComponent implements OnInit {
     allExpanded: boolean;
     isStaff: boolean;
     viewStaffModal: boolean;
+    firstName: string;
+    lastName: string;
 
     courses: Course[] = [];
     lectureDict: LectureDictionary = {};
@@ -29,6 +31,8 @@ export class CoursesComponent implements OnInit {
         this.viewStaffModal = false;
         this.localStorage = localStorage;
         this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
+        this.firstName = JSON.parse(localStorage['currentUser']).first_name;
+        this.lastName = JSON.parse(localStorage['currentUser']).last_name;
         console.log(this.isStaff);
         this.lecturesLoaded = false;
     }
@@ -101,4 +105,3 @@ export class Lecture {
         public name: string,
         public urlName: string) { }
 }
-
