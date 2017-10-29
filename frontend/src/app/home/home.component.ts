@@ -18,6 +18,7 @@ export class HomeComponent {
     firstName: string;
     lastName: string;
     questions: Question[];
+    notifications: Notification[];
 
     constructor(private router: Router, private authenticationService: AuthenticationService,
                 private askAriService: AskAriService) {
@@ -38,4 +39,14 @@ export class HomeComponent {
             function() { console.log("got all questions"); }
         );
     }
+}
+
+export class Notification {
+    constructor(
+        public id: number,
+        public type: string,
+        public course: number,
+        public lecture: string,
+        public courseName: string,
+        public comment_set: Notification[]) {}
 }

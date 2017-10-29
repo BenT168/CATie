@@ -72,6 +72,12 @@
         </div>
     </div>
     -->
+
+    <clr-dg-row *ngFor="let notification of notifications | slice:0:5">
+        <clr-dg-cell style="background-color: white; font-style: italic" [routerLink]="['/askari', { qTitle: question.title }]" routerLinkActive="active">{{question.title}}</clr-dg-cell>
+        <clr-dg-cell style="background-color: white">{{notification.course}} - {{notification.type}}</clr-dg-cell>
+    </clr-dg-row>
+
     <div class="alert alert-success" style="width: 27%; background-color: #49AFD9; border-color: #49AFD9; color: white">
         <clr-icon shape="tasks" style="position: absolute; top: 25%"></clr-icon>
 
