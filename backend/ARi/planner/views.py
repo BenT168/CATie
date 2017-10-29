@@ -13,6 +13,24 @@ from courses.models import Course
 from courses.serializers import CourseSerializer
 from login.models import ARiProfile
 
+from planner.models import CalendarEvent
+
+@csrf_exempt
+@permission_classes((IsAuthenticated,))
+@authentication_classes((TokenAuthentication,))
+def create_event(request):
+    token = request.environ['HTTP_AUTHORIZATION']
+    username = jwt_decode_handler(token)['username']
+    user = User.objects.get(username=username)
+
+    title = request.POST.get('title', None)
+    start = request.POST.get('start', None)
+    end = request.POST.get('end', None)
+
+    CalendarEvent.objects.create(title=title, start=start, end=end)
+
+    return HttpResponse("Event created successfully.")
+
 
 # returns the courses codes someone is subscribed to for a given date.
 @permission_classes((IsAuthenticated,))
