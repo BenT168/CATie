@@ -12,13 +12,12 @@ class Notification(models.Model):
     category = models.CharField(max_length=60)
 
     def __str__(self):
-        return str(self.course.code) + ' Lecture: ' + self.name + ' Notification: ' + self.message
+        return str(self.course.code) + ' from ' + self.name + ' Notification: ' + self.message
 
     def save(self, *args, **kwargs):
         creating = False
-        if not self.urlName:
+        if not self.pk:
             creating = True
-            self.urlName = reformat_for_url(self.name)
         super(Notification, self).save(*args, **kwargs)
         if creating:
             # Code only executed when first created
