@@ -40,13 +40,3 @@ export class HomeComponent {
         );
     }
 }
-
-export class Notification {
-    constructor(
-        public id: number,
-        public type: string,
-        public course: number,
-        public lecture: string,
-        public courseName: string,
-        public comment_set: Notification[]) {}
-}
