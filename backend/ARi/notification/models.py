@@ -2,27 +2,25 @@ rom django.core.validators import RegexValidator
 from django.db import models
 
 from courses.models import Course
-from notification.utils import reformat_for_url
 from login.models import ARiProfile
 
 
 class Notification(models.Model):
-    urlSafe = RegexValidator(r'^[a-zA-Z0-9]*$', 'Only alphanumeric characters '
-                                                'and \'-\' are allowed.')
-
     name = models.CharField(max_length=60)
-    urlName = models.CharField(max_length=60, validators=[urlSafe],
-                               default="", editable=False)
     course = models.ForeignKey(Course)
+    message = models.CharField(max_length=200)
     category = models.CharField(max_length=60)
 
     def __str__(self):
-        return str(self.course.code) + ' Lecture: ' + self.name
+        return str(self.course.code) + ' Lecture: ' + self.name + ' Notification: ' + self.message
 
     def save(self, *args, **kwargs):
+        creating = False
         if not self.urlName:
+            creating = True
             self.urlName = reformat_for_url(self.name)
-        super(Lecture, self).save(*args, **kwargs)
-
-    class Meta:
-        unique_together = (("urlName", "course"),)
+        super(Notification, self).save(*args, **kwargs)
+        if creating:
+            # Code only executed when first created
+            from course.models import Course
+            Course.objects.create(name="General", message=self)

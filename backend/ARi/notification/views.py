@@ -8,7 +8,6 @@ from courses.models import Course
 from lecture.models import Lecture, UserNotes
 from lecture.serializers import LectureAndNotesSerializer
 from login.models import ARiProfile
-from login.utils import can_access_course
 from notification.models import Notification
 
 
@@ -19,18 +18,12 @@ def get_notification(request, code, lectureURL):
     username = jwt_decode_handler(token)['username']
     user = User.objects.get(username=username)
     access, resp = can_access_course(user, code)
-    if not access:
-        return resp
-    course = Course.objects.get(code=code)
-    try:
-        lecture = course.lecture_set.get(urlName=lectureURL)
-    except Lecture.DoesNotExist:
+    if user.is_staff:
+        notification = Notification.objects.all().order_by('category')
+    except Notification.DoesNotExist:
         return HttpResponseNotFound("Invalid notification URL.")
 
-    profile = ARiProfile.objects.get(user=user)
-    notes = UserNotes.objects.get_or_create(lecture=lecture, profile=profile)[0]
-
-    serializer = LectureAndNotesSerializer(notes, many=False)
+    serializer = NotificationSerializer(notification, many=False)
     return JsonResponse(serializer.data, safe=False)
 
 
@@ -46,16 +39,10 @@ def create_notification(request):
 
     name = request.POST.get('name', None)
     course_code = request.POST.get('code', None)
-    video = request.POST.get('video', None)
-    if video is None:
-        video = ""
-    slides = request.POST.get('slides', None)
-    if slides is None:
-        slides = ""
+    message = request.POST.get('message', None)
     try:
         course = Course.objects.get(code=course_code)
 
-    Lecture.objects.create(name=name, course=course, video=video,
-                           slides=slides)
+    Notification.objects.create(name=name, course=course, message=message)
 
     return HttpResponse("Notification created successfully.")
