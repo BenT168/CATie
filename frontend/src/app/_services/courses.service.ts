@@ -10,7 +10,6 @@ import {LectureDetails} from "../ariviewer/ariviewer.component";
 @Injectable()
 export class CoursesService {
     public token: string;
-
     private fetchCoursesUrl: string = Globals.hostURL + 'courses/';
     private addUrl: string = Globals.hostURL + 'lectures/create/';
 
