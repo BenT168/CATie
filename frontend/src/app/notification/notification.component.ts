@@ -1,0 +1,97 @@
+import {Component, Injectable, OnInit, OnDestroy} from '@angular/core';
+import {NotificationService} from "../_services/notification.service";
+import {ActivatedRoute,Router} from '@angular/router';
+import {AuthenticationService} from "../_services/auth.service";
+import {FormBuilder} from '@angular/forms';
+import {Course, Lecture} from '../courses/courses.component';
+import {CoursesService} from "../_services/courses.service";
+import {Subscription} from "rxjs/Subscription";
+
+interface LectureDictionary {
+    [key: number]: Lecture[];
+}
+
+@Component({
+    styleUrls: ['./notification.component.scss'],
+    templateUrl: './notification.component.html'
+})
+
+export class NotificationComponent implements OnInit, OnDestroy {
+    model: any = {};
+    allExpanded: boolean;
+    isStaff: boolean;
+    viewStaffModal: boolean;
+    viewNotificationModal: boolean;
+    firstName: string;
+    lastName: string;
+
+    notification: Notification[] = [];
+
+    notificationSubscription: Subscription;
+    selectedCourse: Course = null;
+    selectedLecture: Lecture = null;
+
+    localStorage;
+
+    constructor(private notificationService: NotificationService, private router: Router, private authenticationService: AuthenticationService) {
+        this.allExpanded = false;
+        this.viewStaffModal = false;
+        this.viewNotificationModal = false;
+        this.localStorage = localStorage;
+        this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
+        this.firstName = JSON.parse(localStorage['currentUser']).first_name;
+        this.lastName = JSON.parse(localStorage['currentUser']).last_name;
+        console.log(this.isStaff);;
+    }
+
+    logout(): void {
+        this.authenticationService.logout();
+    }
+
+    expandButtonPress() {
+        this.allExpanded = !this.allExpanded;
+    }
+
+    showStaffModal() {
+        this.viewStaffModal = true;
+    }
+
+    hideStaffModal() {
+        this.viewStaffModal = false;
+    }
+
+    showNotificationModal() {
+        this.viewNotificationModal = true;
+    }
+
+    hideQNotificationModal() {
+        this.viewNotificationModal = false;
+    }
+
+    ngOnInit() {
+        this.getNotification();
+    }
+
+    ngOnDestroy() {
+        if (this.notificationSubscription !== undefined) {
+            this.notificationSubscription.unsubscribe();
+        }
+    }
+
+
+    getNotification() {
+        this.notificationService.getNotification().subscribe(
+            notification => this.notification = notification,
+            function(error) { console.log(error); },
+            function() { console.log("completed course loading"); }
+        );
+    }
+
+    createNotification() {
+        this.notificationService.createNotification(this.model.title, this.selectedCourse.code,
+            this.selectedLecture.urlName, this.model.body).subscribe(result => {
+            console.log(result);
+        });
+    }
+
+  }

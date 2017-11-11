@@ -10,6 +10,7 @@ import { HomeComponent } from "./home/home.component";
 import { AboutComponent } from "./about/about.component";
 import { CalendarModule } from 'angular-calendar';
 
+import { NotificationComponent } from './notification/notification.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CoursesComponent } from "./courses/courses.component";
 import { GradesComponent } from "./grades/grades.component";
@@ -23,6 +24,7 @@ import { LoginGuard } from "./_guards/login.guard";
 import { AuthenticationService } from "./_services/auth.service";
 import { CoursesService } from "./_services/courses.service";
 import { AskAriService } from "./_services/askari.service";
+import { NotificationService } from "./_services/notification.service";
 
 @NgModule({
     declarations: [
@@ -31,6 +33,7 @@ import { AskAriService } from "./_services/askari.service";
         HomeComponent,
         CalendarComponent,
         CoursesComponent,
+        NotificationComponent,
         GradesComponent,
         AriViewerComponent,
         LoginComponent,
@@ -55,6 +58,7 @@ import { AskAriService } from "./_services/askari.service";
         LoginGuard,
         AuthenticationService,
         CoursesService,
+        NotificationService,
         AskAriService
     ],
     bootstrap: [AppComponent]
