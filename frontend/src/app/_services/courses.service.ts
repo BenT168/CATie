@@ -14,7 +14,6 @@ export class CoursesService {
     private fetchCoursesUrl: string = Globals.hostURL + 'courses/';
     private addUrl: string = Globals.hostURL + 'lectures/create/';
 
-
     constructor(private http: Http) {
         // set token if saved in local storage
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
