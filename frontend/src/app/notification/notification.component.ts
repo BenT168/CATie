@@ -3,13 +3,9 @@ import {NotificationService} from "../_services/notification.service";
 import {ActivatedRoute,Router} from '@angular/router';
 import {AuthenticationService} from "../_services/auth.service";
 import {FormBuilder} from '@angular/forms';
-import {Course, Lecture} from '../courses/courses.component';
+import {Course} from '../courses/courses.component';
 import {CoursesService} from "../_services/courses.service";
 import {Subscription} from "rxjs/Subscription";
-
-interface LectureDictionary {
-    [key: number]: Lecture[];
-}
 
 @Component({
     styleUrls: ['./notification.component.scss'],
@@ -29,7 +25,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
     notificationSubscription: Subscription;
     selectedCourse: Course = null;
-    selectedLecture: Lecture = null;
 
     localStorage;
 
@@ -78,18 +73,17 @@ export class NotificationComponent implements OnInit, OnDestroy {
         }
     }
 
-
     getNotification() {
         this.notificationService.getNotification().subscribe(
             notification => this.notification = notification,
             function(error) { console.log(error); },
-            function() { console.log("completed course loading"); }
+            function() { console.log("all notifications loaded"); }
         );
     }
 
     createNotification() {
         this.notificationService.createNotification(this.model.title, this.selectedCourse.code,
-            this.selectedLecture.urlName, this.model.body).subscribe(result => {
+            this.model.body,this.model.category).subscribe(result => {
             console.log(result);
         });
     }

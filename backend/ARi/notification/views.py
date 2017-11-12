@@ -39,7 +39,8 @@ def create_notification(request):
     course_code = request.POST.get('code', None)
     course = Course.objects.get(code=course_code)
     message = request.POST.get('message', None)
+    category = request.POST.get('category', None)
 
-    Notification.objects.create(name=name, course=course, message=message)
+    Notification.objects.create(name=name, course=course, message=message, category=category)
 
     return HttpResponse("Notification created successfully.")

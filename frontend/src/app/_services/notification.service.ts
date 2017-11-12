@@ -14,7 +14,6 @@ export class NotificationService {
     private fetchNotificationUrl: string = Globals.hostURL + 'notification/';
     private createNotificationUrl: string = Globals.hostURL + 'notification/create/';
 
-
     constructor(private http: Http) {
         // set token if saved in local storage
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -28,11 +27,11 @@ export class NotificationService {
         return this.http.get(this.fetchNotificationUrl, options).map(this.extractData);
     }
 
-    createNotification(title: string, code: number,lecture: string, body: string): Observable<number>  {
+    createNotification(title: string, code: number, body: string, category: string): Observable<number>  {
         let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
         headers.append('Authorization', this.token);
         let options = new RequestOptions({ headers: headers });
-        let params = 'title=' + title + '&code=' + code + '&lecture=' + lecture + '&body=' + body;
+        let params = 'title=' + title + '&code=' + code + '&body=' + body +'&category=' + category ;
 
         return this.http.post(this.createNotificationUrl, params, options).map((res: Response) => {
             if (res) {
