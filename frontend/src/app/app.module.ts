@@ -18,6 +18,7 @@ import { AskAriComponent } from "./askari/askari.component";
 import { LoginComponent } from "./login/login.component";
 import { AskAriQuestionComponent } from "./askariquestion/askariquestion.component";
 import { AssignmentsComponent } from "./assignments/assignments.component";
+import { GradingSchemaComponent } from "./gradingschema/gradingschema.component";
 import { AuthGuard } from "./_guards/auth.guard";
 import { LoginGuard } from "./_guards/login.guard";
 import { AuthenticationService } from "./_services/auth.service";
@@ -37,6 +38,7 @@ import { AskAriService } from "./_services/askari.service";
         AskAriComponent,
         AskAriQuestionComponent,
         AssignmentsComponent,
+        GradingSchemaComponent,
         SafePipe
     ],
     imports: [
