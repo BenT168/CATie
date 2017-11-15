@@ -43,6 +43,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" [routerLink]="['../grades']" routerLinkActive="active" *ngIf="!isStaff">Grades</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" [routerLink]="['../doccalendar']" routerLinkActive="active">Doc Calendar</a>
+            </li>
         </ul>
     </nav>
 </div>
@@ -266,17 +269,6 @@ https://timetable.doc.ic.ac.uk/tt/21118c52e362fd1b0daa7d3121d68dac5cbb8a3e
     </div>
   </div>
 
-  <h3 style="position: absolute; top: 59.7%; left: 71%; color: #57CAE5; font-weight: bold">Access External Sites</h3>
-  <hr style="position: absolute; top: 65%; left: 71%; width: 15%; height: 0.28%; background-color: #4390BC; border: none">
-
-  <div style="position: absolute; top: 66%; left: 71%; width: 98%">
-
-  <div class="alert alert-success" style="width: 27%; background-color: #49AFD9; border-color: #49AFD9; color: white">
-    <div class="item">
-      <a class="link" style = "color: white; font-size:100%; align: centre" href="#" [routerLink]="['../doccalendar']" routerLinkActive="active">Departamental Grading Schema</a>
-    </div>
-  </div>
-
   <div class="alert alert-success" style="width: 27%; background-color: #49AFD9; border-color: #49AFD9; color: white">
     <div class="item">
       <a class="link" style = "color: white; font-size:100%; align: centre" href="https://cate.doc.ic.ac.uk/student.cgi?key=2017:ab6015">Student Individual Record</a>
@@ -300,5 +292,4 @@ https://timetable.doc.ic.ac.uk/tt/21118c52e362fd1b0daa7d3121d68dac5cbb8a3e
       <a class="link" style = "color: white; font-size:100%; align: centre" href="https://teachdb.doc.ic.ac.uk/db/">Teaching Database</a>
     </div>
   </div>
-
 </div>
