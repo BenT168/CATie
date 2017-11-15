@@ -73,12 +73,22 @@
     </div>
     -->
 
-    <clr-dg-row *ngFor="let notification of notifications | slice:0:5">
-        <clr-dg-cell style="background-color: white; font-style: italic" [routerLink]="['/askari', { qTitle: question.title }]" routerLinkActive="active">{{question.title}}</clr-dg-cell>
-        <clr-dg-cell style="background-color: white">{{notification.course}} - {{notification.type}}</clr-dg-cell>
-    </clr-dg-row>
+    <div class="alert alert-success" style="width: 27%; background-color: #49AFD9; border-color: #49AFD9; color: white" *ngFor="let not of notification | slice:0:8">
+      <clr-icon shape="tasks" style="position: absolute; top: 25%"></clr-icon>
 
-    <div class="alert alert-success" style="width: 27%; background-color: #49AFD9; border-color: #49AFD9; color: white">
+      <div class="alert-item">
+      <span>
+          {{not.course}} - {{not.message}}
+      </span>
+      </div>
+
+      <button type="button" (click)="deleteNots(not)" class="close" aria-label="Close">
+          <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+
+    </div>
+
+    <!-- <div class="alert alert-success" style="width: 27%; background-color: #49AFD9; border-color: #49AFD9; color: white">
         <clr-icon shape="tasks" style="position: absolute; top: 25%"></clr-icon>
 
         <div class="alert-item">
@@ -188,7 +198,7 @@
         <button type="button" class="close" aria-label="Close">
             <clr-icon aria-hidden="true" shape="close"></clr-icon>
         </button>
-    </div>
+    </div> -->
 
 </div>
 
