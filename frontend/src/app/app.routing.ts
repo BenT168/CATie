@@ -15,6 +15,7 @@ import { AriViewerComponent } from "./ariviewer/ariviewer.component";
 import { AskAriComponent } from "./askari/askari.component";
 import { AssignmentsComponent } from "./assignments/assignments.component";
 import { GradingSchemaComponent } from "./gradingschema/gradingschema.component";
+import { DocCalendarComponent } from "./doccalendar/doccalendar.component";
 import { LoginGuard } from "./_guards/login.guard";
 import { AuthGuard } from "./_guards/auth.guard";
 import { LoginComponent } from "./login/login.component";
@@ -33,6 +34,7 @@ export const ROUTES: Routes = [
     { path: 'askari', component: AskAriComponent, canActivate: [AuthGuard] },
     { path: 'assignments', component: AssignmentsComponent, canActivate: [AuthGuard] },
     { path: 'gradingschema', component: GradingSchemaComponent, canActivate: [AuthGuard] },
+    { path: 'doccalendar', component: DocCalendarComponent, canActivate: [AuthGuard] },
     { path: 'askariquestion', component: AskAriQuestionComponent, canActivate: [AuthGuard] }
 ];
 
