@@ -53,15 +53,15 @@ export class HomeComponent {
     // }
 
     createNots(notificationService: NotificationService, router: Router, authenticationService: AuthenticationService): void {
-      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 290, "Grade released"));
-      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 209, "New assignement available"));
-      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 256, "New tutorial available"));
-      this. notification.push(new NotificationComponent(notificationService, router, authenticationService, 235, "Latest lecture released"));
-      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 235, "Coursework due"));
-      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 217, "New assignment available"));
-      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 289, "Grade relased"));
-      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 290, "New tutorial available"));
-      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 234, "Latest lecture released"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 290, "Grade Release", "done"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 209, "New Assignment Available", "note"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 256, "New tutorial available", "note"));
+      this. notification.push(new NotificationComponent(notificationService, router, authenticationService, 235, "Latest lecture released", "note"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 235, "Upcoming Deadline", "clock"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 217, "New assignment available", "note"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 289, "Response to your Ask ARi Question", "discussion"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 290, "Assignment Submission Successful", "upload-success"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 234, "Assignment Submission Failed", "upload-failure"));
     }
 
     deleteNots(not: NotificationComponent): void {

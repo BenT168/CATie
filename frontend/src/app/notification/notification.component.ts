@@ -22,6 +22,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
     lastName: string;
     message: string;
     course: number;
+    category: string;
 
     notification: Notification[] = [];
 
@@ -30,7 +31,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
     localStorage;
 
-    constructor(private notificationService: NotificationService, private router: Router, private authenticationService: AuthenticationService, course: number, message: string) {
+    constructor(private notificationService: NotificationService, private router: Router, private authenticationService: AuthenticationService, course: number, message: string, category: string) {
         this.allExpanded = false;
         this.viewStaffModal = false;
         this.viewNotificationModal = false;
@@ -40,6 +41,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
         this.lastName = JSON.parse(localStorage['currentUser']).last_name;
         this.course = course;
         this.message = message;
+        this.category = category;
     }
 
     logout(): void {
