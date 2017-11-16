@@ -6,6 +6,7 @@ import {FormBuilder} from '@angular/forms';
 import {Course} from '../courses/courses.component';
 import {CoursesService} from "../_services/courses.service";
 import {Subscription} from "rxjs/Subscription";
+import { DatePipe } from '@angular/common';
 
 @Component({
     styleUrls: ['./notification.component.scss'],
@@ -23,6 +24,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
     message: string;
     course: number;
     category: string;
+    page: string;
+    date;
 
     notification: Notification[] = [];
 
@@ -31,7 +34,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
     localStorage;
 
-    constructor(private notificationService: NotificationService, private router: Router, private authenticationService: AuthenticationService, course: number, message: string, category: string) {
+    constructor(private notificationService: NotificationService, private router: Router, private authenticationService: AuthenticationService, course: number, message: string, category: string, page: string) {
         this.allExpanded = false;
         this.viewStaffModal = false;
         this.viewNotificationModal = false;
@@ -42,6 +45,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
         this.course = course;
         this.message = message;
         this.category = category;
+        this.page = page;
+        this.date = Date.now();
     }
 
     logout(): void {

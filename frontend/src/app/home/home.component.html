@@ -82,8 +82,18 @@
       <clr-icon *ngIf="not.category === 'clock'" shape="clock" style="position: absolute; top: 25%"></clr-icon>
 
       <div class="alert-item">
-      <span>
-          {{not.course}} - {{not.message}}
+      <span *ngIf="not.page === 'Course'">
+          <!-- <a href="http://localhost:4200/courses" style="color:white">{{not.course}} - {{not.message}} - Posted on {{not.date | date:'mediumDate'}} ({{not.page}})</a> -->
+          <a href="#" [routerLink]="['../courses']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
+      </span>
+      <span *ngIf="not.page === 'Assignment'">
+          <a href="#" [routerLink]="['../assignments']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
+      </span>
+      <span *ngIf="not.page === 'Grade'">
+          <a href="#" [routerLink]="['../grades']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
+      </span>
+      <span *ngIf="not.page === 'Discussion'">
+          <a href="#" [routerLink]="['../askari']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
       </span>
       </div>
 
@@ -92,8 +102,9 @@
       </button>
 
     </div>
-
+    <a href="#" [routerLink]="['../notification']" routerLinkActive="active">View All</a>
 </div>
+
 
 <!--
 <h3 style="position: absolute; top: 10%; left: 33%; color: #6ECCCA; font-weight: bold">TODO List</h3>
