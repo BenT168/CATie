@@ -9,6 +9,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.utils import jwt_decode_handler
 
+# the code below is not tested
 
 @csrf_exempt
 @permission_classes((IsAuthenticated,))
