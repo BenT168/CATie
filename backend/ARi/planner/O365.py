@@ -32,23 +32,28 @@ def createEvent(subject, startTime, endTime):
     return ev.create()
 
 
-def filterByDate(dateTime):
+# filters given calendar by providing date
+# dateTime Format = '2017-11-22'
+def filterByDate(date):
     events = []
-    date = dateTime.split('T')[0]
-    print(date)
+    dateTimes = generateDateTimesForGivenDate(date)
     for b in bookings:
-        if b.get('Start') == dateTime:
-            events.append(b.get('Subject'))
+        for d in dateTimes:
+            if b.get('Start') == d:
+                events.append(b.get('Subject'))
     return events
 
 
-def generateDateTimesForGivenDate(date):
-    date += 'T'
+# helper function used to generate dateTimes for the filter function above.
+def generateDateTimesForGivenDate(dateGiven):
     dateTimes = []
-    times = [for i in range(1, 23)]
+    times = [i for i in range(0, 24)]
     for t in times:
-        date += t + ':00:00Z'
+        date = dateGiven
+        if t < 10: date += 'T0' + str(t) + ':00:00Z'
+        else: date += 'T' + str(t) + ':00:00Z'
         dateTimes.append(date)
+    return dateTimes
 
 
 # Creates an event here for testing purposes
@@ -72,6 +77,10 @@ for b in bookings:
     print("End:", b.get('End'))
     print()
 
-dateTime = '2017-11-22T16:00:00Z'
-a = filterByDate(dateTime)
+
+dateTest1 = '2017-12-06'
+dateTest2 = '2017-11-29'
+a = filterByDate(dateTest1)
+b = filterByDate(dateTest2)
 print(a)
+print(b)
