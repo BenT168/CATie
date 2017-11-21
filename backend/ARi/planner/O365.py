@@ -1,30 +1,46 @@
 from O365 import Event, Schedule
 import time
 
-# the code below is tested and works perfectly
+email = ' '
+password = ' '
 
-# should be real email and password corresponding to the user
-e = ''
-p = ''
-authentication = (e, p)
 
-schedule = Schedule(authentication)
-bookings = []
+# Returns an array that holds all the upcoming events for the provided user.
+def getAllUpcomingEventsForUser(email, password):
+    schedule = Schedule((email, password))
+    bookings = []
 
-try:
-    result = schedule.getCalendars()
-    # print('\nFetched calendars for', e, 'was successful:', result, '\n')
-except:
-    print('Login failed for', e, '\n')
+    try:
+        result = schedule.getCalendars()
+        # print('\nFetched calendars for', e, 'was successful:', result, '\n')
+    except:
+        print('Login failed for', email, '\n')
 
-calendars = schedule.calendars
+    calendars = schedule.calendars
+
+    for cal in calendars:
+        try:
+            result = cal.getEvents()
+            print('Got:', len(cal.events), 'events in total from given calendar\n')
+        except:
+            print('Failed to fetch events')
+
+        for event in cal.events:
+            # holds everything in json format to make it easily extractable using key-value dictionary matching.
+            bookings.append(event.toJson())
+
+        return bookings
 
 
 # FORMATS
 # subject = string
 # startTime Example = '21 Nov 17 19 00' where Format = 'Day Month Year Hour Minutes'
 # endTime Example = '21 Nov 17 21 00' where Format same as above
-def createEvent(subject, startTime, endTime):
+def createEvent(email, password, subject, startTime, endTime):
+    authentication = (email, password)
+    schedule = Schedule(authentication)
+    res = schedule.getCalendars()  # not used but essential for successful event creation.
+    calendars = schedule.calendars
     ev = Event(auth=authentication, cal=calendars[0])
     ev.setSubject(subject)
     ev.setStart(time.strptime(startTime, '%d %b %y %H %M'))
@@ -32,19 +48,26 @@ def createEvent(subject, startTime, endTime):
     return ev.create()
 
 
-# filters given calendar by providing date
-# dateTime Format = '2017-11-22'
-def filterByDate(date):
+# Filters the list of upcoming events for user given a date
+# DATE FORMAT: '2017-12-06'
+# Note: Currently does not support filtering for events that are occurring in other hours than whole hours.
+def filterByDate(date, bookings):
     events = []
     dateTimes = generateDateTimesForGivenDate(date)
+    print("--- EVENTS ON:", date, '---')
     for b in bookings:
         for d in dateTimes:
-            if b.get('Start') == d:
-                events.append(b.get('Subject'))
+            try:
+                if b.get('Start') == d:
+                    print(b.get('Subject'))
+                    events.append(b)
+            except:
+                print("No events on given date", date)
     return events
 
 
-# helper function used to generate dateTimes for the filter function above.
+# Helper function used by filterByDate to concat all possible hours of a given date.
+# Note: Currently does not support filtering for events that are occurring in other hours than whole hours.
 def generateDateTimesForGivenDate(dateGiven):
     dateTimes = []
     times = [i for i in range(0, 24)]
@@ -56,31 +79,8 @@ def generateDateTimesForGivenDate(dateGiven):
     return dateTimes
 
 
-# Creates an event here for testing purposes
-# test_event = createEvent('SusanTest', '21 Nov 17 19 00', '21 Nov 17 21 00')
-
-for cal in calendars:
-    try:
-        result = cal.getEvents()
-        # print('Got:', len(cal.events), 'events in total from given calendar\n')
-    except:
-        print('Failed to fetch events')
-
-    for event in cal.events:
-        # holds everything in json format to make it easily extractable using key-value dictionary matching.
-        bookings.append(event.toJson())
-
-print("--- UPCOMING EVENTS ---")
-for b in bookings:
-    print("Title:", b.get('Subject'))
-    print("Start:", b.get('Start'))
-    print("End:", b.get('End'))
-    print()
-
-
+# Testing
+bookings = getAllUpcomingEventsForUser(email, password)
+createEvent(email, password, "Susan test", "30 Nov 17 19 00", "30 Nov 17 21 00")
 dateTest1 = '2017-12-06'
-dateTest2 = '2017-11-29'
-a = filterByDate(dateTest1)
-b = filterByDate(dateTest2)
-print(a)
-print(b)
+filterByDate(dateTest1, bookings)
