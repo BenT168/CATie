@@ -36,7 +36,7 @@ def getAllUpcomingEventsForUser(email, password):
 # subject = string
 # startTime Example = '21 Nov 17 19 00' where Format = 'Day Month Year Hour Minutes'
 # endTime Example = '21 Nov 17 21 00' where Format same as above
-def createEvent(email, password, subject, startTime, endTime):
+def createEvent(email, password, subject, startTime, endTime, body=None, attendees=None):
     authentication = (email, password)
     schedule = Schedule(authentication)
     res = schedule.getCalendars()  # not used but essential for successful event creation.
@@ -45,6 +45,8 @@ def createEvent(email, password, subject, startTime, endTime):
     ev.setSubject(subject)
     ev.setStart(time.strptime(startTime, '%d %b %y %H %M'))
     ev.setEnd(time.strptime(endTime, '%d %b %y %H %M'))
+    if body: ev.setBody(body)
+    if attendees: ev.setAttendees(attendees)
     return ev.create()
 
 
@@ -71,8 +73,10 @@ def generateDateTimesForGivenDate(dateGiven):
     times = [i for i in range(0, 24)]
     for t in times:
         date = dateGiven
-        if t < 10: date += 'T0' + str(t) + ':00:00Z'
-        else: date += 'T' + str(t) + ':00:00Z'
+        if t < 10:
+            date += 'T0' + str(t) + ':00:00Z'
+        else:
+            date += 'T' + str(t) + ':00:00Z'
         dateTimes.append(date)
     return dateTimes
 
