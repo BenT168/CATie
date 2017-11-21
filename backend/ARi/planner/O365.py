@@ -12,7 +12,7 @@ def getAllUpcomingEventsForUser(email, password):
 
     try:
         result = schedule.getCalendars()
-        # print('\nFetched calendars for', e, 'was successful:', result, '\n')
+        # print('\nFetched calendars for', email, 'was successful:', result, '\n')
     except:
         print('Login failed for', email, '\n')
 
@@ -21,7 +21,7 @@ def getAllUpcomingEventsForUser(email, password):
     for cal in calendars:
         try:
             result = cal.getEvents()
-            print('Got:', len(cal.events), 'events in total from given calendar\n')
+            # print('Got:', len(cal.events), 'events in total from given calendar\n')
         except:
             print('Failed to fetch events')
 
@@ -54,12 +54,10 @@ def createEvent(email, password, subject, startTime, endTime):
 def filterByDate(date, bookings):
     events = []
     dateTimes = generateDateTimesForGivenDate(date)
-    print("--- EVENTS ON:", date, '---')
     for b in bookings:
         for d in dateTimes:
             try:
                 if b.get('Start') == d:
-                    print(b.get('Subject'))
                     events.append(b)
             except:
                 print("No events on given date", date)
@@ -79,8 +77,29 @@ def generateDateTimesForGivenDate(dateGiven):
     return dateTimes
 
 
+# Display all upcoming events
+def displayEvents(bookings, date=None):
+    if date:
+        bookings = filterByDate(date, bookings)
+        print("--- UPCOMING EVENTS FOR:", date, "---")
+        for b in bookings:
+            print("Title:", b.get('Subject'))
+            print("Start:", b.get('Start'))
+            print("End:", b.get('End'))
+            print()
+    else:
+        print("--- ALL UPCOMING EVENTS ---")
+        for b in bookings:
+            print("Title:", b.get('Subject'))
+            print("Start:", b.get('Start'))
+            print("End:", b.get('End'))
+            print()
+
+
 # Testing
+# CURRENT STATE: EVERYTHING WORKS.
 bookings = getAllUpcomingEventsForUser(email, password)
-createEvent(email, password, "Susan test", "30 Nov 17 19 00", "30 Nov 17 21 00")
-dateTest1 = '2017-12-06'
-filterByDate(dateTest1, bookings)
+# displayEvents(bookings)
+# createEvent(email, password, "Susan test", "30 Nov 17 19 00", "30 Nov 17 21 00")
+# displayEvents(bookings)
+displayEvents(bookings, '2017-12-06')
