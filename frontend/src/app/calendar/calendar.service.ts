@@ -20,14 +20,23 @@ export class CalendarService {
     }
 
     create(username: string,
+           password: string,
            title: string,
            start: Date,
            end: Date,
            isDraggable: boolean,
            isResizable: boolean): Observable<CalendarEvent> {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.post(this.calendarUrl, { username, title, start, end, isDraggable, isResizable  }, options)
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.calendarUrl, {
+            username,
+            password,
+            title,
+            start,
+            end,
+            isDraggable,
+            isResizable
+        }, options)
             .map(this.extractData)
             .catch(this.handleError);
     }

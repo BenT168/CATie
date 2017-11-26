@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework_jwt.settings import api_settings
 
 from login.models import ARiProfile
+from O365 import Schedule
 
 
 @csrf_exempt

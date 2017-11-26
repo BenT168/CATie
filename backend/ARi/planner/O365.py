@@ -6,8 +6,14 @@ password = ' '
 
 
 # Returns an array that holds all the upcoming events for the provided user.
-def getAllUpcomingEventsForUser(email, password):
-    schedule = Schedule((email, password))
+def getAllUpcomingEventsForUser(request):
+    token = request.environ['HTTP_AUTHORIZATION']
+    username = jwt_decode_handler(token)['username']
+    email = username + '@ic.ac.uk'
+    password = request.POST.get('password', None)
+
+    authentication = (email, password)
+    schedule = Schedule(authentication)
     bookings = []
 
     try:

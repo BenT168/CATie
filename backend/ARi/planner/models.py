@@ -6,7 +6,7 @@ class CalendarEvent(models.Model):
     title = models.CharField(max_length=60)
     start = models.DateTimeField()
     end = models.DateTimeField()
-    done = models.BooleanField()
+    body = models.CharField(max_length=150) # new field
     isDraggable = models.BooleanField()
     isResizable = models.BooleanField()
 
