@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'courses',
     'lecture',
     'AskARi',
+    'notification',
 
     # Django Packages
     'rest_framework',
