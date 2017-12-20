@@ -1,3 +1,4 @@
 from django.contrib import admin
+from backend.ARi.submissions.models import Submission
 
-# Register your models here.
+admin.site.register(Submission)
