@@ -8,6 +8,7 @@ class Submission(models.Model):
     course = models.ForeignKey(Course)
     title = models.CharField(max_length=60)
     file = models.FileField()
+    due = models.DateTimeField()
     marked = models.BooleanField(default=False)
     grade = models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(0)])
     collected = models.BooleanField(default=False)
