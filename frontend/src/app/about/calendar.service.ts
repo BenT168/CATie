@@ -11,7 +11,7 @@ import { CalendarEvent } from './calendar.event';
 
 @Injectable()
 export class CalendarService {
-    private calendarUrl = 'http://ari-server.herokuapp.com/calendar/';  // URL to web API
+    private calendarUrl = 'http://catie-server.herokuapp.com/calendar/';  // URL to web API
     constructor(private http: Http) {
     }
 

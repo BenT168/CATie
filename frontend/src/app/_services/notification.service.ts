@@ -4,7 +4,7 @@ import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 import * as Globals from '../globals';
 
-import {LectureDetails} from "../ariviewer/ariviewer.component";
+import {LectureDetails} from "../catieviewer/catieviewer.component";
 import {NotificationComponent} from "../notification/notification.component";
 
 @Injectable()

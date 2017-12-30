@@ -14,10 +14,10 @@ import { NotificationComponent } from './notification/notification.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CoursesComponent } from "./courses/courses.component";
 import { GradesComponent } from "./grades/grades.component";
-import { AriViewerComponent, SafePipe } from "./ariviewer/ariviewer.component";
-import { AskAriComponent } from "./askari/askari.component";
+import { CATieViewerComponent, SafePipe } from "./catieviewer/catieviewer.component";
+import { AskCATieComponent } from "./askcatie/askcatie.component";
 import { LoginComponent } from "./login/login.component";
-import { AskAriQuestionComponent } from "./askariquestion/askariquestion.component";
+import { AskCATieQuestionComponent } from "./askcatiequestion/askcatiequestion.component";
 import { AssignmentsComponent } from "./assignments/assignments.component";
 import { GradingSchemaComponent } from "./gradingschema/gradingschema.component";
 import { DocCalendarComponent } from "./doccalendar/doccalendar.component";
@@ -25,7 +25,7 @@ import { AuthGuard } from "./_guards/auth.guard";
 import { LoginGuard } from "./_guards/login.guard";
 import { AuthenticationService } from "./_services/auth.service";
 import { CoursesService } from "./_services/courses.service";
-import { AskAriService } from "./_services/askari.service";
+import { AskCATieService } from "./_services/askcatie.service";
 import { NotificationService } from "./_services/notification.service";
 
 @NgModule({
@@ -37,10 +37,10 @@ import { NotificationService } from "./_services/notification.service";
         CoursesComponent,
         NotificationComponent,
         GradesComponent,
-        AriViewerComponent,
+        CATieViewerComponent,
         LoginComponent,
-        AskAriComponent,
-        AskAriQuestionComponent,
+        AskCATieComponent,
+        AskCATieQuestionComponent,
         AssignmentsComponent,
         GradingSchemaComponent,
         DocCalendarComponent,
@@ -63,7 +63,7 @@ import { NotificationService } from "./_services/notification.service";
         AuthenticationService,
         CoursesService,
         NotificationService,
-        AskAriService
+        AskCATieService
     ],
     bootstrap: [AppComponent]
 })
