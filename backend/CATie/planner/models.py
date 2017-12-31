@@ -8,5 +8,9 @@ class CalendarEvent(models.Model):
     title = models.CharField(max_length=60)
     start = models.DateTimeField()
     end = models.DateTimeField()
+    content = models.CharField(max_length=150) # new field
     isDraggable = models.BooleanField()
     isResizable = models.BooleanField()
+
+    def __str__(self):
+        return self.title

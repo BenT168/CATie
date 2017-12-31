@@ -9,8 +9,14 @@ import * as Globals from '../globals';
 
 @Injectable()
 export class CalendarService {
-    private calendarUrl = Globals.hostURL + 'calendar/';  // URL to web API
+    public token: string;
+
+    private calendarUrl: string = Globals.hostURL + 'calendar/';  // URL to web API
+    private createEventUrl: string = Globals.hostURL + 'calender/create/';
+
     constructor(private http: Http) {
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.token = currentUser && currentUser.token;
     }
 
     getEvents(): Observable<CalendarEvent[]> {
@@ -23,11 +29,13 @@ export class CalendarService {
            title: string,
            start: Date,
            end: Date,
+           content: string,
            isDraggable: boolean,
            isResizable: boolean): Observable<CalendarEvent> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
+        headers.append('Authorization', this.token);
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(this.calendarUrl, { username, title, start, end, isDraggable, isResizable  }, options)
+        return this.http.post(this.createEventUrl, { username, title, start, end, content, isDraggable, isResizable  }, options)
             .map(this.extractData)
             .catch(this.handleError);
     }

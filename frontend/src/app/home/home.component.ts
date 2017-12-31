@@ -56,7 +56,7 @@ export class HomeComponent {
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 290, "Grade Release", "done", "Grade"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 209, "New Assignment Available", "note", "Assignment"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 256, "New Tutorial Available", "note", "Course"));
-      this. notification.push(new NotificationComponent(notificationService, router, authenticationService, 235, "Latest Lecture Released", "note", "Course"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 235, "Latest Lecture Released", "note", "Course"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 235, "Upcoming Deadline", "clock", "Assignment"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 217, "New Assignment Available", "note", "Assignment"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 289, "Response to your Ask CATie Question", "discussion", "Discussion"));
