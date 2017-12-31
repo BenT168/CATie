@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from backend.ARi.planner import views
+from planner import views
 
 urlpatterns = [
     url(r'^calendar/$', views.CalendarEventList.get_events),

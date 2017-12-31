@@ -6,12 +6,8 @@ password = ' '
 
 
 # Returns an array that holds all the upcoming events for the provided user.
-def getAllUpcomingEventsForUser(request):
-    token = request.environ['HTTP_AUTHORIZATION']
-    username = jwt_decode_handler(token)['username']
-    email = username + '@ic.ac.uk'
-    password = request.POST.get('password', None)
-
+def getAllUpcomingEventsForUser(username, password):
+    email = userIname + '@ic.ac.uk'
     authentication = (email, password)
     schedule = Schedule(authentication)
     bookings = []
@@ -42,7 +38,7 @@ def getAllUpcomingEventsForUser(request):
 # subject = string
 # startTime Example = '21 Nov 17 19 00' where Format = 'Day Month Year Hour Minutes'
 # endTime Example = '21 Nov 17 21 00' where Format same as above
-def createEvent(email, password, subject, startTime, endTime, body=None, attendees=None):
+def createEvent(email, password, subject, startTime, endTime, content=None, attendees=None):
     authentication = (email, password)
     schedule = Schedule(authentication)
     res = schedule.getCalendars()  # not used but essential for successful event creation.
@@ -51,7 +47,7 @@ def createEvent(email, password, subject, startTime, endTime, body=None, attende
     ev.setSubject(subject)
     ev.setStart(time.strptime(startTime, '%d %b %y %H %M'))
     ev.setEnd(time.strptime(endTime, '%d %b %y %H %M'))
-    if body: ev.setBody(body)
+    if content: ev.setBody(content)
     if attendees: ev.setAttendees(attendees)
     return ev.create()
 
