@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('notes', models.TextField()),
                 ('lecture', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lecture.Lecture')),
-                ('profile', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.ARiProfile')),
+                ('profile', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.CATieProfile')),
             ],
         ),
     ]

@@ -11,7 +11,7 @@ import re
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('AskARi', '0013_question_last_interaction'),
+        ('AskCATie', '0013_question_last_interaction'),
     ]
 
     operations = [
@@ -38,6 +38,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='comment',
             name='parent_comment',
-            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='AskARi.Comment'),
+            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='AskCATie.Comment'),
         ),
     ]

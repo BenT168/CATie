@@ -89,7 +89,7 @@ def get_questions(request, code=None, lectureURL=None, pg_no=0):
         questions = Question.objects.none()
 
         # Get courses that user has access to
-        catie_profile = CATProfile.objects.get(user=user)
+        catie_profile = CATieProfile.objects.get(user=user)
         courses = catie_profile.courses.all()
 
         for course in courses:

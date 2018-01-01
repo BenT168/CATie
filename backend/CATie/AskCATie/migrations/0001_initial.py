@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('id_per_parent', models.PositiveIntegerField()),
                 ('parent_id', models.PositiveIntegerField()),
                 ('content_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
-                ('poster', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.ARiProfile')),
+                ('poster', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.CATieProfile')),
             ],
         ),
         migrations.CreateModel(
@@ -46,18 +46,18 @@ class Migration(migrations.Migration):
                 ('body', models.TextField(max_length=4000)),
                 ('id_per_lecture', models.IntegerField()),
                 ('parent', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lecture.Lecture')),
-                ('poster', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.ARiProfile')),
+                ('poster', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.CATieProfile')),
             ],
         ),
         migrations.AddField(
             model_name='comment',
             name='parent',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='AskARi.Question'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='AskCATie.Question'),
         ),
         migrations.AddField(
             model_name='comment',
             name='poster',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.ARiProfile'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.CATieProfile'),
         ),
         migrations.AlterUniqueTogether(
             name='question',

@@ -9,13 +9,13 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('AskARi', '0011_auto_20170616_1549'),
+        ('AskCATie', '0011_auto_20170616_1549'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='comment',
             name='parent',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='AskARi.Question', verbose_name='Question'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='AskCATie.Question', verbose_name='Question'),
         ),
     ]

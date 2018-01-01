@@ -9,18 +9,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('AskARi', '0006_auto_20170616_0840'),
+        ('AskCATie', '0006_auto_20170616_0840'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='comment',
             name='downvoted',
-            field=models.ManyToManyField(to='login.ARiProfile'),
+            field=models.ManyToManyField(to='login.CATieProfile'),
         ),
         migrations.AlterField(
             model_name='comment',
             name='poster',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='poster', to='login.ARiProfile'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='poster', to='login.CATieProfile'),
         ),
     ]

@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name='ariprofile',
-            options={'verbose_name': 'ARi Profile', 'verbose_name_plural': 'ARi Profiles'},
+            name='catieprofile',
+            options={'verbose_name': 'CATie Profile', 'verbose_name_plural': 'CATie Profiles'},
         ),
     ]
