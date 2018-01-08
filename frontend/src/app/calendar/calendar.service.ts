@@ -26,6 +26,7 @@ export class CalendarService {
     }
 
     create(username: string,
+           password: string,
            title: string,
            start: Date,
            end: Date,

@@ -3,8 +3,8 @@ from django.http import HttpResponseForbidden, JsonResponse
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework_jwt.settings import api_settings
-
 from login.models import CATieProfile
+
 
 
 @csrf_exempt
