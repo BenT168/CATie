@@ -2,23 +2,23 @@
 
 
 class ImperialDoCSpecifics:
-    groupFilters = "|(cn=doc-all-second-year)" \
-                   "(cn=doc-students-202)" \
-                   "(cn=doc-students-210)" \
-                   "(cn=doc-students-211)" \
-                   "(cn=doc-students-212)" \
-                   "(cn=doc-students-220)" \
-                   "(cn=doc-students-221)" \
-                   "(cn=doc-students-223)" \
-                   "(cn=doc-students-231)" \
-                   "(cn=doc-students-233)" \
-                   "(cn=doc-students-240)" \
-                   "(cn=doc-students-245)" \
-                   "(cn=doc-students-261)" \
-                   "(cn=doc-students-271)" \
-                   "(cn=doc-students-272)" \
-                   "(cn=doc-students-273)" \
-                   "(cn=doc-students-275)" \
-                   "(cn=doc-students-276)"
+    groupFilters = "|(cn=doc-all-third-year)" \
+                   "(cn=doc-students-316)" \
+                   "(cn=doc-students-333)" \
+                   "(cn=doc-students-337)" \
+                   "(cn=doc-students-343)" \
+                   "(cn=doc-students-349)" \
+                   "(cn=doc-students-382)" \
+                   "(cn=doc-students-572)" \
+                   "(cn=doc-students-303)" \
+                   "(cn=doc-students-304)" \
+                   "(cn=doc-students-317)" \
+                   "(cn=doc-students-318)" \
+                   "(cn=doc-students-322)" \
+                   "(cn=doc-students-331)" \
+                   "(cn=doc-students-332)" \
+                   "(cn=doc-students-338)" \
+                   "(cn=doc-students-347)" \
+                   "(cn=doc-students-395)"
 
 
