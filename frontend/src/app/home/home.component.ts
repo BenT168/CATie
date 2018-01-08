@@ -6,8 +6,8 @@
 import {Component} from "@angular/core";
 import {Router} from '@angular/router';
 import {AuthenticationService} from "../_services/auth.service";
-import {AskAriService} from "../_services/askari.service";
-import {Question} from "../askari/askari.component";
+import {AskCATieService} from "../_services/askcatie.service";
+import {Question} from "../askcatie/askcatie.component";
 import {NotificationService} from "../_services/notification.service"
 import {NotificationComponent} from "../notification/notification.component";
 
@@ -23,7 +23,7 @@ export class HomeComponent {
     notification: NotificationComponent[] = [];
 
     constructor(private router: Router, private authenticationService: AuthenticationService,
-                private askAriService: AskAriService, private notificationService: NotificationService) {
+                private askCATieService: AskCATieService, private notificationService: NotificationService) {
         this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
         this.firstName = JSON.parse(localStorage['currentUser']).first_name;
         this.lastName = JSON.parse(localStorage['currentUser']).last_name;
@@ -37,7 +37,7 @@ export class HomeComponent {
     }
 
     loadQuestions() {
-        this.askAriService.getAllQuestions().subscribe(
+        this.askCATieService.getAllQuestions().subscribe(
             questions => this.questions = questions,
             function(error) { console.log(error); },
             function() { console.log("got all questions"); }
@@ -56,10 +56,10 @@ export class HomeComponent {
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 290, "Grade Release", "done", "Grade"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 209, "New Assignment Available", "note", "Assignment"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 256, "New Tutorial Available", "note", "Course"));
-      this. notification.push(new NotificationComponent(notificationService, router, authenticationService, 235, "Latest Lecture Released", "note", "Course"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 235, "Latest Lecture Released", "note", "Course"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 235, "Upcoming Deadline", "clock", "Assignment"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 217, "New Assignment Available", "note", "Assignment"));
-      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 289, "Response to your Ask ARi Question", "discussion", "Discussion"));
+      this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 289, "Response to your Ask CATie Question", "discussion", "Discussion"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 290, "Assignment Submission Successful", "upload-success", "Assignment"));
       this.notification.push(new NotificationComponent(notificationService, router, authenticationService, 234, "Assignment Submission Failed", "upload-failure", "Assignment"));
     }

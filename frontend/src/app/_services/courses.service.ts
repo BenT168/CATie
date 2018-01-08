@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import * as Globals from '../globals';
 
 import {Course, Lecture} from '../courses/courses.component';
-import {LectureDetails} from "../ariviewer/ariviewer.component";
+import {LectureDetails} from "../catieviewer/catieviewer.component";
 
 @Injectable()
 export class CoursesService {

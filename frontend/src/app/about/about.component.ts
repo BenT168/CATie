@@ -4,8 +4,8 @@
  * The full license information can be found in LICENSE in the root directory of this project.
  */
 import {Component, OnInit} from '@angular/core';
-import {CalendarService} from "./calendar.service";
-import {CalendarEvent} from "./calendar.event";
+import {CalendarService} from "../calendar/calendar.service";
+import {CalendarEvent} from "../calendar/calendar.event";
 import {Router} from '@angular/router';
 import {AuthenticationService} from "../_services/auth.service";
 
@@ -41,9 +41,9 @@ export class AboutComponent implements OnInit {
                 error =>  this.errorMessage = <any>error);
     }
 
-    addEvent(username: string, title: string, start: Date, end: Date, isDraggable: boolean, isResizable: boolean) {
+    addEvent(username: string, title: string, start: Date, end: Date, content: string, isDraggable: boolean, isResizable: boolean) {
         if (!name) { return; }
-        this.calendarService.create(username, title, start, end, isDraggable, isResizable)
+        this.calendarService.create(username, title, start, end, content, isDraggable, isResizable)
             .subscribe(
                 hero  => this.events.push(hero),
                 error =>  this.errorMessage = <any>error);
