@@ -5,15 +5,13 @@ import 'rxjs/add/operator/map';
 import * as Globals from '../globals';
 
 import {Course, Lecture} from '../courses/courses.component';
-import {LectureDetails} from "../ariviewer/ariviewer.component";
+import {LectureDetails} from "../catieviewer/catieviewer.component";
 
 @Injectable()
 export class CoursesService {
     public token: string;
-
     private fetchCoursesUrl: string = Globals.hostURL + 'courses/';
     private addUrl: string = Globals.hostURL + 'lectures/create/';
-
 
     constructor(private http: Http) {
         // set token if saved in local storage

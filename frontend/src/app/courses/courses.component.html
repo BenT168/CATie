@@ -34,7 +34,7 @@
             </li>
             -->
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../askari']" routerLinkActive="active">Piazza</a>
+                <a class="nav-link" href="#" [routerLink]="['../askcatie']" routerLinkActive="active">Ask CATie</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" [routerLink]="['../courses']" routerLinkActive="active">Courses</a>
@@ -66,7 +66,7 @@
         <clr-stack-content>{{course.name}}</clr-stack-content>
         <clr-stack-block *ngFor="let lecture of lectureDict[course.code]">
             <clr-stack-label>
-                <a class="nav-link" href="#" [routerLink]="['/ariviewer', course.code, lecture.urlName]" routerLinkActive="active">
+                <a class="nav-link" href="#" [routerLink]="['/catieviewer', course.code, lecture.urlName]" routerLinkActive="active">
                     {{lecture.name}}
                 </a></clr-stack-label>
         </clr-stack-block>
