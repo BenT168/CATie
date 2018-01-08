@@ -9,6 +9,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { CalendarComponent } from "./calendar/calendar.component";
+import { NotificationComponent } from "./notification/notification.component";
 import { CoursesComponent } from "./courses/courses.component";
 import { GradesComponent } from "./grades/grades.component";
 import { AriViewerComponent } from "./ariviewer/ariviewer.component";
@@ -26,6 +27,7 @@ export const ROUTES: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'about', component: AboutComponent, canActivate: [AuthGuard] },
+    { path: 'notification', component: NotificationComponent, canActivate: [AuthGuard] },
     { path: 'cal', component: CalendarComponent, canActivate: [false] },
     { path: 'courses', component: CoursesComponent, canActivate: [AuthGuard] },
     { path: 'grades', component: GradesComponent, canActivate: [AuthGuard] },

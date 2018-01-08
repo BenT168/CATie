@@ -17,6 +17,13 @@ class Year(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=60)
     code = models.IntegerField(unique=True)
+
+    # used by the planner app to schedule the specific day accordingly based on course hours
+    # assuming that course happens twice a week in 2 different dates and hours.
+    # from documentation on format: https://docs.djangoproject.com/en/1.9/ref/settings/#datetime-input-formats
+    dateTime_1 = models.DateTimeField(auto_now=False, auto_now_add=False)
+    dateTime_2 = models.DateTimeField(auto_now=False, auto_now_add=False)
+
     ofYear = models.ForeignKey(Year)
     group = models.OneToOneField(Group, unique=True)
 
