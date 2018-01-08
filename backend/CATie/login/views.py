@@ -45,6 +45,17 @@ def login_user(request):
                         p.courses.add(g.course)
                 all = p.courses.all()
                 all = None
+
+            elif username == 'student':
+                year3 = Group.objects.get(name='c3')
+                p = CATieProfile.objects.get_or_create(
+                    user=user, year=year3.year)[0]
+                for g in Group.objects.all():
+                    if hasattr(g, 'course'):
+                        p.courses.add(g.course)
+                all = p.courses.all()
+                all = None
+
             for g in request.user.groups.all():
                 if hasattr(g, 'course'):
                     profile.courses.add(g.course)
