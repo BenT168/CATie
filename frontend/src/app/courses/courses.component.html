@@ -40,7 +40,7 @@
                 <a class="nav-link" href="#" [routerLink]="['../courses']" routerLinkActive="active">Courses</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../assignments']" routerLinkActive="active">Assignments</a>
+                <a class="nav-link" href="#" [routerLink]="['../assignments']" routerLinkActive="active" *ngIf="isStaff">Assignments</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" [routerLink]="['../grades']" routerLinkActive="active" *ngIf="!isStaff">Grades</a>
@@ -61,9 +61,14 @@
 <hr style="position: absolute; top: 15%; left: 2%; width: 8.8%; height: 0.28%; background-color: #4390BC; border: none">
 
 <clr-stack-view style="position: absolute; top: 17%; left: 2%; width: 96%">
-    <clr-stack-block *ngFor="let course of courses" [clrSbExpanded]="allExpanded" (click)="getAllLectures() ">
+    <clr-stack-block *ngFor="let course of courses" [clrSbExpanded]="allExpanded" (click)="getAllLectures()">
         <clr-stack-label>{{course.code}}</clr-stack-label>
         <clr-stack-content>{{course.name}}</clr-stack-content>
+        <div>
+        <button *ngIf="isStaff" style="margin-right: 0" class="btn btn-primary" (click)="showStaffModal()">+ LEC</button>
+        <button *ngIf="isStaff" style="margin-right: 0" class="btn btn-primary" (click)="showStaffModal()">+ TUT</button>
+        <button *ngIf="isStaff" style="margin-right: 0" class="btn btn-primary" (click)="showStaffModal()">+ CW</button>
+        </div>
         <clr-stack-block *ngFor="let lecture of lectureDict[course.code]">
             <clr-stack-label>
                 <a class="nav-link" href="#" [routerLink]="['/catieviewer', course.code, lecture.urlName]" routerLinkActive="active">
@@ -72,28 +77,28 @@
         </clr-stack-block>
     </clr-stack-block>
 
-    <button *ngIf="isStaff" class="btn btn-primary btn-block" (click)="showStaffModal()" >Add Lecture</button>
+    <!--<button *ngIf="isStaff" class="btn btn-primary btn-block" (click)="showStaffModal()" >Add Lecture</button>-->
 </clr-stack-view>
 
 <div *ngIf="viewStaffModal" class="modal">
     <div class="modal-dialog" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Add a new lecture</h3>
+                <h3 class="modal-title">Add a new resaurce</h3>
             </div>
             <div class="modal-body">
                 <form>
                     <section class="form-block">
+                        <!--<div class="form-group">-->
+                            <!--<label for="courseSelect">Course</label>-->
+                            <!--<div class="select">-->
+                                <!--<select id="courseSelect" [(ngModel)]="model.course" [ngModelOptions]="{standalone: true}" #course="ngModel" required>-->
+                                    <!--<option  *ngFor="let course of courses">{{course.code}}: {{course.name}}</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="form-group">
-                            <label for="courseSelect">Course</label>
-                            <div class="select">
-                                <select id="courseSelect" [(ngModel)]="model.course" [ngModelOptions]="{standalone: true}" #course="ngModel" required>
-                                    <option  *ngFor="let course of courses">{{course.code}}: {{course.name}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Lecture name</label>
+                            <label for="name">Name</label>
                             <input type="text" id="name" placeholder="Enter name of session here" size="45" [(ngModel)]="model.name" [ngModelOptions]="{standalone: true}" #name="ngModel" required>
                         </div>
                         <div class="form-group">

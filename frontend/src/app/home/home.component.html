@@ -37,7 +37,7 @@
                 <a class="nav-link" href="#" [routerLink]="['../courses']" routerLinkActive="active">Courses</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../assignments']" routerLinkActive="active">Assignments</a>
+                <a class="nav-link" href="#" [routerLink]="['../assignments']" routerLinkActive="active" *ngIf="isStaff">Assignments</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" [routerLink]="['../grades']" routerLinkActive="active" *ngIf="!isStaff">Grades</a>
@@ -65,103 +65,36 @@
 
 <div style="position: absolute; top: 16.3%; left: 71%; width: 98%" *ngIf="!isStaff">
 
-    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
-        <clr-icon shape="tasks" style="position: absolute; top: 25%"></clr-icon>
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white" *ngFor="let not of notification | slice:0:7">
+      <clr-icon *ngIf="not.category === 'done'" shape="tasks" style="position: absolute; top: 25%"></clr-icon>
+      <clr-icon *ngIf="not.category === 'note'" shape="note" style="position: absolute; top: 25%"></clr-icon>
+      <clr-icon *ngIf="not.category === 'discussion'" shape="talk-bubbles" style="position: absolute; top: 25%"></clr-icon>
+      <clr-icon *ngIf="not.category === 'upload-success'" shape="upload-cloud" style="position: absolute; top: 25%"></clr-icon>
+      <clr-icon *ngIf="not.category === 'upload-failure'" shape="times-circle" style="position: absolute; top: 25%"></clr-icon>
+      <clr-icon *ngIf="not.category === 'clock'" shape="clock" style="position: absolute; top: 25%"></clr-icon>
 
-        <div class="alert-item">
-        <span>
-            Grade Released
-        </span>
-        </div>
+      <div class="alert-item">
+      <span *ngIf="not.page === 'Course'">
+          <!-- <a href="http://localhost:4200/courses" style="color:white">{{not.course}} - {{not.message}} - Posted on {{not.date | date:'mediumDate'}} ({{not.page}})</a> -->
+          <a href="#" [routerLink]="['../courses']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
+      </span>
+      <span *ngIf="not.page === 'Assignment'">
+          <a href="#" [routerLink]="['../assignments']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
+      </span>
+      <span *ngIf="not.page === 'Grade'">
+          <a href="#" [routerLink]="['../grades']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
+      </span>
+      <span *ngIf="not.page === 'Discussion'">
+          <a href="#" [routerLink]="['../askari']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
+      </span>
+      </div>
 
-        <button type="button" class="close" aria-label="Close">
-            <clr-icon aria-hidden="true" shape="close"></clr-icon>
-        </button>
+      <button type="button" (click)="deleteNots(not)" class="close" aria-label="Close">
+          <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+
     </div>
-
-    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
-        <clr-icon shape="note" style="position: absolute; top: 25%"></clr-icon>
-
-        <div class="alert-item">
-        <span>
-            New Assignment Available
-        </span>
-        </div>
-
-        <button type="button" class="close" aria-label="Close">
-            <clr-icon aria-hidden="true" shape="close"></clr-icon>
-        </button>
-    </div>
-
-    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
-        <clr-icon shape="talk-bubbles" style="position: absolute; top: 25%"></clr-icon>
-
-        <div class="alert-item">
-        <span>
-            Response to your AskCatie Question
-        </span>
-        </div>
-
-        <button type="button" class="close" aria-label="Close">
-            <clr-icon aria-hidden="true" shape="close"></clr-icon>
-        </button>
-    </div>
-
-    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
-        <clr-icon shape="upload-cloud" style="position: absolute; top: 25%"></clr-icon>
-
-        <div class="alert-item">
-        <span>
-            Assignment Submission Successful
-        </span>
-        </div>
-
-        <button type="button" class="close" aria-label="Close">
-            <clr-icon aria-hidden="true" shape="close"></clr-icon>
-        </button>
-    </div>
-
-    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
-        <clr-icon shape="clock" style="position: absolute; top: 25%"></clr-icon>
-
-        <div class="alert-item">
-        <span>
-            Upcoming Deadline
-        </span>
-        </div>
-
-        <button type="button" class="close" aria-label="Close">
-            <clr-icon aria-hidden="true" shape="close"></clr-icon>
-        </button>
-    </div>
-
-    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
-        <clr-icon shape="note" style="position: absolute; top: 25%"></clr-icon>
-
-        <div class="alert-item">
-        <span>
-            New Assignment Available
-        </span>
-        </div>
-
-        <button type="button" class="close" aria-label="Close">
-            <clr-icon aria-hidden="true" shape="close"></clr-icon>
-        </button>
-    </div>
-
-    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
-        <clr-icon shape="talk-bubbles" style="position: absolute; top: 25%"></clr-icon>
-
-        <div class="alert-item">
-        <span>
-            Response to your AskCatie Question
-        </span>
-        </div>
-
-        <button type="button" class="close" aria-label="Close">
-            <clr-icon aria-hidden="true" shape="close"></clr-icon>
-        </button>
-    </div>
+    <!--<a href="#" [routerLink]="['../notification']" routerLinkActive="active">View All</a>-->
 </div>
 
 <div style="position: absolute; top: 16.3%; left: 71%; width: 98%" *ngIf="isStaff">
@@ -250,7 +183,8 @@
 <h3 style="position: absolute; top: 10%; left: 35.25%; color: #0F3D6E; font-weight: bold">My Day</h3>
 <hr style="position: absolute; top: 15%; left: 35.25%; width: 7%; height: 0.28%; background-color: #4390BC; border: none">
 
-<clr-datagrid style="position: absolute; top: 14.3%; left: 35.25%; width: 33.25%" *ngIf="!isStaff">
+<clr-datagrid style="position: absolute; top: 14.3%; left: 35.25%; width: 11%" *ngIf="!isStaff">
+
     <clr-dg-column style="background-color: #0F3D6E">
         <div style="color: white;">TIME OF DAY </div>
     </clr-dg-column>
@@ -305,10 +239,10 @@
 </clr-datagrid>
 
 
-<!-- <div class="twitterborder" style="position: absolute; top: 59.7%; left: 2%; color: #0F3D6E; font-weight: bold">
+<!-- ==<div class="twitterborder" style="position: absolute; top: 59.7%; left: 2%; color: #0F3D6E; font-weight: bold">
     <div class="table">
         <div class="table-cell">
-<a class="twitter-timeline" href="https://twitter.com/TwitterDev?ref_src=twsrc%5Etfw">Tweets by @twitterapi</a>
+<a class="twitter-timeline" href="https://twitter.com/TwitterDev?ref_src=twsrc%5Etfw">Tweets by @twitterapi</a> -->
 
 <clr-datagrid style="position: absolute; top: 14.3%; left: 35.25%; width: 33.25%" *ngIf="isStaff">
     <clr-dg-column style="background-color: #0F3D6E">
@@ -364,7 +298,7 @@
     </clr-dg-row>
 </clr-datagrid>
 
-<h3 style="position: absolute; top: 59.7%; left: 2%; color: #0F3D6E; font-weight: bold"> Class Twitter Feed:</h3>
+<!-- <h3 style="position: absolute; top: 59.7%; left: 2%; color: #0F3D6E; font-weight: bold"> Class Twitter Feed:</h3>
 <hr style="position: absolute; top: 65%; left: 2%; width: 14%; height: 0.28%; background-color: #4390BC; border: none">
 
 <ul><iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="twitter-timeline twitter-timeline-rendered" style="position: static; visibility: visible; display: inline-block; width: 520px; height: 320px; padding: 0px; border: none; max-width: 687px; min-width: 180px; margin-top: 0px; margin-bottom: 0px; min-height: 200px;" data-widget-id="592991135984918528" title="Twitter Timeline"></iframe>
@@ -404,6 +338,34 @@
 	    <span class="all_day_event">false</span>
 	    <span class="date_format">MM/DD/YYYY</span>
 	</div> -->
+
+<h3 style="position: absolute; top: 10%; left: 50%; color: #0F3D6E; font-weight: bold">Create Event</h3>
+<hr style="position: absolute; top: 15%; left: 50%; width: 10%; height: 0.28%; background-color: #4390BC; border: none">
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc0CC84uMw1IaKZE8kn8PI05c5z4HViSNyqb4ciSpUuzz9BlQ/viewform?embedded=true" style="position: absolute; top: 17%; left: 50%; width: 18%" height="500">Loading...</iframe>
+
+<div *ngIf="isStaff">
+<h3 style="position: absolute; top: 59.6%; left: 2%; color: #0F3D6E; font-weight: bold">Shortcuts</h3>
+<hr style="position: absolute; top: 65%; left: 2%; width: 7%; height: 0.28%; background-color: #4390BC; border: none">
+
+    <div style="position: absolute; top: 70%; left: 2%; width: 98%">
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <div class="alert-item">
+        <span>
+            Continue Marking 318 - Custom Computing
+        </span>
+        </div>
+    </div>
+
+    <div class="alert alert-success"; style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <div class="alert-item">
+            318 - Custom Computing
+        <button class="btn btn-primary" (click)="showStaffModal()">+ LEC</button>
+        <button class="btn btn-primary" (click)="showStaffModal()">+ TUT</button>
+        </div>
+    </div>
+    </div>
+</div>
 
 <h3 style="position: absolute; top: 59.7%; left: 71%; color: #0F3D6E; font-weight: bold">Access External Sites</h3>
 <hr style="position: absolute; top: 65%; left: 71%; width: 15%; height: 0.28%; background-color: #4390BC; border: none">
