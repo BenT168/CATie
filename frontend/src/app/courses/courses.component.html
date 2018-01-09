@@ -73,6 +73,22 @@
     </clr-stack-block>
 
     <button *ngIf="isStaff" class="btn btn-primary btn-block" (click)="showStaffModal()" >Add Lecture</button>
+
+    <h3 style="position: absolute; top: 20%; left: 80%; color: #6ECCCA">Add Message About Course</h3>
+    <!-- <hr style="position: absolute; top: 15%; left: 2%; width: 15%; height: 0.28%; background-color: #4390BC; border: none"> -->
+    <form style="position: absolute; top: 25%; left: 80%">
+    Subject:<br>
+    <input type="text" name="subject"><br>
+    Message:<br>
+    <input type="text" name="message"><br>
+    Group:<br>
+        <input type="text" name="group"><br>
+        <select>
+        <option value="urgent">Urgent</option>
+        <option value="normal">Normal</option>
+        </select
+    </form>
+    <button *ngIf="isStaff" class="btn btn-primary btn-block" (click)="createNotification()" >Add Message</button>
 </clr-stack-view>
 
 <div *ngIf="viewStaffModal" class="modal">
