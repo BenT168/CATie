@@ -39,11 +39,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" [routerLink]="['../courses']" routerLinkActive="active">Courses</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../assignments']" routerLinkActive="active">Assignments</a>
+            <li class="nav-item" *ngIf="isStaff">
+                <a class="nav-link" href="#" [routerLink]="['../../../assignments']" routerLinkActive="active">Assignments</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../grades']" routerLinkActive="active" *ngIf="!isStaff">Grades</a>
+            <li class="nav-item" *ngIf="!isStaff">
+                <a class="nav-link" href="#" [routerLink]="['../../../grades']" routerLinkActive="active">Submissions</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" [routerLink]="['../doccalendar']" routerLinkActive="active">Doc Calendar</a>
