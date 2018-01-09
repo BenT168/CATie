@@ -27,7 +27,7 @@ class AskCATieTests(TestCase):
     q_body = "Hi, I cannot seem to locate the example " \
              "of the 2 machines sharing an I/O device " \
              "in the notes for the question? Can anyone " \
-             "point me in the right direction? Thanks!" \
+             "point me in the right direction? Thanks!"
     q_poster_name_dummy = 'hu115'
     commenter_name_dummy = 'sib115'
     q_url = '/AskCATie/question/337/simulation-and-modelling-introduction/1/'
@@ -262,7 +262,7 @@ class AskCATieTests(TestCase):
         q2_body = ("What exactly does executing mean? Is it "
                    "issuing a request or start the servicing "
                    "of said request?")
-        q2_lecture = "ltsa"
+        q2_lecture = "markov-process"
         q2_poster = "arc13"
         q3_title = "Pinhole assumption"
         q3_body = ("Why do the pictures in the lecture slides "
@@ -308,7 +308,7 @@ class AskCATieTests(TestCase):
         q2_body = ("What exactly does executing mean? Is it "
                    "issuing a request or start the servicing "
                    "of said request?")
-        q2_lecture = "ltsa"
+        q2_lecture = "markov-process"
         q2_poster = "arc13"
         q3_title = "Pinhole assumption"
         q3_body = ("Why do the pictures in the lecture slides "
