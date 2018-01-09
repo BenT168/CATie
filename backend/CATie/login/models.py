@@ -10,7 +10,6 @@ class CATieProfile(models.Model):
     user = models.OneToOneField(User, unique=True)
     year = models.ForeignKey(Year)
     courses = models.ManyToManyField(Course)
-    is_staff = models.BooleanField(default=True)
 
     def __str__(self):
         return "CATie Profile: " + self.user.username

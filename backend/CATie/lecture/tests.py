@@ -17,22 +17,22 @@ class LectureTests(TestCase):
     username = "admin"
     password = "fakepassword"
     token = None
-    name = "Concurrent Execution"
+    name = "Region based segmentation"
     conc_crse = None
     video = "https://imperial.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id" \
-            "=5154e0fc-84a3-4747-92fa-38c6db73d920"
+            "=c471c9f4-ba0f-4d7a-8d1f-fc438ad57cee"
     create_name = "Shared Objects & Mutual Exclusion"
 
     def setUpData(self):
         User.objects.create_superuser(username=self.username,
                                       email="admin@admin.com",
                                       password=self.password)
-        c2 = Group.objects.create(name='c2')
-        year2 = Year.objects.create(number=2, group=c2)
-        conc_grp = Group.objects.create(name='Concurrency')
-        self.conc_crse = Course.objects.create(name='Concurrency', code=223,
-                                               ofYear=year2,
-                                               group=conc_grp)
+        c3 = Group.objects.create(name='c3')
+        year3 = Year.objects.create(number=3, group=c3)
+        cv_grp = Group.objects.create(name='Computer Vision')
+        self.conc_crse = Course.objects.create(name='Computer Vision', code=316,
+                                               ofYear=year3,
+                                               group=cv_grp)
         self.dummy_lecture = Lecture.objects.create(name=self.name,
                                                     course=self.conc_crse,
                                                     video=self.video)
@@ -89,3 +89,4 @@ class LectureTests(TestCase):
         except:
             raised = True
         self.assertFalse(raised)
+
