@@ -31,14 +31,19 @@ export class CoursesService {
                         {"code":395,"name":"Machine Learning"},
                         {"code":572,"name":"Advanced Databases"}]
 
-    private lectureData = [{
+    public lectureData = [{
             "code": 337, "lectures": [{
                 "name": "Introduction to Simulation and Modelling",
                 "urlNameWithCode": "337/introduction-simul",
                 "urlName": "introduction-simul",
                 "video": "https://imperial.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=df19de61-a458-49c8-ba48-e5aa611f7773",
                 "slides": "http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf",
-                "notes": ""
+                "notes": "",
+                "questions": [{
+                    "id": 1,
+                    "title": "PS4 Q3, where do i find the example?",
+                    "body": "Sample body - add in text later"
+                }]
             }]
         }
     ]

@@ -3,6 +3,7 @@ import {Http, Headers, Response, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import * as Globals from '../globals';
+import {CoursesService} from "../_services/courses.service";
 
 import {LectureDetails} from "../catieviewer/catieviewer.component";
 import {Question} from "../askcatie/askcatie.component";
@@ -23,41 +24,83 @@ export class AskCATieService {
 
     private createQuestionUrl: string = Globals.hostURL + 'AskCATie/question/create/';
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private coursesService: CoursesService) {
         // set token if saved in local storage
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
     }
 
     getAllQuestions(): Observable<Question[]> {
-        let headers = new Headers();
-        headers.append('Authorization', this.token);
-        let options = new RequestOptions({ headers: headers });
-        return this.http.get(this.allQuestionsUrl, options).map(this.extractData);
+        //let headers = new Headers();
+        //headers.append('Authorization', this.token);
+        //let options = new RequestOptions({ headers: headers });
+        //return this.http.get(this.allQuestionsUrl, options).map(this.extractData);
+        var questions = [];
+        for (let course of this.coursesService.lectureData) {
+            for (let lecture of course.lectures) {
+                questions = questions.concat(lecture.questions);
+            }
+        }
+        return Observable.of(questions);
     }
 
     getQuestionsForCourse(courseCode: number): Observable<Question[]> {
-        let headers = new Headers();
-        headers.append('Authorization', this.token);
-        let options = new RequestOptions({ headers: headers });
-        return this.http.get(this.allQuestionsUrl + String(courseCode) + '/', options).map(this.extractData);
+        //let headers = new Headers();
+        //headers.append('Authorization', this.token);
+        //let options = new RequestOptions({ headers: headers });
+        //return this.http.get(this.allQuestionsUrl + String(courseCode) + '/', options).map(this.extractData);
+        var questions = [];
+        for (let course of this.coursesService.lectureData) {
+            if (course.code == courseCode) {
+                for (let lecture of course.lectures) {
+                    questions = questions.concat(lecture.questions);
+                }
+            }
+        }
+        return Observable.of(questions);
     }
 
     getQuestionsForCourseAndLecture(courseCode: number, lectureUrl: string): Observable<Question[]> {
-        let headers = new Headers();
-        headers.append('Authorization', this.token);
-        let options = new RequestOptions({ headers: headers });
-        return this.http.get(this.allQuestionsUrl + String(courseCode) + '/' + lectureUrl + '/', options)
-                .map(this.extractData);
+        //let headers = new Headers();
+        //headers.append('Authorization', this.token);
+        //let options = new RequestOptions({ headers: headers });
+        //return this.http.get(this.allQuestionsUrl + String(courseCode) + '/' + lectureUrl + '/', options)
+        //        .map(this.extractData);
+        var questions = [];
+        for (let course of this.coursesService.lectureData) {
+            if (course.code == courseCode) {
+                for (let lecture of course.lectures) {
+                    if (lecture.urlName == lectureUrl) {
+                        questions = questions.concat(lecture.questions);
+                    }
+                }
+            }
+        }
+        return Observable.of(questions);
     }
 
     getQuestion(code: number, lectureUrl: string, questionID: number): Observable<Question> {
-        let headers = new Headers();
-        headers.append('Authorization', this.token);
-        let options = new RequestOptions({ headers: headers });
-        let url = this.questionAndCommentsUrl + code + '/' + lectureUrl + '/' + questionID + '/';
-        return Observable.timer(0, 2000)
-            .switchMap(() => this.http.get(url, options).map(this.extractData));
+        //let headers = new Headers();
+        //headers.append('Authorization', this.token);
+        //let options = new RequestOptions({ headers: headers });
+        //let url = this.questionAndCommentsUrl + code + '/' + lectureUrl + '/' + questionID + '/';
+        //return Observable.timer(0, 2000)
+        //    .switchMap(() => this.http.get(url, options).map(this.extractData));
+        var questions = [];
+        for (let course of this.coursesService.lectureData) {
+            if (course.code == code) {
+                for (let lecture of course.lectures) {
+                    if (lecture.urlName == lectureUrl) {
+                        for (let question of lecture.questions) {
+                            if (question.id == questionID) {
+                                return Observable.of(question);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return Observable.of({});
     }
 
     addComment(content: string, question: number, code: number, urlname: string) {
