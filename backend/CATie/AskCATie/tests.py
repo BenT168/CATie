@@ -12,54 +12,48 @@ from login.models import CATieProfile
 
 
 class AskCATieTests(TestCase):
-    year2 = None
+    year3 = None
     dummy_lecture = None
-    conc_dummy_lecture2 = None
-    arch_dummy_lecture = None
+    simul_dummy_lecture2 = None
+    vision_dummy_lecture = None
     username = "arc13"
     password = "shoutout2allthePears"
     token = None
-    name = "Concurrent Execution"
+    name = "Simulation and Modelling Introduction"
     video = "https://imperial.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id" \
-            "=5154e0fc-84a3-4747-92fa-38c6db73d920"
+            "=df19de61-a458-49c8-ba48-e5aa611f7773"
     dummy_question = None
-    q_title = "Sharing vs Relabelling in Chapter 3"
-    q_body = "What is the difference between sharing and relabelling in this " \
-             "example? Isn't the purpose of relabelling to match action names" \
-             " to lead to sharing? Referring to the purple arrow above, " \
-             "in this case, we have an a.release and b.release for the " \
-             "resource process. In the lectures, the following examples were " \
-             "used to show the difference between sharing and explicit " \
-             "relabelling but surely in both cases, we are finding a way to " \
-             "rename release to a.release and b.release to lead to the " \
-             "resource and users sharing those two actions?"
+    q_title = "PS4 Q3, where do i find the example?"
+    q_body = "Hi, I cannot seem to locate the example " \
+             "of the 2 machines sharing an I/O device " \
+             "in the notes for the question? Can anyone " \
+             "point me in the right direction? Thanks!" \
     q_poster_name_dummy = 'hu115'
     commenter_name_dummy = 'sib115'
-    q_url = '/AskCATie/question/223/concurrent-execution/1/'
-    c_content = 'Great question! I was wondering this too. Does anyone know ' \
-                'the answer?'
+    q_url = '/AskCATie/question/337/simulation-and-modelling-introduction/1/'
+    c_content = 'Markov Process Slide 2'
     dummy_comment = None
     dummy_comment_id = None
 
     def setUpAndLogin(self):
-        c2 = Group.objects.create(name='c2')
-        self.year2 = Year.objects.create(number=2, group=c2)
-        conc_grp = Group.objects.create(name='Concurrency')
-        self.conc_crse = Course.objects.create(name='Concurrency', code=223,
-                                               ofYear=self.year2,
-                                               group=conc_grp)
+        c3 = Group.objects.create(name='c3')
+        self.year3 = Year.objects.create(number=3, group=c3)
+        simul_grp = Group.objects.create(name='Simulation and Modelling')
+        self.simul_crse = Course.objects.create(name='Simulation and Modelling', code=337,
+                                               ofYear=self.year3,
+                                               group=simul_grp)
         self.dummy_lecture = Lecture.objects.create(name=self.name,
-                                                          course=self.conc_crse,
+                                                          course=self.simul_crse,
                                                           video=self.video)
-        self.conc_dummy_lecture2 = Lecture.objects.create(name="LTSA",
-                                                          course=self.conc_crse,
+        self.simul_dummy_lecture2 = Lecture.objects.create(name="Markov Process",
+                                                          course=self.simul_crse,
                                                           video=self.video)
 
-        arch_grp = Group.objects.create(name='Architecture')
-        self.arch_crse = Course.objects.create(name='Architecture', code=210,
-                                               ofYear=self.year2,
+        arch_grp = Group.objects.create(name='Computer Vision')
+        self.arch_crse = Course.objects.create(name='Computer Vision', code=316,
+                                               ofYear=self.year3,
                                                group=arch_grp)
-        self.arch_dummy_lecture = Lecture.objects.create(name="Hardware Compilation",
+        self.vision_dummy_lecture = Lecture.objects.create(name="Projection",
                                                          course=self.arch_crse,
                                                          video=self.video)
         c = Client()
@@ -71,7 +65,7 @@ class AskCATieTests(TestCase):
 
     def create_dummy_question(self):
         user = User.objects.create(username='hu115')
-        q_poster = CATieProfile.objects.create(user=user, year=self.year2)
+        q_poster = CATieProfile.objects.create(user=user, year=self.year3)
         self.dummy_question = \
             Question.objects.create(title=self.q_title, body=self.q_body,
                                     parent=self.dummy_lecture,
@@ -83,20 +77,22 @@ class AskCATieTests(TestCase):
         ruhi_user = User.objects.get(username='arc13')
         ruhi_poster = CATieProfile.objects.get(user=ruhi_user)
 
-        Question.objects.create(title="+ Set notation",
-                                body="Guys, what is '+ All' doing here? What i "
-                                     "tried in LTSA does not seem to clarify to "
-                                     "me how a set is used.",
-                                parent=self.conc_dummy_lecture2,
+        Question.objects.create(title="Meaning of executing",
+                                body="What exactly does executing mean? Is it "
+                                     "issuing a request or start the servicing "
+                                     "of said request?",
+                                parent=self.simul_dummy_lecture2,
                                 poster=ruhi_poster)
-        Question.objects.create(title="Datapath diagram",
-                                body="data path diagrams are",
-                                parent=self.arch_dummy_lecture,
+        Question.objects.create(title="Pinhole assumption",
+                                body="Why do the pictures in the lecture slides "
+                                     "show the centre of projection being behind "
+                                     "the camera and the image not inverted?",
+                                parent=self.vision_dummy_lecture,
                                 poster=ruhi_poster)
 
     def create_commenter(self):
         user = User.objects.create(username=self.commenter_name_dummy)
-        return CATieProfile.objects.create(user=user, year=self.year2)
+        return CATieProfile.objects.create(user=user, year=self.year3)
 
     def create_dummy_comment(self, commenter):
         self.dummy_comment = \
@@ -132,7 +128,7 @@ class AskCATieTests(TestCase):
         resp = c.post('/AskCATie/question/create/',
                       data={'title': self.q_title,
                             'body': self.q_body,
-                            'code': 223,
+                            'code': 337,
                             'lecture': reformat_for_url(self.name)},
                       HTTP_AUTHORIZATION=self.token)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
@@ -195,26 +191,19 @@ class AskCATieTests(TestCase):
     # create_dummy_questions method and ignores the id value
     def test_get_questions_conc_with_lec(self):
         # expected_questions
-        q1_title = "Sharing vs Relabelling in Chapter 3"
-        q1_body = ("What is the difference between sharing "
-                   "and relabelling in this example? Isn't the "
-                   "purpose of relabelling to match action names "
-                   "to lead to sharing? Referring to the purple "
-                   "arrow above, in this case, we have an a.release "
-                   "and b.release for the resource process. In "
-                   "the lectures, the following examples were "
-                   "used to show the difference between sharing "
-                   "and explicit relabelling but surely in both cases, "
-                   "we are finding a way to rename release to "
-                   "a.release and b.release to lead to the resource "
-                   "and users sharing those two actions?")
-        q1_lecture = "concurrent-execution"
+        q1_title = "PS4 Q3, where do i find the example?"
+        q1_body = ("Hi, I cannot seem to locate the "
+                   "example of the 2 machines sharing "
+                   "an I/O device in the notes for "
+                   "the question? Can anyone point me "
+                   "in the right direction? Thanks!")
+        q1_lecture = "simulation-and-modelling-introduction"
         q1_poster = "hu115"
 
         self.setUpAndLogin()
         self.create_dummy_questions()
         c = Client()
-        url = '/AskCATie/223/concurrent-execution/'
+        url = '/AskCATie/337/simulation-and-modelling-introduction/'
         resp = c.get(url, HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
         questions = json.loads(resp_content_str)
@@ -226,32 +215,25 @@ class AskCATieTests(TestCase):
 
     def test_get_questions_conc_without_lec(self):
         # expected_questions
-        q1_title = "Sharing vs Relabelling in Chapter 3"
-        q1_body = ("What is the difference between sharing "
-                   "and relabelling in this example? Isn't the "
-                   "purpose of relabelling to match action names "
-                   "to lead to sharing? Referring to the purple "
-                   "arrow above, in this case, we have an a.release "
-                   "and b.release for the resource process. In "
-                   "the lectures, the following examples were "
-                   "used to show the difference between sharing "
-                   "and explicit relabelling but surely in both cases, "
-                   "we are finding a way to rename release to "
-                   "a.release and b.release to lead to the resource "
-                   "and users sharing those two actions?")
-        q1_lecture = "concurrent-execution"
+        q1_title = "PS4 Q3, where do i find the example?"
+        q1_body = ("Hi, I cannot seem to locate the "
+                   "example of the 2 machines sharing "
+                   "an I/O device in the notes for "
+                   "the question? Can anyone point me "
+                   "in the right direction? Thanks!")
+        q1_lecture = "simulation-and-modelling-introduction"
         q1_poster = "hu115"
-        q2_title = "+ Set notation"
-        q2_body = ("Guys, what is '+ All' doing here? What i "
-                   "tried in LTSA does not seem to clarify to "
-                   "me how a set is used.")
-        q2_lecture = "ltsa"
+        q2_title = "Meaning of executing"
+        q2_body = ("What exactly does executing mean? Is it "
+                   "issuing a request or start the servicing "
+                   "of said request?")
+        q2_lecture = "markov-process"
         q2_poster = "arc13"
 
         self.setUpAndLogin()
         self.create_dummy_questions()
         c = Client()
-        url = '/AskCATie/223/'
+        url = '/AskCATie/337/'
         resp = c.get(url, HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
         questions = json.loads(resp_content_str)
@@ -268,30 +250,25 @@ class AskCATieTests(TestCase):
 
     def test_get_questions_all_courses(self):
         # expected_questions
-        q1_title = "Sharing vs Relabelling in Chapter 3"
-        q1_body = ("What is the difference between sharing "
-                   "and relabelling in this example? Isn't the "
-                   "purpose of relabelling to match action names "
-                   "to lead to sharing? Referring to the purple "
-                   "arrow above, in this case, we have an a.release "
-                   "and b.release for the resource process. In "
-                   "the lectures, the following examples were "
-                   "used to show the difference between sharing "
-                   "and explicit relabelling but surely in both cases, "
-                   "we are finding a way to rename release to "
-                   "a.release and b.release to lead to the resource "
-                   "and users sharing those two actions?")
-        q1_lecture = "concurrent-execution"
+        q1_title = "PS4 Q3, where do i find the example?"
+        q1_body = ("Hi, I cannot seem to locate the "
+                   "example of the 2 machines sharing "
+                   "an I/O device in the notes for "
+                   "the question? Can anyone point me "
+                   "in the right direction? Thanks!")
+        q1_lecture = "simulation-and-modelling-introduction"
         q1_poster = "hu115"
-        q2_title = "+ Set notation"
-        q2_body = ("Guys, what is '+ All' doing here? What i "
-                   "tried in LTSA does not seem to clarify to "
-                   "me how a set is used.")
+        q2_title = "Meaning of executing"
+        q2_body = ("What exactly does executing mean? Is it "
+                   "issuing a request or start the servicing "
+                   "of said request?")
         q2_lecture = "ltsa"
         q2_poster = "arc13"
-        q3_title = "Datapath diagram"
-        q3_body = "data path diagrams are"
-        q3_lecture = "hardware-compilation"
+        q3_title = "Pinhole assumption"
+        q3_body = ("Why do the pictures in the lecture slides "
+                   "show the centre of projection being behind "
+                   "the camera and the image not inverted?")
+        q3_lecture = "projection"
         q3_poster = "arc13"
 
         self.setUpAndLogin()
@@ -319,30 +296,25 @@ class AskCATieTests(TestCase):
 
     def test_get_questions_all_courses_specific_page(self):
         # expected_questions
-        q1_title = "Sharing vs Relabelling in Chapter 3"
-        q1_body = ("What is the difference between sharing "
-                   "and relabelling in this example? Isn't the "
-                   "purpose of relabelling to match action names "
-                   "to lead to sharing? Referring to the purple "
-                   "arrow above, in this case, we have an a.release "
-                   "and b.release for the resource process. In "
-                   "the lectures, the following examples were "
-                   "used to show the difference between sharing "
-                   "and explicit relabelling but surely in both cases, "
-                   "we are finding a way to rename release to "
-                   "a.release and b.release to lead to the resource "
-                   "and users sharing those two actions?")
-        q1_lecture = "concurrent-execution"
+        q1_title = "PS4 Q3, where do i find the example?"
+        q1_body = ("Hi, I cannot seem to locate the "
+                   "example of the 2 machines sharing "
+                   "an I/O device in the notes for "
+                   "the question? Can anyone point me "
+                   "in the right direction? Thanks!")
+        q1_lecture = "simulation-and-modelling-introduction"
         q1_poster = "hu115"
-        q2_title = "+ Set notation"
-        q2_body = ("Guys, what is '+ All' doing here? What i "
-                   "tried in LTSA does not seem to clarify to "
-                   "me how a set is used.")
+        q2_title = "Meaning of executing"
+        q2_body = ("What exactly does executing mean? Is it "
+                   "issuing a request or start the servicing "
+                   "of said request?")
         q2_lecture = "ltsa"
         q2_poster = "arc13"
-        q3_title = "Datapath diagram"
-        q3_body = "data path diagrams are"
-        q3_lecture = "hardware-compilation"
+        q3_title = "Pinhole assumption"
+        q3_body = ("Why do the pictures in the lecture slides "
+                   "show the centre of projection being behind "
+                   "the camera and the image not inverted?")
+        q3_lecture = "projection"
         q3_poster = "arc13"
 
         self.setUpAndLogin()
@@ -388,3 +360,4 @@ class AskCATieTests(TestCase):
         voted_comment = matching_comments[0]
         self.assertEqual(voted_comment['score'], 1)
         self.assertEqual(question['upvotes'], '1')
+

@@ -63,20 +63,8 @@
 <h3 style="position: absolute; top: 10%; left: 71%; color: #0F3D6E; font-weight: bold">Notifications</h3>
 <hr style="position: absolute; top: 15%; left: 71%; width: 9.63%; height: 0.28%; background-color: #4390BC; border: none">
 
-<div style="position: absolute; top: 16.3%; left: 71%; width: 98%">
-    <!--
-    <div class="alert alert-info" style="width: 27%">
-        <button type="button" class="close" aria-label="Close">
-            <clr-icon aria-hidden="true" shape="tasks"></clr-icon>
-        </button>
+<div style="position: absolute; top: 16.3%; left: 71%; width: 98%" *ngIf="!isStaff">
 
-        <div class="alert-item">
-        <span class="alert-text">
-            Grade Released
-        </span>
-        </div>
-    </div>
-    -->
     <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
         <clr-icon shape="tasks" style="position: absolute; top: 25%"></clr-icon>
 
@@ -176,6 +164,65 @@
     </div>
 </div>
 
+<div style="position: absolute; top: 16.3%; left: 71%; width: 98%" *ngIf="isStaff">
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="tasks" style="position: absolute; top: 25%"></clr-icon>
+
+        <div class="alert-item">
+        <span>
+            Need to release grades for 345
+        </span>
+        </div>
+
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="note" style="position: absolute; top: 25%"></clr-icon>
+
+        <div class="alert-item">
+        <span>
+            New to release tutorial answers for 346
+        </span>
+        </div>
+
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="talk-bubbles" style="position: absolute; top: 25%"></clr-icon>
+
+        <div class="alert-item">
+        <span>
+            3 new AskCATie Questions
+        </span>
+        </div>
+
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="upload-cloud" style="position: absolute; top: 25%"></clr-icon>
+
+        <div class="alert-item">
+        <span>
+            Need to return coursework for 367
+        </span>
+        </div>
+
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
+</div>
+
 <!--
 <h3 style="position: absolute; top: 10%; left: 33%; color: #6ECCCA; font-weight: bold">TODO List</h3>
 
@@ -203,7 +250,7 @@
 <h3 style="position: absolute; top: 10%; left: 35.25%; color: #0F3D6E; font-weight: bold">My Day</h3>
 <hr style="position: absolute; top: 15%; left: 35.25%; width: 7%; height: 0.28%; background-color: #4390BC; border: none">
 
-<clr-datagrid style="position: absolute; top: 14.3%; left: 35.25%; width: 33.25%">
+<clr-datagrid style="position: absolute; top: 14.3%; left: 35.25%; width: 33.25%" *ngIf="!isStaff">
     <clr-dg-column style="background-color: #0F3D6E">
         <div style="color: white;">TIME OF DAY </div>
     </clr-dg-column>
@@ -257,10 +304,79 @@
     </clr-dg-row>
 </clr-datagrid>
 
+
 <!-- <div class="twitterborder" style="position: absolute; top: 59.7%; left: 2%; color: #0F3D6E; font-weight: bold">
     <div class="table">
         <div class="table-cell">
 <a class="twitter-timeline" href="https://twitter.com/TwitterDev?ref_src=twsrc%5Etfw">Tweets by @twitterapi</a>
+
+<clr-datagrid style="position: absolute; top: 14.3%; left: 35.25%; width: 33.25%" *ngIf="isStaff">
+    <clr-dg-column style="background-color: #0F3D6E">
+        <div style="color: white;">TIME OF DAY </div>
+    </clr-dg-column>
+    <clr-dg-column style="background-color: #0F3D6E">
+        <div style="color: white;">ACTIVITY</div>
+    </clr-dg-column>
+
+    <clr-dg-row>
+        <clr-dg-cell>08:00 - 10:00</clr-dg-cell>
+        <clr-dg-cell>Gym</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-row>
+        <clr-dg-cell>10:00 - 12:00</clr-dg-cell>
+        <clr-dg-cell>Robotics Lecture</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-row>
+        <clr-dg-cell>13:00 - 15:00</clr-dg-cell>
+        <clr-dg-cell>Group Project Meeting</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-row>
+        <clr-dg-cell>15:00 - 16:00</clr-dg-cell>
+        <clr-dg-cell>Individual Project Meeting</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-row>
+        <clr-dg-cell>16:00 - 17:00</clr-dg-cell>
+        <clr-dg-cell>Skype Interview with PhD Student</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-row>
+        <clr-dg-cell>17:00 - 18:00</clr-dg-cell>
+        <clr-dg-cell>Robotics Lecture Preparation</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-row>
+        <clr-dg-cell>19:00 - 20:00</clr-dg-cell>
+        <clr-dg-cell>Housekeeping</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-row>
+        <clr-dg-cell>20:00 - 22:00</clr-dg-cell>
+        <clr-dg-cell>Dinner with family</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-row>
+        <clr-dg-cell>22:00 - 23:30</clr-dg-cell>
+        <clr-dg-cell>Movie</clr-dg-cell>
+    </clr-dg-row>
+</clr-datagrid>
+
+<h3 style="position: absolute; top: 59.7%; left: 2%; color: #0F3D6E; font-weight: bold"> Class Twitter Feed:</h3>
+<hr style="position: absolute; top: 65%; left: 2%; width: 14%; height: 0.28%; background-color: #4390BC; border: none">
+
+<ul><iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="twitter-timeline twitter-timeline-rendered" style="position: static; visibility: visible; display: inline-block; width: 520px; height: 320px; padding: 0px; border: none; max-width: 687px; min-width: 180px; margin-top: 0px; margin-bottom: 0px; min-height: 200px;" data-widget-id="592991135984918528" title="Twitter Timeline"></iframe>
+<script>
+    !function(d,s,id){ var js, fjs=d.getElementsByTagName(s)[0],
+                       p=/^http:/.test(d.location)?'http':'https';
+      if(!d.getElementById(id)){ js=d.createElement(s);
+                                         js.id=id;
+                                         js.src=p+"://platform.twitter.com/widgets.js";
+                                         fjs.parentNode.insertBefore(js,fjs);}
+    } (document,"script","twitter-wjs");
+</script></ul>
 
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>

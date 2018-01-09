@@ -171,6 +171,22 @@ AUTH_LDAP_GROUP_MAP = {
     'CN=doc-students-347,' + groups_dn: ('Distributed Algorithms',),
     'CN=doc-students-395,' + groups_dn: ('Machine Learning',),
 }
+    # 'CN=doc-students-223,' + groups_dn: ('Concurrency',),
+    # 'CN=doc-students-210,' + groups_dn: ('Architecture',),
+    # 'CN=doc-students-202,' + groups_dn: ('Algorithms',),
+    # 'CN=doc-students-220,' + groups_dn: ('Design',),
+    # 'CN=doc-students-221,' + groups_dn: ('Compilers',),
+    # 'CN=doc-students-211,' + groups_dn: ('Operating Systems',),
+    # 'CN=doc-students-212,' + groups_dn: ('Networks',),
+    # 'CN=doc-students-231,' + groups_dn: ('Intro to AI',),
+    # 'CN=doc-students-233,' + groups_dn: ('Computational Techniques',),
+    # 'CN=doc-students-240,' + groups_dn: ('Models of Computation',),
+    # 'CN=doc-students-245,' + groups_dn: ('Statistics',),
+    # 'CN=doc-students-261,' + groups_dn: ('Laboratory 2',),
+    # 'CN=doc-students-271,' + groups_dn: ('Web Apps',),
+    # 'CN=doc-students-272,' + groups_dn: ('Team Skills',),
+    # 'CN=doc-students-275,' + groups_dn: ('C++',),
+    # 'CN=doc-students-276,' + groups_dn: ('Prolog',),
 
 # JWT (Token) authentication
 # https://getblimp.github.io/django-rest-framework-jwt/

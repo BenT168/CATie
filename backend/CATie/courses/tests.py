@@ -27,23 +27,23 @@ class CourseTests(TestCase):
     arch_crse = None
     sesh = None
 
-    ruhi_course_list = [{'code': 210, 'name': 'Architecture'},
-                        {'code': 223, 'name': 'Concurrency'}]
+    ruhi_course_list = [{'code': 316, 'name': 'Computer Vision'},
+                        {'code': 337, 'name': 'Simulation and Modelling'}]
 
     def setUpGroups(self):
-        self.c2 = Group.objects.create(name='c2')
+        self.c3 = Group.objects.create(name='c3')
         self.c1 = Group.objects.create(name='c1')
-        self.conc_grp = Group.objects.create(name='Concurrency')
-        self.arch_grp = Group.objects.create(name='Architecture')
+        self.conc_grp = Group.objects.create(name='Simulation and Modelling')
+        self.arch_grp = Group.objects.create(name='Computer Vision')
         self.year1 = Year.objects.create(number=1, group=self.c1)
-        self.year2 = Year.objects.create(number=2, group=self.c2)
-        self.conc_crse = Course.objects.create(name="Concurrency", code=223,
-                                               ofYear=self.year2,
+        self.year3 = Year.objects.create(number=2, group=self.c3)
+        self.conc_crse = Course.objects.create(name="Simulation and Modelling", code=337,
+                                               ofYear=self.year3,
                                                group=self.conc_grp)
-        self.arch_crse = Course.objects.create(name="Architecture", code=210,
-                                               ofYear=self.year2,
+        self.arch_crse = Course.objects.create(name="Computer Vision", code=316,
+                                               ofYear=self.year3,
                                                group=self.arch_grp)
-        self.sesh = Lecture.objects.create(name="Concurrent Execution",
+        self.sesh = Lecture.objects.create(name="Simulation and Modelling Introduction",
                                            course=self.conc_crse)
 
     def setUpAndLogin(self):
@@ -63,12 +63,12 @@ class CourseTests(TestCase):
     def test_set_up_works(self):
         self.setUpGroups()
         c1_retrieved = Group.objects.get(name='c1')
-        c2_retrieved = Group.objects.get(name='c2')
-        conc = Group.objects.get(name='Concurrency')
-        arch = Group.objects.get(name='Architecture')
+        c2_retrieved = Group.objects.get(name='c3')
+        conc = Group.objects.get(name='Simulation and Modelling')
+        arch = Group.objects.get(name='Computer Vision')
         year = Year.objects.get(number=2)
-        conc_crse = Course.objects.get(name="Concurrency")
-        sesh = Lecture.objects.get(name="Concurrent Execution")
+        conc_crse = Course.objects.get(name="Simulation and Modelling")
+        sesh = Lecture.objects.get(name="Simulation and Modelling Introduction")
         arch_crse = Course.objects.get(code=210)
         self.assertEqual(self.c1, c1_retrieved)
         self.assertEqual(self.c2, c2_retrieved)
@@ -82,19 +82,19 @@ class CourseTests(TestCase):
     def test_login_sets_groups_correctly(self):
         catie_profile = self.setUpAndLogin()
         self.assertTrue(catie_profile.user.groups.filter(
-            name='Concurrency').count())
+            name='Simulation and Modelling').count())
 
-    def test_ruhi_is_in_second_year(self):
+    def test_ruhi_is_in_third_year(self):
         catie_profile = self.setUpAndLogin()
-        self.assertEqual(catie_profile.year.number, 2)
+        self.assertEqual(catie_profile.year.number, 3)
 
     def test_ruhi_is_not_in_first_year(self):
         catie_profile = self.setUpAndLogin()
         self.assertNotEqual(catie_profile.year.number, 1)
 
-    def test_ruhi_does_concurrency(self):
+    def test_ruhi_does_simulation_and_modelling(self):
         catie_profile = self.setUpAndLogin()
-        self.assertTrue(catie_profile.courses.get(code=223))
+        self.assertTrue(catie_profile.courses.get(code=337))
 
     def test_get_courses_ruhi(self):
         self.setUpAndLogin()
@@ -108,7 +108,7 @@ class CourseTests(TestCase):
 
     def test_get_lectures_does_not_return_general(self):
         self.setUpAndLogin()
-        resp = self.c.get('/courses/223/', HTTP_AUTHORIZATION=self.token)
+        resp = self.c.get('/courses/337/', HTTP_AUTHORIZATION=self.token)
         resp_content_str = resp.content.decode('utf-8')
         lectures = json.loads(resp_content_str)
         no_general = False
