@@ -1,10 +1,10 @@
+import O365
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.utils import jwt_decode_handler
-from O365 import Event, Schedule
 import time
 
 @csrf_exempt
@@ -17,10 +17,10 @@ def create_event(request):
     password = request.POST.get('password', None)
 
     authentication = (email, password)
-    schedule = Schedule(authentication)
+    schedule = O365.Schedule(authentication)
     res = schedule.getCalendars()  # not used but essential for successful event creation.
     calendars = schedule.calendars
-    ev = Event(auth=authentication, cal=calendars[0])
+    ev = O365.Event(auth=authentication, cal=calendars[0])
 
     subject = request.POST.get('title', None)
     startTime = request.POST.get('start', None)
@@ -44,7 +44,7 @@ def get_events(request):
     password = request.POST.get('password', None)
 
     authentication = (email, password)
-    schedule = Schedule(authentication)
+    schedule = O365.Schedule(authentication)
     bookings = []
 
     try:
