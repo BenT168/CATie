@@ -40,7 +40,7 @@
                 <a class="nav-link" href="#" [routerLink]="['../courses']" routerLinkActive="active">Courses</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../assignments']" routerLinkActive="active">Assignments</a>
+                <a class="nav-link" href="#" [routerLink]="['../assignments']" routerLinkActive="active" *ngIf="isStaff">Assignments</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" [routerLink]="['../grades']" routerLinkActive="active" *ngIf="!isStaff">Grades</a>
@@ -59,8 +59,9 @@
     <clr-dg-column>Assignment</clr-dg-column>
     <clr-dg-column>Set Date</clr-dg-column>
     <clr-dg-column>Due Date</clr-dg-column>
-    <clr-dg-column>Submission</clr-dg-column>
-    <clr-dg-column>More Information</clr-dg-column>
+    <clr-dg-column>Feedback</clr-dg-column>
+    <clr-dg-column *ngIf="isStaff">Publish</clr-dg-column>
+
 
     <clr-dg-row>
         <clr-dg-cell>CW1 Learning Definite Programs</clr-dg-cell>
@@ -71,7 +72,7 @@
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="submission" value="Submit" align="center" (click)="showSubmissionModal()"/>
+                           name="moreinfo" value="Marked" align="center" disabled/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -80,7 +81,7 @@
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Grades Published" align="center" disabled/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -95,7 +96,7 @@
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="submission" value="Submit" align="center" (click)="showSubmissionModal()"/>
+                           name="moreinfo" value="Mark Online" align="center"/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -104,7 +105,7 @@
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Publish Grades" align="center" disabled/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -119,7 +120,7 @@
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="submission" value="Submit" align="center" (click)="showSubmissionModal()"/>
+                           name="moreinfo" value="Continue Marking" align="center"/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -128,7 +129,7 @@
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Publish Grades" align="center" (click)="showPublished()"/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -139,14 +140,20 @@
         <clr-dg-cell>16:00 <br> 31/01/17</clr-dg-cell>
         <clr-dg-cell>19:00 <br> 01/03/17</clr-dg-cell>
         <clr-dg-cell>
-            Submission Timestamp: 05/12/16 12:25:29
+            <div class="col-xs-4" align="center">
+                <form style="vertical-align: middle">
+                    <input type="button" class="btn btn-primary"
+                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
+                           name="moreinfo" value="Continue Marking" align="center" />
+                </form>
+            </div>
         </clr-dg-cell>
         <clr-dg-cell>
             <div class="col-xs-4" align="center">
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Publish Grades" align="center" (click)="showPublished()"/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -157,14 +164,20 @@
         <clr-dg-cell>16:00 <br> 31/01/17</clr-dg-cell>
         <clr-dg-cell>19:00 <br> 01/03/17</clr-dg-cell>
         <clr-dg-cell>
-            Submission Timestamp: 30/11/16 10:34:26
+            <div class="col-xs-4" align="center">
+                <form style="vertical-align: middle">
+                    <input type="button" class="btn btn-primary"
+                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
+                           name="moreinfo" value="Marked" align="center" disabled/>
+                </form>
+            </div>
         </clr-dg-cell>
         <clr-dg-cell>
             <div class="col-xs-4" align="center">
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Publish Grades" align="center" (click)="showPublished()"/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -175,14 +188,20 @@
         <clr-dg-cell>16:00 <br> 31/01/17</clr-dg-cell>
         <clr-dg-cell>19:00 <br> 01/03/17</clr-dg-cell>
         <clr-dg-cell>
-            Submission Timestamp: 15/11/16 17:12:59
+            <div class="col-xs-4" align="center">
+                <form style="vertical-align: middle">
+                    <input type="button" class="btn btn-primary"
+                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
+                           name="moreinfo" value="Mark Online" align="center"/>
+                </form>
+            </div>
         </clr-dg-cell>
         <clr-dg-cell>
             <div class="col-xs-4" align="center">
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Publish Grades" align="center" disabled/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -256,6 +275,19 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" type="button" (click)="hideMoreInfoModal()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showPublished" class="modal">
+    <div class="modal-dialog" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Grades Published</h3>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" (click)="hidePublished()">Ok</button>
             </div>
         </div>
     </div>
