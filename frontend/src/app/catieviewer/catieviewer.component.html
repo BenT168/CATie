@@ -77,10 +77,22 @@ CATie<div style="position: absolute; top: 0%; left: 0%; width: 100%">
             </a>
         </h2>
 
+
+
         <div class="catieviewer-slides" *ngIf="!slidesHidden">
             <iframe [src]="slidesUrl + '#toolbar=0&navpanes=0&scrollbar=0' | safe"
                     width="200%" height="200%">Loading...</iframe>
         </div>
+
+
+        <!--
+
+         <div class="catieviewer-slides" *ngIf="!slidesHidden">
+            <object [data]="'../../files/' + slidesUrl | safe"
+                    type="application/pdf" width="200%" height="200%">Loading...</object>
+        </div>
+
+        -->
     </div>
 
     <div style="float:left; width:45%; height:90%" class="catieviewer-notes" *ngIf="!videoHidden">
