@@ -60,10 +60,7 @@
     <clr-dg-column>Set Date</clr-dg-column>
     <clr-dg-column>Due Date</clr-dg-column>
     <clr-dg-column>Submission</clr-dg-column>
-    <clr-dg-column>Feedback</clr-dg-column>
-    <clr-dg-column *ngIf="isStaff">Marked</clr-dg-column>
-    <clr-dg-column *ngIf="!isStaff">Collected</clr-dg-column>
-
+    <clr-dg-column>More Information</clr-dg-column>
 
     <clr-dg-row>
         <clr-dg-cell>CW1 Learning Definite Programs</clr-dg-cell>
@@ -153,15 +150,6 @@
                 </form>
             </div>
         </clr-dg-cell>
-        <clr-dg-cell>
-            <div class="col-xs-4" align="center">
-                <form style="vertical-align: middle">
-                    <input type="checkbox"
-                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="marked/collected" align="center" />
-                </form>
-            </div>
-        </clr-dg-cell>
     </clr-dg-row>
 
     <clr-dg-row>
@@ -180,15 +168,6 @@
                 </form>
             </div>
         </clr-dg-cell>
-        <clr-dg-cell>
-            <div class="col-xs-4" align="center">
-                <form style="vertical-align: middle">
-                    <input type="checkbox"
-                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="marked/collected" align="center" />
-                </form>
-            </div>
-        </clr-dg-cell>
     </clr-dg-row>
 
     <clr-dg-row>
@@ -204,15 +183,6 @@
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
                            name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
-                </form>
-            </div>
-        </clr-dg-cell>
-        <clr-dg-cell>
-            <div class="col-xs-4" align="center">
-                <form style="vertical-align: middle">
-                    <input type="checkbox"
-                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="marked/collected" align="center" />
                 </form>
             </div>
         </clr-dg-cell>

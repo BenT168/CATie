@@ -65,36 +65,103 @@
 
 <div style="position: absolute; top: 16.3%; left: 71%; width: 98%" *ngIf="!isStaff">
 
-    <div class="alert alert-success" style="width: 27%; background-color: #49AFD9; border-color: #49AFD9; color: white" *ngFor="let not of notification | slice:0:8">
-      <clr-icon *ngIf="not.category === 'done'" shape="tasks" style="position: absolute; top: 25%"></clr-icon>
-      <clr-icon *ngIf="not.category === 'note'" shape="note" style="position: absolute; top: 25%"></clr-icon>
-      <clr-icon *ngIf="not.category === 'discussion'" shape="talk-bubbles" style="position: absolute; top: 25%"></clr-icon>
-      <clr-icon *ngIf="not.category === 'upload-success'" shape="upload-cloud" style="position: absolute; top: 25%"></clr-icon>
-      <clr-icon *ngIf="not.category === 'upload-failure'" shape="times-circle" style="position: absolute; top: 25%"></clr-icon>
-      <clr-icon *ngIf="not.category === 'clock'" shape="clock" style="position: absolute; top: 25%"></clr-icon>
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="tasks" style="position: absolute; top: 25%"></clr-icon>
 
-      <div class="alert-item">
-      <span *ngIf="not.page === 'Course'">
-          <!-- <a href="http://localhost:4200/courses" style="color:white">{{not.course}} - {{not.message}} - Posted on {{not.date | date:'mediumDate'}} ({{not.page}})</a> -->
-          <a href="#" [routerLink]="['../courses']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
-      </span>
-      <span *ngIf="not.page === 'Assignment'">
-          <a href="#" [routerLink]="['../assignments']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
-      </span>
-      <span *ngIf="not.page === 'Grade'">
-          <a href="#" [routerLink]="['../grades']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
-      </span>
-      <span *ngIf="not.page === 'Discussion'">
-          <a href="#" [routerLink]="['../askari']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
-      </span>
-      </div>
+        <div class="alert-item">
+        <span>
+            Grade Released
+        </span>
+        </div>
 
-      <button type="button" (click)="deleteNots(not)" class="close" aria-label="Close">
-          <clr-icon aria-hidden="true" shape="close"></clr-icon>
-      </button>
-
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
     </div>
-    <a href="#" [routerLink]="['../notification']" routerLinkActive="active">View All</a>
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="note" style="position: absolute; top: 25%"></clr-icon>
+
+        <div class="alert-item">
+        <span>
+            New Assignment Available
+        </span>
+        </div>
+
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="talk-bubbles" style="position: absolute; top: 25%"></clr-icon>
+
+        <div class="alert-item">
+        <span>
+            Response to your AskCatie Question
+        </span>
+        </div>
+
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="upload-cloud" style="position: absolute; top: 25%"></clr-icon>
+
+        <div class="alert-item">
+        <span>
+            Assignment Submission Successful
+        </span>
+        </div>
+
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="clock" style="position: absolute; top: 25%"></clr-icon>
+
+        <div class="alert-item">
+        <span>
+            Upcoming Deadline
+        </span>
+        </div>
+
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="note" style="position: absolute; top: 25%"></clr-icon>
+
+        <div class="alert-item">
+        <span>
+            New Assignment Available
+        </span>
+        </div>
+
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <clr-icon shape="talk-bubbles" style="position: absolute; top: 25%"></clr-icon>
+
+        <div class="alert-item">
+        <span>
+            Response to your AskCatie Question
+        </span>
+        </div>
+
+        <button type="button" class="close" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
 </div>
 
 <div style="position: absolute; top: 16.3%; left: 71%; width: 98%" *ngIf="isStaff">
