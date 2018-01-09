@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'lecture',
     'AskCATie',
     'notification',
+    'submissions',
 
     # Django Packages
     'rest_framework',
@@ -156,7 +157,7 @@ AUTH_LDAP_GROUP_MAP = {
     'CN=doc-students-316,' + groups_dn: ('Computer Vision',),
     'CN=doc-students-333,' + groups_dn: ('Robotics',),
     'CN=doc-students-337,' + groups_dn: ('Simulation and Modelling',),
-    'CN=doc-students-349,' + groups_dn: ('Operations Research',),
+    'CN=doc-students-343,' + groups_dn: ('Operations Research',),
     'CN=doc-students-349,' + groups_dn: ('Information and Coding Theory',),
     'CN=doc-students-382,' + groups_dn: ('Type Systems for Programming Languages',),
     'CN=doc-students-572,' + groups_dn: ('Advanced Databases',),

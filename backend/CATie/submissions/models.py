@@ -1,5 +1,5 @@
 from django.db import models
-from backend.ARi.courses.models import Course
+from courses.models import Course
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
