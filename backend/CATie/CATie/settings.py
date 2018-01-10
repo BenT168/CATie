@@ -29,6 +29,7 @@ SECRET_KEY = '*hwb&#(m8&$a8fyq*-=#u7h14tb!e)fkk#c3%17im@1*&+4w)0'
 DEBUG = True
 
 ALLOWED_HOSTS = ['catie-server.herokuapp.com',
+                 'catie.herokuapp.com'
                  'localhost',
                  '127.0.0.1',
                  '146.169.45.4']
