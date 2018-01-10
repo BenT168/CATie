@@ -18,10 +18,13 @@ export class CoursesComponent implements OnInit {
     allExpanded: boolean;
     isStaff: boolean;
     viewStaffModal: boolean;
+    viewStudentModal: boolean;
+    viewStudentWithdrawnModal: boolean;
     firstName: string;
     lastName: string;
 
     courses: Course[] = [];
+    enrolledCourses: Course[] = [];
     lectureDict: LectureDictionary = {};
 
     localStorage;
@@ -29,6 +32,8 @@ export class CoursesComponent implements OnInit {
     constructor(private coursesService: CoursesService, private router: Router, private authenticationService: AuthenticationService) {
         this.allExpanded = false;
         this.viewStaffModal = false;
+        this.viewStudentModal = false;
+        this.viewStudentWithdrawnModal = false;
         this.localStorage = localStorage;
         this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
         this.firstName = JSON.parse(localStorage['currentUser']).first_name;
@@ -53,10 +58,32 @@ export class CoursesComponent implements OnInit {
         this.viewStaffModal = false;
     }
 
+    showStudentWithdrawnModal() {
+        this.viewStudentWithdrawnModal = true;
+    }
+
+    hideStudentWithdrawnModal() {
+        this.viewStudentWithdrawnModal = false;
+    }
+
+    showStudentModal() {
+        this.viewStudentModal = true;
+    }
+
+    hideStudentModal() {
+        this.viewStudentModal = false;
+    }
+
     getAllLectures() {
         if (!this.lecturesLoaded) {
-            for (let course of this.courses) {
-                this.getLectures(course.code);
+            if (this.isStaff) {
+                for (let course of this.courses) {
+                    this.getLectures(course.code);
+                }
+            } else {
+                for (let course of this.enrolledCourses) {
+                    this.getLectures(course.code);
+                }
             }
             this.lecturesLoaded = true;
         }
@@ -71,6 +98,14 @@ export class CoursesComponent implements OnInit {
             courses => this.courses = courses,
             function(error) { console.log(error); },
             function() { console.log("completed course loading"); }
+        );
+    }
+
+    getEnrolledCourses() {
+        this.coursesService.getEnrolledCourses().subscribe(
+            enrolledCourses => this.enrolledCourses = enrolledCourses,
+            function(error) { console.log(error); },
+            function() { console.log("enrolled course loading"); }
         );
     }
 
@@ -90,6 +125,24 @@ export class CoursesComponent implements OnInit {
         console.log("status on courses page:");
         console.log(status);
         this.hideStaffModal();
+    }
+
+    addCourse() {
+        let status = this.coursesService.addCourse(this.model.name, this.model.course.split(":", 1)[0]).subscribe(result => {
+            console.log(result);
+        });
+        console.log("status on courses page:");
+        console.log(status);
+        this.hideStudentModal();
+    }
+
+     deleteCourse() {
+        let status = this.coursesService.deleteCourse(this.model.name, this.model.course.split(":", 1)[0]).subscribe(result => {
+            console.log(result);
+        });
+        console.log("status on courses page:");
+        console.log(status);
+        this.hideStudentWithdrawnModal();
     }
 }
 

@@ -30,6 +30,32 @@ export class CoursesService {
                         {"code":349,"name":"Information and Coding Theory"},
                         {"code":382,"name":"Type Systems for Programming Languages"},
                         {"code":395,"name":"Machine Learning"}]
+//
+//                         // {"code":316,"name":"Computer Vision"},
+//                         // {"code":317,"name":"Graphics"},
+//                         // {"code":318,"name":"Custom Computing"},
+//                         // {"code":322,"name":"Communicating Computer Science in Schools"},
+//                         // {"code":331,"name":"Network and Web Security"},
+//                         // {"code":332,"name":"Advanced Computer Architecture"},
+//                         // {"code":333,"name":"Robotics"},
+//                         {"code":337,"name":"Simulation and Modelling"}]
+//                         // {"code":191,"name":"Advanced Programming"},
+//                         // {"code":343,"name":"Operations Research"},
+//                         // {"code":347,"name":"Distributed Algorithms"},
+//                         // {"code":349,"name":"Information and Coding Theory"},
+//                         // {"code":382,"name":"Type Systems for Programming Languages"},
+//                         // {"code":395,"name":"Machine Learning"},
+//                         // {"code":572,"name":"Advanced Databases"}]
+//
+//     private enrolledCourseData = [
+//                         {"code":316,"name":"Computer Vision"},
+//                         {"code":317,"name":"Graphics"},
+//                         {"code":331,"name":"Network and Web Security"},
+//                         {"code":333,"name":"Robotics"},
+//                         {"code":337,"name":"Simulation and Modelling"},
+//                         {"code":347,"name":"Distributed Algorithms"},
+//                         {"code":395,"name":"Machine Learning"}]
+//
     public lectureData = [{
             "code": 337, "lectures": [{
                 "name": "Introduction to Simulation and Modelling",
@@ -79,6 +105,14 @@ export class CoursesService {
         return Observable.of(this.courseData);
     }
 
+    getEnrolledCourses(): Observable<Course[]> {
+        //let headers = new Headers();
+        //headers.append('Authorization', this.token);
+        //let options = new RequestOptions({ headers: headers });
+        //return this.http.get(this.fetchCoursesUrl, options).map(this.extractData);
+        return Observable.of(this.enrolledCourseData);
+    }
+
     getLectures(code: number): Observable<Lecture[]> {
         //let headers = new Headers();
         //headers.append('Authorization', this.token);
@@ -98,6 +132,32 @@ export class CoursesService {
         headers.append('Authorization', this.token);
         let options = new RequestOptions({ headers: headers });
         let body = 'name=' + name + '&code=' + code + '&video=' + video + '&slides=' + slides;
+
+        return this.http.post(this.addUrl, body, options).map((res: Response) => {
+            if (res) {
+                return res.status;
+            }
+        });
+    }
+
+    addCourse(name: string, code: string): Observable<number>  {
+        let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
+        headers.append('Authorization', this.token);
+        let options = new RequestOptions({ headers: headers });
+        let body = 'name=' + name + '&code=' + code;
+
+        return this.http.post(this.addUrl, body, options).map((res: Response) => {
+            if (res) {
+                return res.status;
+            }
+        });
+    }
+
+    deleteCourse(name: string, code: string): Observable<number>  {
+        let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
+        headers.append('Authorization', this.token);
+        let options = new RequestOptions({ headers: headers });
+        let body = 'name=' + name + '&code=' + code;
 
         return this.http.post(this.addUrl, body, options).map((res: Response) => {
             if (res) {
