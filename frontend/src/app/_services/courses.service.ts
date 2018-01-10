@@ -42,7 +42,25 @@ export class CoursesService {
                 "questions": [{
                     "id": 1,
                     "title": "PS4 Q3, where do i find the example?",
-                    "body": "Sample body - add in text later"
+                    "body": "Sample body add in text later"
+                }, {
+                    "id": 2,
+                    "title": "Trapezoidal Density function",
+                    "body": "Can anyone help me derive a density function for a trapezoidal graph as described in question 2 in the 2015 paper?"
+                }]
+            }]
+        }, {
+            "code": 572, "lectures": [{
+                "name": "Advanced Databases - Temporal Databases",
+                "urlNameWithCode": "572/temporal-databases",
+                "urlName": "temporal-databases",
+                "video": "https://imperial.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=3bba2df7-8655-45cd-a4b1-f46aff444d9c",
+                "slides": "http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf",
+                "notes": "",
+                "questions": [{
+                    "id": 1,
+                    "title": "Does the order of temporal database query result matters?",
+                    "body": "in the exam, are we are expected to write the querying result in a correct order?"
                 }]
             }]
         }

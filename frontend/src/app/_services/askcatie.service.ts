@@ -162,16 +162,43 @@ export class AskCATieService {
     */
 
     createQuestion(title: string, code: number, lecture: string, body: string): Observable<number>  {
-        let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
-        headers.append('Authorization', this.token);
-        let options = new RequestOptions({ headers: headers });
-        let params = 'title=' + title + '&code=' + code + '&lecture=' + lecture + '&body=' + body;
+        //let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
+        //headers.append('Authorization', this.token);
+        //let options = new RequestOptions({ headers: headers });
+        //let params = 'title=' + title + '&code=' + code + '&lecture=' + lecture + '&body=' + body;
 
-        return this.http.post(this.createQuestionUrl, params, options).map((res: Response) => {
-            if (res) {
-                return res.status;
+        //return this.http.post(this.createQuestionUrl, params, options).map((res: Response) => {
+        //    if (res) {
+        //        return res.status;
+        //    }
+        //});
+        var lecData = this.coursesService.lectureData;
+        var i = 0;
+        var j = 0;
+        var k = 0;
+        for (i = 0; i < lecData.length; i++) {
+            if (lecData[i].code == code) {
+                for (j = 0; j < lecData[i].lectures.length; j++) {
+                    if (lecData[i].lectures[j].urlName == lecture) {
+                        var newQuestionID = 1;
+                        for (k = 0; k < lecData[i].lectures[j].questions.length; k++) {
+                            if (lecData[i].lectures[j].questions[k].id >= newQuestionID) {
+                                newQuestionID = lecData[i].lectures[j].questions[k].id + 1;
+                            }
+                        }
+                        var newQuestion = {
+                            "id": newQuestionID,
+                            "title": title,
+                            "body": body
+                        };
+                        lecData[i].lectures[j].questions.concat(newQuestion);
+                        this.coursesService.lectureData = lecData;
+                        return Observable.of(newQuestionID);
+                    }
+                }
             }
-        });
+        }
+        return Observable.of(0);
     }
 
     private extractData(res: Response) {
