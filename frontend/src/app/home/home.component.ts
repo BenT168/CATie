@@ -70,4 +70,6 @@ export class HomeComponent {
         this.notification.splice(index, 1);
     }
     }
+
+
 }
