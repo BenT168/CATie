@@ -40,13 +40,13 @@
                 <a class="nav-link" href="#" [routerLink]="['../courses']" routerLinkActive="active">Courses</a>
             </li>
             <li class="nav-item" *ngIf="isStaff">
-                <a class="nav-link" href="#" [routerLink]="['../../../assignments']" routerLinkActive="active">Assignments</a>
+                <a class="nav-link" href="#" [routerLink]="['../assignments']" routerLinkActive="active">Assignments</a>
             </li>
             <li class="nav-item" *ngIf="!isStaff">
-                <a class="nav-link" href="#" [routerLink]="['../../../grades']" routerLinkActive="active">Submissions</a>
+                <a class="nav-link" href="#" [routerLink]="['../grades']" routerLinkActive="active">Submissions</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../doccalendar']" routerLinkActive="active">Doc Calendar</a>
+                <a class="nav-link" href="#" [routerLink]="['../doccalendar']" routerLinkActive="active">DoC Calendar</a>
             </li>
         </ul>
     </nav>
@@ -102,11 +102,11 @@
                             <input type="text" id="name" placeholder="Enter name of session here" size="45" [(ngModel)]="model.name" [ngModelOptions]="{standalone: true}" #name="ngModel" required>
                         </div>
                         <div class="form-group">
-                            <label for="vidUrl">Another form field</label>
+                            <label for="vidUrl">Add resource 1 URL</label>
                             <input type="text" id="vidUrl" placeholder="Copy video URL here" size="35" [(ngModel)]="model.video" [ngModelOptions]="{standalone: true}" #video="ngModel" required>
                         </div>
                         <div class="form-group">
-                            <label for="pdfUrl">Another form field</label>
+                            <label for="pdfUrl">Add resourse 2 URL</label>
                             <input type="text" id="pdfUrl" placeholder="Copy slides URL here" size="35" [(ngModel)]="model.slides" [ngModelOptions]="{standalone: true}" #slides="ngModel" required>
                         </div>
                         <button type="submit" class="btn btn-outline" (click)="hideStaffModal()" style="float: right">Cancel</button>
