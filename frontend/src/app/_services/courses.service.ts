@@ -13,23 +13,23 @@ export class CoursesService {
     private fetchCoursesUrl: string = Globals.hostURL + 'courses/';
     private addUrl: string = Globals.hostURL + 'lectures/create/';
     private courseData = [
-                        {"code":303,"name":"Systems Verification"},
-                        {"code":304,"name":"Logic-Based Learning"},
-                        {"code":316,"name":"Computer Vision"},
-                        {"code":317,"name":"Graphics"},
-                        {"code":318,"name":"Custom Computing"},
-                        {"code":322,"name":"Communicating Computer Science in Schools"},
-                        {"code":331,"name":"Network and Web Security"},
-                        {"code":332,"name":"Advanced Computer Architecture"},
-                        {"code":333,"name":"Robotics"},
-                        {"code":337,"name":"Simulation and Modelling"},
-                        {"code":338,"name":"Pervasive Computing"},
-                        {"code":343,"name":"Operations Research"},
-                        {"code":347,"name":"Distributed Algorithms"},
-                        {"code":349,"name":"Information and Coding Theory"},
-                        {"code":382,"name":"Type Systems for Programming Languages"},
-                        {"code":395,"name":"Machine Learning"},
-                        {"code":572,"name":"Advanced Databases"}]
+                        {"code":120.1,"name":"Programming I"},
+                        {"code":161,"name":"Laboratory"},
+                        // {"code":316,"name":"Computer Vision"},
+                        // {"code":317,"name":"Graphics"},
+                        // {"code":318,"name":"Custom Computing"},
+                        // {"code":322,"name":"Communicating Computer Science in Schools"},
+                        // {"code":331,"name":"Network and Web Security"},
+                        // {"code":332,"name":"Advanced Computer Architecture"},
+                        // {"code":333,"name":"Robotics"},
+                        {"code":337,"name":"Simulation and Modelling"}]
+                        // {"code":191,"name":"Advanced Programming"},
+                        // {"code":343,"name":"Operations Research"},
+                        // {"code":347,"name":"Distributed Algorithms"},
+                        // {"code":349,"name":"Information and Coding Theory"},
+                        // {"code":382,"name":"Type Systems for Programming Languages"},
+                        // {"code":395,"name":"Machine Learning"},
+                        // {"code":572,"name":"Advanced Databases"}]
 
     public lectureData = [{
             "code": 337, "lectures": [{
