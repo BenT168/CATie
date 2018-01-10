@@ -8,9 +8,13 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
         <div class="header-actions">
             <clr-dropdown clrMenuPosition="bottom-right" style="position: absolute; right: 2%">
                 <button type="button" class="close" aria-label="Close" style="position: absolute; right: 2%" clrDropdownToggle>
-                    <span>
+                    <span *ngIf="isStaff">
                     <clr-icon shape="user" style="position: absolute; right:100%">  </clr-icon>
-                        {{ firstName }} {{ lastName }}  (arc13)
+                        Tony Field
+                    </span>
+                    <span *ngIf="!isStaff">
+                    <clr-icon shape="user" style="position: absolute; right:100%">  </clr-icon>
+                        {{ firstName }} {{ lastName }}  
                     </span>
                     <clr-icon shape="caret down">  </clr-icon>
                   </button>
@@ -463,7 +467,8 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 
   <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
     <div class="item">
-      <a class="link" style = "color: white; font-size:100%; align: centre" href="https://cate.doc.ic.ac.uk/student.cgi?key=2017:ab6015">Student Individual Record</a>
+      <a *ngIf="isStaff" class="link" style = "color: white; font-size:100%; align: centre" href="https://gitlab.doc.ic.ac.uk">DoC GitLab</a>
+      <a *ngIf="!isStaff" class="link" style = "color: white; font-size:100%; align: centre" href="https://cate.doc.ic.ac.uk/student.cgi?key=2017:ab6015">Student Individual Record</a>
     </div>
   </div>
 
@@ -475,7 +480,7 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 
   <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
     <div class="item">
-      <a class="link" style = "color: white; font-size:100%; align: centre" href="https://dbc.doc.ic.ac.uk/internalreg/subscription.cgi?key=2017:none:ab6015">Modules Subscription</a>
+      <a class="link" style = "color: white; font-size:100%; align: centre" href="https://mrbts.doc.ic.ac.uk/lab">DoC Room Booking</a>
     </div>
   </div>
 
