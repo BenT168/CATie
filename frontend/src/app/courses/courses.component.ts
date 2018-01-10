@@ -24,7 +24,9 @@ export class CoursesComponent implements OnInit {
     lastName: string;
 
     courses: Course[] = [];
-    selectedCourse: Course = new Course(362, "3rd Year Software Engineering Group Project");
+    selectedCourse1: Course = new Course(337, "Simulation and Modelling");
+    selectedCourse2: Course = new Course(316, "Computer Vision");
+    selectedCourse3: Course = new Course(333, "Robotics");
     enrolledCourses: Course[] = [];
     lectureDict: LectureDictionary = {};
 
@@ -41,7 +43,9 @@ export class CoursesComponent implements OnInit {
         this.lastName = JSON.parse(localStorage['currentUser']).last_name;
         console.log(this.isStaff);
         this.lecturesLoaded = false;
-        this.enrolledCourses.push(this.selectedCourse);
+        this.enrolledCourses.push(this.selectedCourse1);
+        this.enrolledCourses.push(this.selectedCourse2);
+        this.enrolledCourses.push(this.selectedCourse3);
     }
 
     logout(): void {
@@ -122,14 +126,14 @@ export class CoursesComponent implements OnInit {
     }
 
     addCourse() {
-        this.enrolledCourses.push(new Course(this.selectedCourse.code, this.selectedCourse.name));
-        console.log(this.selectedCourse.code);
-        console.log(this.selectedCourse.name);
+        this.enrolledCourses.push(new Course(this.selectedCourse1.code, this.selectedCourse1.name));
+        console.log("status on courses page:");
+        console.log(status);
         this.hideStudentModal();
     }
 
      deleteCourse() {
-        this.enrolledCourses = this.enrolledCourses.filter(obj => obj !== new Course(this.selectedCourse.code, this.selectedCourse.name));
+        this.enrolledCourses = this.enrolledCourses.filter(obj => obj !== new Course(this.selectedCourse1.code, this.selectedCourse1.name));
         console.log("status on courses page:");
         console.log(status);
         this.hideStudentWithdrawnModal();

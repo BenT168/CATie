@@ -62,10 +62,10 @@
 
 <div *ngIf="!isStaff">
 <clr-stack-view style="position: absolute; top: 17%; left: 2%; width: 96%">
-          <clr-stack-block *ngFor="let course of courses" [clrSbExpanded]="allExpanded" (click)="getAllLectures()">
+          <clr-stack-block *ngFor="let course of enrolledCourses" [clrSbExpanded]="allExpanded" (click)="getAllLectures()">
         <clr-stack-label>{{course.code}}</clr-stack-label>
         <clr-stack-content>{{course.name}}</clr-stack-content>
-            <button class="btn btn-primary" (click)="showStudentWithdrawnModal()"> WITHDRAW </button>
+            <button class="btn btn-primary" (click)="showStudentWithdrawnModal()" style="position: absolute; left: 70%;  height: 17.5% ; margin-top: 0px"> WITHDRAW </button>
         <clr-stack-block *ngFor="let lecture of lectureDict[course.code]">
             <clr-stack-label>
                 <a class="nav-link" href="#" [routerLink]="['/catieviewer', course.code, lecture.urlName]" routerLinkActive="active">
@@ -82,9 +82,9 @@
     <clr-stack-block *ngFor="let course of courses" [clrSbExpanded]="allExpanded" (click)="getAllLectures()">
         <clr-stack-label>{{course.code}}</clr-stack-label>
         <clr-stack-content>{{course.name}}</clr-stack-content>
-            <button class="btn btn-primary" (click)="showStaffModal()">+ LEC</button>
-            <button class="btn btn-primary" (click)="showStaffModal()">+ TUT</button>
-            <button class="btn btn-primary" (click)="showStaffModal()">+ CW</button>
+            <button class="btn btn-primary" (click)="showStaffModal()">+LEC</button>
+            <button class="btn btn-primary" (click)="showStaffModal()">+TUT</button>
+            <button class="btn btn-primary" (click)="showStaffModal()">+CW</button>
         <clr-stack-block *ngFor="let lecture of lectureDict[course.code]">
             <clr-stack-label>
                 <a class="nav-link" href="#" [routerLink]="['/catieviewer', course.code, lecture.urlName]" routerLinkActive="active">
@@ -133,29 +133,30 @@
     </div>
 </div>
 
-<!--<div *ngIf="viewStudentModal" class="modal">-->
-    <!--<div class="modal-dialog" role="dialog" aria-hidden="true">-->
-        <!--<div class="modal-content">-->
-            <!--<div class="modal-header">-->
-                <!--<h3 class="modal-title">Course Enrolment</h3>-->
-            <!--</div>-->
-            <!--<div class="modal-body">-->
-                <!--<form>-->
-                    <!--<section class="form-block">-->
-                            <!--<label for="courseSelect">Course</label>-->
-                            <!--<div class="form-group">-->
-                                <!--<select id="courseSelect" class="form-control" [(ngModel)]="selectedCourse" name="selectedCourse" [ngModelOptions]="{standalone: true}" #course="ngModel" requiredrequired>-->
-                                    <!--<option  *ngFor="let course of courses" [ngValue]="course">{{course?.code}}: {{course?.name}}</option>-->
-                                <!--</select>-->
-                            <!--</div>-->
-                        <!--<button type="submit" class="btn btn-outline" (click)="hideStudentModal()" style="float: right">Cancel</button>-->
-                        <!--<button type="submit" class="btn btn-success" (click)="addCourse()" style="float: right">Submit</button>-->
-                    <!--</section>-->
-                <!--</form>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
+<div *ngIf="viewStudentModal" class="modal">
+    <div class="modal-dialog" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Course Enrolment</h3>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <section class="form-block">
+                            <label for="courseSelect">Course</label>
+                            <div class="select">
+                                <select id="courseSelect" [(ngModel)]="selectedCourse" [ngModelOptions]="{standalone: true}" #course="ngModel" required>
+                                    <option  *ngFor="let course of courses">{{course.code}}: {{course.name}}</option>
+                                </select>
+                            </div>
+                        <button type="submit" class="btn btn-outline" (click)="hideStudentModal()" style="float: right">Cancel</button>
+                        <button type="submit" class="btn btn-success" (click)="addCourse()" style="float: right">Submit</button>
+                    </section>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <div *ngIf="viewStudentWithdrawnModal" class="modal">
@@ -169,7 +170,7 @@
                     <section class="form-block">
                             <div class="form-group">
                             <label for="name">Reason</label>
-                            <input type="text" id="name" placeholder="Enter reason of withdraw here" size="45" [(ngModel)]="model.name" [ngModelOptions]="{standalone: true}" #name="ngModel" required>
+                            <input type="text" id="name" placeholder="Enter reason of withdrawn here" size="45" [(ngModel)]="model.name" [ngModelOptions]="{standalone: true}" #name="ngModel" required>
                         </div>
                         <button type="submit" class="btn btn-outline" (click)="hideStudentWithdrawnModal()" style="float: right">Cancel</button>
                         <button type="submit" class="btn btn-success" (click)="deleteCourse()" style="float: right">Delete</button>

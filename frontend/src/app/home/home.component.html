@@ -50,7 +50,7 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 </div>
 
 <h3 style="position: absolute; top: 10%; left: 2%; color: #0F3D6E; font-weight: bold">My Calendar</h3>
-<hr style="position: absolute; top: 15%; left: 2%; width: 8%; height: 0.28%; background-color: #4390BC; border: none">
+<hr style="position: absolute; top: 15%; left: 2%; width: 9.5%; height: 0.28%; background-color: #4390BC; border: none">
 
 <button class="btn btn-primary" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
     <a class="btn btn-primary" style="position: absolute; top: 12%; left: 32%; width: 10%" height="500" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSchZ0K-uR7NebADFE4za5_Tpc8YEpBHfudRmnFddhdxV0F0yQ/viewform')"href="https://docs.google.com/forms/d/e/1FAIpQLSchZ0K-uR7NebADFE4za5_Tpc8YEpBHfudRmnFddhdxV0F0yQ/viewform" target="_blank">Create Event</a>
@@ -99,8 +99,8 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
     </div>
     <!--<a href="#" [routerLink]="['../notification']" routerLinkActive="active">View All</a>-->
 </div>
-<div style="position: absolute; top: 66%; width: 70%; height: 27%; left: 2%">
-  <img src="../../images/twitter.png">
+<div style="position: absolute; top: 67%; width: 20%; height: 5%; left: 2%">
+  <a href="https://www.facebook.com/ICDocSoc"><img src="../../images/doc.png" style="width:577px;height:256px"></a>
 </div>
 
 
@@ -188,7 +188,7 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 -->
 
 <h3 style="position: absolute; top: 10%; left: 43%; color: #0F3D6E; font-weight: bold">My Day</h3>
-<hr style="position: absolute; top: 15%; left: 43%; width: 7%; height: 0.28%; background-color: #4390BC; border: none">
+<hr style="position: absolute; top: 15%; left: 43%; width: 5.7%; height: 0.28%; background-color: #4390BC; border: none">
 
 <div style="position: absolute; top: 17%; left: 43%; width: 25%; height: 43%; background-color: #6ECCCA; text-align: center; color: white; font-weight: bold; font-size: 72px;">
 <!-- <iframe src="https://outlook.office365.com/owa/calendar/1b70bf06b75b4147af0f630848f53f60@imperial.ac.uk/f6e5118782b24b0a92aa5815fe1a650810441968668600221940/calendar.html -->
@@ -335,14 +335,15 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 	    <span class="date_format">MM/DD/YYYY</span>
 	</div> -->
 
-<h3 style="position: absolute; top: 59.7%; left: 2%; color: #0F3D6E; font-weight: bold">Twitter</h3>
-<hr style="position: absolute; top: 65%; left: 2%; width: 10%; height: 0.28%; background-color: #4390BC; border: none">
-<div style="position: absolute; top: 66%; width: 70%; height: 27%; left: 2%">
-  <img src="../../images/twitter.png">
+<h3 style="position: absolute; top: 59.7%; left: 2%; color: #0F3D6E; font-weight: bold">Social Media</h3>
+<hr style="position: absolute; top: 65%; left: 2%; width: 9%; height: 0.28%; background-color: #4390BC; border: none">
+<div style="position: absolute; top: 67%; width: 20%; height: 5%; left: 2%">
+  <a href="https://www.facebook.com/ICDocSoc"><img src="../../images/doc.png" style="width:577px;height:256px"></a>
 </div>
+
 <div *ngIf="isStaff">
 <h3 style="position: absolute; top: 59.7%; left: 43%; color: #0F3D6E; font-weight: bold">Favourites</h3>
-<hr style="position: absolute; top: 65%; left: 43%; width: 10%; height: 0.28%; background-color: #4390BC; border: none">
+<hr style="position: absolute; top: 65%; left: 43%; width: 7.8%; height: 0.28%; background-color: #4390BC; border: none">
 
     <div style="position: absolute; top: 66%; left: 43%; width: 98%">
     <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
@@ -380,6 +381,45 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
     </div>
 </div>
 
+<div *ngIf="!isStaff">
+<h3 style="position: absolute; top: 59.7%; left: 43%; color: #0F3D6E; font-weight: bold">Enrolled Modules</h3>
+<hr style="position: absolute; top: 65%; left: 43%; width: 12.7%; height: 0.28%; background-color: #4390BC; border: none">
+
+    <div style="position: absolute; top: 66%; left: 43%; width: 98%">
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <div class="alert-item">
+            <clr-icon shape="star" style="position: absolute; top: 25%"></clr-icon>
+            <span>
+                337 - Simulation and Modelling
+            </span>
+        <button class="btn btn-primary" href="#" [routerLink]="['../courses']">material</button>
+        </div>
+    </div>
+
+    <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <div class="alert-item">
+            <clr-icon shape="star" style="position: absolute; top: 25%"></clr-icon>
+            <span>
+                316 - Computer Vision
+            </span>
+        <button class="btn btn-primary" href="#" [routerLink]="['../courses']">material</button>
+        </div>
+    </div>
+
+
+  <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+        <div class="alert-item">
+            <clr-icon shape="star" style="position: absolute; top: 25%"></clr-icon>
+            <span>
+                333 - Robotics
+            </span>
+        <button class="btn btn-primary" href="#" [routerLink]="['../courses']">material</button>
+        </div>
+    </div>
+
+    </div>
+</div>
+
 <div *ngIf="viewStaffModal" class="modal">
     <div class="modal-dialog" role="dialog" aria-hidden="true">
         <div class="modal-content">
@@ -411,7 +451,7 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 </div>
 
 <h3 style="position: absolute; top: 59.7%; left: 71%; color: #0F3D6E; font-weight: bold">External Resources</h3>
-<hr style="position: absolute; top: 65%; left: 71%; width: 15%; height: 0.28%; background-color: #4390BC; border: none">
+<hr style="position: absolute; top: 65%; left: 71%; width: 14.6%; height: 0.28%; background-color: #4390BC; border: none">
 
 <div style="position: absolute; top: 66%; left: 71%; width: 98%">
 
