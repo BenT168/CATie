@@ -47,14 +47,14 @@ export class CoursesService {
 //                         // {"code":395,"name":"Machine Learning"},
 //                         // {"code":572,"name":"Advanced Databases"}]
 //
-//     private enrolledCourseData = [
-//                         {"code":316,"name":"Computer Vision"},
-//                         {"code":317,"name":"Graphics"},
-//                         {"code":331,"name":"Network and Web Security"},
-//                         {"code":333,"name":"Robotics"},
-//                         {"code":337,"name":"Simulation and Modelling"},
-//                         {"code":347,"name":"Distributed Algorithms"},
-//                         {"code":395,"name":"Machine Learning"}]
+    private enrolledCourseData = [
+                        {"code":316,"name":"Computer Vision"},
+                        {"code":317,"name":"Graphics"},
+                        {"code":331,"name":"Network and Web Security"},
+                        {"code":333,"name":"Robotics"},
+                        {"code":337,"name":"Simulation and Modelling"},
+                        {"code":347,"name":"Distributed Algorithms"},
+                        {"code":395,"name":"Machine Learning"}]
 //
     public lectureData = [{
             "code": 337, "lectures": [{
