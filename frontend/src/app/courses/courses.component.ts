@@ -22,6 +22,7 @@ export class CoursesComponent implements OnInit {
     viewStudentWithdrawnModal: boolean;
     firstName: string;
     lastName: string;
+    _ref : any;
 
     courses: Course[] = [];
     enrolledCourses: Course[] = [];
@@ -81,7 +82,7 @@ export class CoursesComponent implements OnInit {
                     this.getLectures(course.code);
                 }
             } else {
-                for (let course of this.enrolledCourses) {
+                for (let course of this.courses) {
                     this.getLectures(course.code);
                 }
             }
@@ -137,6 +138,7 @@ export class CoursesComponent implements OnInit {
     }
 
      deleteCourse() {
+        this._ref.destroy();
         let status = this.coursesService.deleteCourse(this.model.name, this.model.course.split(":", 1)[0]).subscribe(result => {
             console.log(result);
         });

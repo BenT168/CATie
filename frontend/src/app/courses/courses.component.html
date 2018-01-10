@@ -65,7 +65,7 @@
           <clr-stack-block *ngFor="let course of courses" [clrSbExpanded]="allExpanded" (click)="getAllLectures()">
         <clr-stack-label>{{course.code}}</clr-stack-label>
         <clr-stack-content>{{course.name}}</clr-stack-content>
-            <button class="btn btn-primary" (click)="showStudentWithdrawnModal()"> WITHDRAWN </button>
+            <button class="btn btn-primary" (click)="showStudentWithdrawnModal()"> WITHDRAW </button>
         <clr-stack-block *ngFor="let lecture of lectureDict[course.code]">
             <clr-stack-label>
                 <a class="nav-link" href="#" [routerLink]="['/catieviewer', course.code, lecture.urlName]" routerLinkActive="active">
@@ -168,7 +168,7 @@
                     <section class="form-block">
                             <div class="form-group">
                             <label for="name">Reason</label>
-                            <input type="text" id="name" placeholder="Enter reason of withdrawn here" size="45" [(ngModel)]="model.name" [ngModelOptions]="{standalone: true}" #name="ngModel" required>
+                            <input type="text" id="name" placeholder="Enter reason of withdraw here" size="45" [(ngModel)]="model.name" [ngModelOptions]="{standalone: true}" #name="ngModel" required>
                         </div>
                         <button type="submit" class="btn btn-outline" (click)="hideStudentWithdrawnModal()" style="float: right">Cancel</button>
                         <button type="submit" class="btn btn-success" (click)="deleteCourse()" style="float: right">Delete</button>
