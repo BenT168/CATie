@@ -133,29 +133,30 @@
     </div>
 </div>
 
-<div *ngIf="viewStudentModal" class="modal">
-    <div class="modal-dialog" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Course Enrolment</h3>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <section class="form-block">
-                            <label for="courseSelect">Course</label>
-                            <div class="select">
-                                <select id="courseSelect" [(ngModel)]="model.course" [ngModelOptions]="{standalone: true}" #course="ngModel" required>
-                                    <option  *ngFor="let course of courses">{{course.code}}: {{course.name}}</option>
-                                </select>
-                            </div>
-                        <button type="submit" class="btn btn-outline" (click)="hideStudentModal()" style="float: right">Cancel</button>
-                        <button type="submit" class="btn btn-success" (click)="addCourse()" style="float: right">Submit</button>
-                    </section>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div *ngIf="viewStudentModal" class="modal">-->
+    <!--<div class="modal-dialog" role="dialog" aria-hidden="true">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+                <!--<h3 class="modal-title">Course Enrolment</h3>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<form>-->
+                    <!--<section class="form-block">-->
+                            <!--<label for="courseSelect">Course</label>-->
+                            <!--<div class="form-group">-->
+                                <!--<select id="courseSelect" class="form-control" [(ngModel)]="selectedCourse" name="selectedCourse" [ngModelOptions]="{standalone: true}" #course="ngModel" requiredrequired>-->
+                                    <!--<option  *ngFor="let course of courses" [ngValue]="course">{{course?.code}}: {{course?.name}}</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--<button type="submit" class="btn btn-outline" (click)="hideStudentModal()" style="float: right">Cancel</button>-->
+                        <!--<button type="submit" class="btn btn-success" (click)="addCourse()" style="float: right">Submit</button>-->
+                    <!--</section>-->
+                <!--</form>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
 
 <div *ngIf="viewStudentWithdrawnModal" class="modal">
     <div class="modal-dialog" role="dialog" aria-hidden="true">

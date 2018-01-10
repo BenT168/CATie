@@ -22,9 +22,9 @@ export class CoursesComponent implements OnInit {
     viewStudentWithdrawnModal: boolean;
     firstName: string;
     lastName: string;
-    _ref : any;
 
     courses: Course[] = [];
+    selectedCourse: Course = new Course(362, "3rd Year Software Engineering Group Project");
     enrolledCourses: Course[] = [];
     lectureDict: LectureDictionary = {};
 
@@ -41,6 +41,7 @@ export class CoursesComponent implements OnInit {
         this.lastName = JSON.parse(localStorage['currentUser']).last_name;
         console.log(this.isStaff);
         this.lecturesLoaded = false;
+        this.enrolledCourses.push(this.selectedCourse);
     }
 
     logout(): void {
@@ -82,7 +83,7 @@ export class CoursesComponent implements OnInit {
                     this.getLectures(course.code);
                 }
             } else {
-                for (let course of this.courses) {
+                for (let course of this.enrolledCourses) {
                     this.getLectures(course.code);
                 }
             }
@@ -99,14 +100,6 @@ export class CoursesComponent implements OnInit {
             courses => this.courses = courses,
             function(error) { console.log(error); },
             function() { console.log("completed course loading"); }
-        );
-    }
-
-    getEnrolledCourses() {
-        this.coursesService.getEnrolledCourses().subscribe(
-            enrolledCourses => this.enrolledCourses = enrolledCourses,
-            function(error) { console.log(error); },
-            function() { console.log("enrolled course loading"); }
         );
     }
 
@@ -129,19 +122,14 @@ export class CoursesComponent implements OnInit {
     }
 
     addCourse() {
-        let status = this.coursesService.addCourse(this.model.name, this.model.course.split(":", 1)[0]).subscribe(result => {
-            console.log(result);
-        });
-        console.log("status on courses page:");
-        console.log(status);
+        this.enrolledCourses.push(new Course(this.selectedCourse.code, this.selectedCourse.name));
+        console.log(this.selectedCourse.code);
+        console.log(this.selectedCourse.name);
         this.hideStudentModal();
     }
 
      deleteCourse() {
-        this._ref.destroy();
-        let status = this.coursesService.deleteCourse(this.model.name, this.model.course.split(":", 1)[0]).subscribe(result => {
-            console.log(result);
-        });
+        this.enrolledCourses = this.enrolledCourses.filter(obj => obj !== new Course(this.selectedCourse.code, this.selectedCourse.name));
         console.log("status on courses page:");
         console.log(status);
         this.hideStudentWithdrawnModal();
