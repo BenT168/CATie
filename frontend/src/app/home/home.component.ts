@@ -19,6 +19,7 @@ export class HomeComponent {
     isStaff: boolean;
     firstName: string;
     lastName: string;
+    viewStaffModal: boolean;
     questions: Question[];
     notification: NotificationComponent[] = [];
 
@@ -27,6 +28,7 @@ export class HomeComponent {
         this.isStaff = JSON.parse(localStorage['currentUser']).is_staff;
         this.firstName = JSON.parse(localStorage['currentUser']).first_name;
         this.lastName = JSON.parse(localStorage['currentUser']).last_name;
+        this.viewStaffModal = false;
         this.loadQuestions();
         // this.getNotification()
         this.createNots(notificationService, router, authenticationService);
@@ -71,5 +73,12 @@ export class HomeComponent {
     }
     }
 
+    showStaffModal() {
+        this.viewStaffModal = true;
+    }
+
+    hideStaffModal() {
+        this.viewStaffModal = false;
+    }
 
 }

@@ -343,6 +343,7 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 
     <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
         <div class="alert-item">
+            <clr-icon shape="star" style="position: absolute; top: 25%"></clr-icon>
             <span>
                 332 - Advanced Computer Architecture
             </span>
@@ -353,6 +354,7 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 
     <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
         <div class="alert-item">
+            <clr-icon shape="star" style="position: absolute; top: 25%"></clr-icon>
             <span>
                 221 - Compilers
             </span>
@@ -364,6 +366,7 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 
     <div class="alert alert-success" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
         <div class="alert-item">
+        <clr-icon shape="star" style="position: absolute; top: 25%"></clr-icon>
         <span>
             Continue Marking 318 - Custom Computing
         </span>
@@ -372,6 +375,37 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 
     </div>
 </div>
+
+<div *ngIf="viewStaffModal" class="modal">
+    <div class="modal-dialog" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add a new resource</h3>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <section class="form-block">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" placeholder="Enter name of session here" size="45" [(ngModel)]="model.name" [ngModelOptions]="{standalone: true}" #name="ngModel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vidUrl">Add resource 1 URL</label>
+                            <input type="text" id="vidUrl" placeholder="Copy video URL here" size="35" [(ngModel)]="model.video" [ngModelOptions]="{standalone: true}" #video="ngModel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pdfUrl">Add resource 2 URL</label>
+                            <input type="text" id="pdfUrl" placeholder="Copy slides URL here" size="35" [(ngModel)]="model.slides" [ngModelOptions]="{standalone: true}" #slides="ngModel" required>
+                        </div>
+                        <button type="submit" class="btn btn-outline" (click)="hideStaffModal()" style="float: right">Cancel</button>
+                        <button type="submit" class="btn btn-success" (click)="addSession()" style="float: right">Submit</button>
+                    </section>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <h3 style="position: absolute; top: 59.7%; left: 71%; color: #0F3D6E; font-weight: bold">Access External Sites</h3>
 <hr style="position: absolute; top: 65%; left: 71%; width: 15%; height: 0.28%; background-color: #4390BC; border: none">
