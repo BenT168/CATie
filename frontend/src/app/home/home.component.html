@@ -14,7 +14,7 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
                     </span>
                     <span *ngIf="!isStaff">
                     <clr-icon shape="user" style="position: absolute; right:100%">  </clr-icon>
-                        {{ firstName }} {{ lastName }}  
+                        {{ firstName }} {{ lastName }}
                     </span>
                     <clr-icon shape="caret down">  </clr-icon>
                   </button>
@@ -56,17 +56,33 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 <h3 style="position: absolute; top: 10%; left: 2%; color: #0F3D6E; font-weight: bold">My Calendar</h3>
 <hr style="position: absolute; top: 15%; left: 2%; width: 9.5%; height: 0.28%; background-color: #4390BC; border: none">
 
+<div *ngIf="isStaff">
 <button class="btn btn-primary" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
     <a class="btn btn-primary" style="position: absolute; top: 12%; left: 32%; width: 10%" height="500" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSchZ0K-uR7NebADFE4za5_Tpc8YEpBHfudRmnFddhdxV0F0yQ/viewform')"href="https://docs.google.com/forms/d/e/1FAIpQLSchZ0K-uR7NebADFE4za5_Tpc8YEpBHfudRmnFddhdxV0F0yQ/viewform" target="_blank">Create Event</a>
 </button>
+</div>
+
+<div *ngIf="!isStaff">
+<button class="btn btn-primary" style="width: 27%; background-color: #0F3D6E; border-color: #0F3D6E; color: white">
+         <a class="btn btn-primary" style="position: absolute; top: 12%; left: 32%; width: 10%" height="500" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScW1DuxlJnXNWi0QlawrHsJ3qEIJXEuEgUKBbFHch-q72_lWA/viewform')"href="https://docs.google.com/forms/d/e/1FAIpQLScW1DuxlJnXNWi0QlawrHsJ3qEIJXEuEgUKBbFHch-q72_lWA/viewform" target="_blank">Create Event</a>
+</button>
+</div>
 
 <!-- <button class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSchZ0K-uR7NebADFE4za5_Tpc8YEpBHfudRmnFddhdxV0F0yQ/viewform" style="position: absolute; top: 12%; left: 32%; width: 10%" height="500">Create Event</button> -->
-<div style="position: absolute; top: 17%; left: 2%; width: 40%; height: 43%; background-color: #6ECCCA; text-align: center; color: white; font-weight: bold; font-size: 72px;">
+<div *ngIf="isStaff" style="position: absolute; top: 17%; left: 2%; width: 40%; height: 43%; background-color: #6ECCCA; text-align: center; color: white; font-weight: bold; font-size: 72px;">
+        <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;height=600&amp;wkst=2&amp;hl=en_GB&amp;bgcolor=%23FFFFFF&amp;src=ojd151fgp5rtqgi4ua62bug55o%40group.calendar.google.com&amp;color=%235C1158&amp;ctz=Europe%2FLondon" style="border: 0" left="0%" top="17%" height="100%" width="100%" frameborder="0" scrolling="no"></iframe>
 <!-- <iframe src="https://outlook.office365.com/owa/calendar/1b70bf06b75b4147af0f630848f53f60@imperial.ac.uk/f6e5118782b24b0a92aa5815fe1a650810441968668600221940/calendar.html -->
 <!-- <iframe src="https://outlook.office365.com/owa/calendar/1b70bf06b75b4147af0f630848f53f60@imperial.ac.uk/f6e5118782b24b0a92aa5815fe1a650810441968668600221940/calendar.html" style="border: 0" left="0%" top="17%" height="100%" width="100%" frameborder="0" scrolling="no"></iframe> -->
-<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;height=600&amp;wkst=2&amp;hl=en_GB&amp;bgcolor=%23FFFFFF&amp;src=ojd151fgp5rtqgi4ua62bug55o%40group.calendar.google.com&amp;color=%235C1158&amp;ctz=Europe%2FLondon" style="border: 0" left="0%" top="17%" height="100%" width="100%" frameborder="0" scrolling="no"></iframe>
 <hr style="position: absolute; top: 84%; left: 0%; width: 100%; height: 10%; background-color: white; border: none">
 </div>
+
+<div *ngIf="!isStaff" style="position: absolute; top: 17%; left: 2%; width: 40%; height: 43%; background-color: #6ECCCA; text-align: center; color: white; font-weight: bold; font-size: 72px;">
+        <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;height=600&amp;wkst=2&amp;hl=en_GB&amp;bgcolor=%23FFFFFF&amp;src=du3275ihhgki5b3ajl5me6pdk4@group.calendar.google.com&amp;color=%235C1158&amp;ctz=Europe%2FLondon" style="border: 0" left="0%" top="17%" height="100%" width="100%" frameborder="0" scrolling="no"></iframe>
+<!-- <iframe src="https://outlook.office365.com/owa/calendar/1b70bf06b75b4147af0f630848f53f60@imperial.ac.uk/f6e5118782b24b0a92aa5815fe1a650810441968668600221940/calendar.html -->
+<!-- <iframe src="https://outlook.office365.com/owa/calendar/1b70bf06b75b4147af0f630848f53f60@imperial.ac.uk/f6e5118782b24b0a92aa5815fe1a650810441968668600221940/calendar.html" style="border: 0" left="0%" top="17%" height="100%" width="100%" frameborder="0" scrolling="no"></iframe> -->
+<hr style="position: absolute; top: 84%; left: 0%; width: 100%; height: 10%; background-color: white; border: none">
+</div>
+
 <h3 style="position: absolute; top: 10%; left: 71%; color: #0F3D6E; font-weight: bold">Notifications</h3>
 <hr style="position: absolute; top: 15%; left: 71%; width: 9.63%; height: 0.28%; background-color: #4390BC; border: none">
 
@@ -92,7 +108,7 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
           <a href="#" [routerLink]="['../grades']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
       </span>
       <span *ngIf="not.page === 'Discussion'">
-          <a href="#" [routerLink]="['../askari']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
+          <a href="#" [routerLink]="['../askcatie']" routerLinkActive="active" style="color:white">{{not.course}} - {{not.message}}</a>
       </span>
       </div>
 
@@ -194,11 +210,16 @@ work<div style="position: absolute; top: 0%; left: 0%; width: 100%">
 <h3 style="position: absolute; top: 10%; left: 43%; color: #0F3D6E; font-weight: bold">My Day</h3>
 <hr style="position: absolute; top: 15%; left: 43%; width: 5.7%; height: 0.28%; background-color: #4390BC; border: none">
 
-<div style="position: absolute; top: 17%; left: 43%; width: 25%; height: 43%; background-color: #6ECCCA; text-align: center; color: white; font-weight: bold; font-size: 72px;">
+<div *ngIf="isStaff" style="position: absolute; top: 17%; left: 43%; width: 25%; height: 43%; background-color: #6ECCCA; text-align: center; color: white; font-weight: bold; font-size: 72px;">
 <!-- <iframe src="https://outlook.office365.com/owa/calendar/1b70bf06b75b4147af0f630848f53f60@imperial.ac.uk/f6e5118782b24b0a92aa5815fe1a650810441968668600221940/calendar.html -->
 <!-- <iframe src="https://outlook.office365.com/owa/calendar/1b70bf06b75b4147af0f630848f53f60@imperial.ac.uk/f6e5118782b24b0a92aa5815fe1a650810441968668600221940/calendar.html" style="border: 0" left="0%" top="17%" height="100%" width="100%" frameborder="0" scrolling="no"></iframe> -->
-<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;hl=en_GB&amp;bgcolor=%23FFFFFF&amp;src=ojd151fgp5rtqgi4ua62bug55o%40group.calendar.google.com&amp;color=%23691426&amp;ctz=Europe%2FLondon" style="border: 0" left="0%" top="17%" height="100%" width="100%" frameborder="0" scrolling="no"></iframe>
+    <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;hl=en_GB&amp;bgcolor=%23FFFFFF&amp;src=ojd151fgp5rtqgi4ua62bug55o%40group.calendar.google.com&amp;color=%23691426&amp;ctz=Europe%2FLondon" style="border: 0" left="0%" top="17%" height="100%" width="100%" frameborder="0" scrolling="no"></iframe>
 <hr style="position: absolute; top: 84%; left: 0%; width: 100%; height: 10%; background-color: white; border: none">
+</div>
+
+<div *ngIf="!isStaff" style="position: absolute; top: 17%; left: 43%; width: 25%; height: 43%; background-color: #6ECCCA; text-align: center; color: white; font-weight: bold; font-size: 72px;">
+<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;hl=en_GB&amp;bgcolor=%23FFFFFF&amp;src=du3275ihhgki5b3ajl5me6pdk4@group.calendar.google.com&amp;color=%23691426&amp;ctz=Europe%2FLondon" style="border: 0" left="0%" top="17%" height="100%" width="100%" frameborder="0" scrolling="no"></iframe>
+   <hr style="position: absolute; top: 84%; left: 0%; width: 100%; height: 10%; background-color: white; border: none">
 </div>
 
 <!-- <clr-datagrid style="position: absolute; top: 14.3%; left: 35.25%; width: 33.25%" *ngIf="!isStaff">
