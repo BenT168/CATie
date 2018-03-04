@@ -2,7 +2,7 @@
     <header class="header-6">
         <div class="branding">
             <a href="..." class="nav-link">
-                <img src="../../images/ARi_logo.png" style="position: absolute; width: 3.75%; height: 44%; left: 2%">
+                <img src="../../images/CATie_logo.png" style="position: absolute; width: 4.7%; height: 60%; left: 0%">
             </a>
         </div>
         <div class="header-actions">
@@ -32,16 +32,19 @@
                 <a class="nav-link" href="#" [routerLink]="['../cal']" routerLinkActive="active">Planner</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../askari']" routerLinkActive="active">Ask ARi</a>
+                <a class="nav-link" href="#" [routerLink]="['../askcatie']" routerLinkActive="active">Ask CATie</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" [routerLink]="['../courses']" routerLinkActive="active">Courses</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isStaff">
                 <a class="nav-link" href="#" [routerLink]="['../assignments']" routerLinkActive="active">Assignments</a>
             </li>
+            <li class="nav-item" *ngIf="!isStaff">
+                <a class="nav-link" href="#" [routerLink]="['../grades']" routerLinkActive="active">Submissions</a>
+            </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../grades']" routerLinkActive="active" *ngIf="!isStaff">Grades</a>
+                <a class="nav-link" href="#" [routerLink]="['../doccalendar']" routerLinkActive="active">DoC Calendar</a>
             </li>
         </ul>
     </nav>

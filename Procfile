@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath backend/ARi ARi.wsgi
+web: gunicorn --pythonpath backend/CATie CATie.wsgi

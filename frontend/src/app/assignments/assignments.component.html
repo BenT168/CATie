@@ -2,7 +2,7 @@
     <header class="header-6">
         <div class="branding">
             <a href="..." class="nav-link">
-                <img src="../../images/ARi_logo.png" style="position: absolute; width: 3.75%; height: 44%; left: 2%">
+                <img src="../../images/CATie_logo.png" style="position: absolute; width: 4.7%; height: 60%; left: 0%">
             </a>
         </div>
         <div class="header-actions">
@@ -34,41 +34,45 @@
             </li>
             -->
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../askari']" routerLinkActive="active">Ask ARi</a>
+                <a class="nav-link" href="#" [routerLink]="['../askcatie']" routerLinkActive="active">Ask CATie</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" [routerLink]="['../courses']" routerLinkActive="active">Courses</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isStaff">
                 <a class="nav-link" href="#" [routerLink]="['../assignments']" routerLinkActive="active">Assignments</a>
             </li>
+            <li class="nav-item" *ngIf="!isStaff">
+                <a class="nav-link" href="#" [routerLink]="['../grades']" routerLinkActive="active">Submissions</a>
+            </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['../grades']" routerLinkActive="active" *ngIf="!isStaff">Grades</a>
+                <a class="nav-link" href="#" [routerLink]="['../doccalendar']" routerLinkActive="active">DoC Calendar</a>
             </li>
         </ul>
     </nav>
 </div>
 
-<h3 style="position: absolute; top: 10%; left: 2%; color: #6ECCCA; font-weight: bold">My Assignments</h3>
+<h3 style="position: absolute; top: 10%; left: 2%; color: #0F3D6E; font-weight: bold">My Assignments</h3>
 <hr style="position: absolute; top: 15%; left: 2%; width: 12.4%; height: 0.28%; background-color: #4390BC; border: none">
 
 <clr-datagrid style="position: absolute; top: 14.25%; left: 2%; width: 96%">
     <clr-dg-column>Assignment</clr-dg-column>
     <clr-dg-column>Set Date</clr-dg-column>
     <clr-dg-column>Due Date</clr-dg-column>
-    <clr-dg-column>Submission</clr-dg-column>
-    <clr-dg-column>More Information</clr-dg-column>
+    <clr-dg-column>Feedback</clr-dg-column>
+    <clr-dg-column *ngIf="isStaff">Publish</clr-dg-column>
+
 
     <clr-dg-row>
-        <clr-dg-cell>War Of Life</clr-dg-cell>
-        <clr-dg-cell>16:00 <br> 31/01/17</clr-dg-cell>
-        <clr-dg-cell>19:00 <br> 01/03/17</clr-dg-cell>
+        <clr-dg-cell>Simulation and Modelling Assessed coursework</clr-dg-cell>
+        <clr-dg-cell>16:00 <br> 29/01/18</clr-dg-cell>
+        <clr-dg-cell>19:00 <br> 09/02/18</clr-dg-cell>
         <clr-dg-cell>
             <div class="col-xs-4" align="center">
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="submission" value="Submit" align="center" (click)="showSubmissionModal()"/>
+                           name="moreinfo" value="Marked" align="center" disabled/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -77,22 +81,22 @@
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Grades Published" align="center" disabled/>
                 </form>
             </div>
         </clr-dg-cell>
     </clr-dg-row>
 
     <clr-dg-row>
-        <clr-dg-cell>CodeGenForFunctions</clr-dg-cell>
-        <clr-dg-cell>16:00 <br> 31/01/17</clr-dg-cell>
-        <clr-dg-cell>19:00 <br> 01/03/17</clr-dg-cell>
+        <clr-dg-cell>Haskell Recursion</clr-dg-cell>
+        <clr-dg-cell>16:00 <br> 19/02/18</clr-dg-cell>
+        <clr-dg-cell>19:00 <br> 02/03/18</clr-dg-cell>
         <clr-dg-cell>
             <div class="col-xs-4" align="center">
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="submission" value="Submit" align="center" (click)="showSubmissionModal()"/>
+                           name="moreinfo" value="Mark Online" align="center"/>
                 </form>
             </div>
         </clr-dg-cell>
@@ -101,89 +105,84 @@
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
-                </form>
-            </div>
-        </clr-dg-cell>
-    </clr-dg-row>
-
-    <clr-dg-row>
-        <clr-dg-cell>C++ Enigma</clr-dg-cell>
-        <clr-dg-cell>16:00 <br> 31/01/17</clr-dg-cell>
-        <clr-dg-cell>19:00 <br> 01/03/17</clr-dg-cell>
-        <clr-dg-cell>
-            <div class="col-xs-4" align="center">
-                <form style="vertical-align: middle">
-                    <input type="button" class="btn btn-primary"
-                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="submission" value="Submit" align="center" (click)="showSubmissionModal()"/>
-                </form>
-            </div>
-        </clr-dg-cell>
-        <clr-dg-cell>
-            <div class="col-xs-4" align="center">
-                <form style="vertical-align: middle">
-                    <input type="button" class="btn btn-primary"
-                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Publish Grades" align="center" disabled/>
                 </form>
             </div>
         </clr-dg-cell>
     </clr-dg-row>
 
     <clr-dg-row>
-        <clr-dg-cell>Coaster Coursework</clr-dg-cell>
-        <clr-dg-cell>16:00 <br> 31/01/17</clr-dg-cell>
-        <clr-dg-cell>19:00 <br> 01/03/17</clr-dg-cell>
+        <clr-dg-cell>Haskell Calculus</clr-dg-cell>
+        <clr-dg-cell>16:00 <br> 17/10/17</clr-dg-cell>
+        <clr-dg-cell>19:00 <br> 30/11/17</clr-dg-cell>
         <clr-dg-cell>
-            Submission Timestamp: 05/12/16 12:25:29
+            <div class="col-xs-4" align="center">
+                <form style="vertical-align: middle">
+                    <input type="button" class="btn btn-primary"
+                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
+                           name="moreinfo" value="Continue Marking" align="center"/>
+                </form>
+            </div>
         </clr-dg-cell>
         <clr-dg-cell>
             <div class="col-xs-4" align="center">
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Publish Grades" align="center" (click)="showPublished()"/>
                 </form>
             </div>
         </clr-dg-cell>
     </clr-dg-row>
 
     <clr-dg-row>
-        <clr-dg-cell>Statistics Coursework</clr-dg-cell>
-        <clr-dg-cell>16:00 <br> 31/01/17</clr-dg-cell>
-        <clr-dg-cell>19:00 <br> 01/03/17</clr-dg-cell>
+        <clr-dg-cell>Haskell Macroprocessor</clr-dg-cell>
+        <clr-dg-cell>16:00 <br> 13/11/17</clr-dg-cell>
+        <clr-dg-cell>19:00 <br> 27/11/17</clr-dg-cell>
         <clr-dg-cell>
-            Submission Timestamp: 30/11/16 10:34:26
+            <div class="col-xs-4" align="center">
+                <form style="vertical-align: middle">
+                    <input type="button" class="btn btn-primary"
+                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
+                           name="moreinfo" value="Continue Marking" align="center" />
+                </form>
+            </div>
         </clr-dg-cell>
         <clr-dg-cell>
             <div class="col-xs-4" align="center">
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Publish Grades" align="center" (click)="showPublished()"/>
                 </form>
             </div>
         </clr-dg-cell>
     </clr-dg-row>
 
     <clr-dg-row>
-        <clr-dg-cell>Transforms Coursework</clr-dg-cell>
-        <clr-dg-cell>16:00 <br> 31/01/17</clr-dg-cell>
-        <clr-dg-cell>19:00 <br> 01/03/17</clr-dg-cell>
+        <clr-dg-cell>Haskell L-Systems</clr-dg-cell>
+        <clr-dg-cell>16:00 <br> 20/10/17</clr-dg-cell>
+        <clr-dg-cell>19:00 <br> 23/10/17</clr-dg-cell>
         <clr-dg-cell>
-            Submission Timestamp: 15/11/16 17:12:59
+            <div class="col-xs-4" align="center">
+                <form style="vertical-align: middle">
+                    <input type="button" class="btn btn-primary"
+                           style=" width:15vw; font-size:xx-small; line-height: 10px;"
+                           name="moreinfo" value="Marked" align="center" disabled/>
+                </form>
+            </div>
         </clr-dg-cell>
         <clr-dg-cell>
             <div class="col-xs-4" align="center">
                 <form style="vertical-align: middle">
                     <input type="button" class="btn btn-primary"
                            style=" width:15vw; font-size:xx-small; line-height: 10px;"
-                           name="moreinfo" value="More Information" align="center" (click)="showMoreInfoModal()"/>
+                           name="publish" value="Publish Grades" align="center" (click)="showPublished()"/>
                 </form>
             </div>
         </clr-dg-cell>
     </clr-dg-row>
+
 </clr-datagrid>
 
 <div *ngIf="showSubmission" class="modal">
@@ -253,6 +252,19 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" type="button" (click)="hideMoreInfoModal()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showPublished" class="modal">
+    <div class="modal-dialog" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Grades Published</h3>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" (click)="hidePublished()">Ok</button>
             </div>
         </div>
     </div>

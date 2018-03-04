@@ -1,8 +1,8 @@
 variables:
   PUBLISHED_PORT: "8000"   # These numbers are random
   CI_REGISTRY: "localhost:5000"
-  CI_PROJECT_PATH: "ari-backend"
-  CI_PROJECT_NAME: "ari"
+  CI_PROJECT_PATH: "catie-backend"
+  CI_PROJECT_NAME: "catie"
 
 #image: $CI_REGISTRY/gdocker
 
@@ -29,17 +29,17 @@ stages:
 #  - build
 #  - test
   - deploy
- 
+
 #build:
 #  stage: build
 #  script:
 #    - echo "Building"
-  
+
 #test:
 #  stage: test
 #  script:
 #    - echo "Testing"
-#  #  - python backend/ARi/manage.py test
+#  #  - python backend/CATie/manage.py test
 #  #when: on_success
 
 deploy:
@@ -50,9 +50,9 @@ deploy:
   script:
     - ls
 #    - sudo docker build --build-arg published_port=$PUBLISHED_PORT -t $IMAGE_NAME .
-    - sudo docker build --build-arg published_port=8000 -t localhost:5000/ari-backend .
+    - sudo docker build --build-arg published_port=8000 -t localhost:5000/catie-backend .
 #    - sudo docker push $IMAGE_NAME
-    - sudo docker push localhost:5000/ari-backend
+    - sudo docker push localhost:5000/catie-backend
     - sudo docker service rm $SERVICE_NAME || true
     - sudo docker service create --name $SERVICE_NAME -p 80:$PUBLISHED_PORT $IMAGE_NAME
   only:
@@ -61,4 +61,3 @@ deploy:
 
 after_script:
     - deactivate
-
